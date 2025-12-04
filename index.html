@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>博客名称 - 博客描述</title>
+    <title>zhr的博客 - 记录与分享</title>
+    <meta name="description" content="zhr的个人博客，分享技术、生活和思考">
     <style>
         /* 全局样式 */
         :root {
@@ -278,18 +279,16 @@
         <div class="container">
             <div class="header-inner">
                 <div class="logo">
-                    <!-- 替换为您的logo -->
-                    <img src="https://via.placeholder.com/40" alt="博客Logo">
-                    <span class="logo-text">博客名称</span>
+                    <img src="https://avatars.githubusercontent.com/u/11725315?v=4" alt="zhr">
+                    <span class="logo-text">zhr的博客</span>
                 </div>
                 
                 <nav>
                     <ul>
                         <li><a href="index.html">首页</a></li>
-                        <li><a href="#">分类1</a></li>
-                        <li><a href="#">分类2</a></li>
-                        <li><a href="#">分类3</a></li>
-                        <li><a href="#">关于</a></li>
+                        <li><a href="post.html">最新文章</a></li>
+                        <li><a href="#projects">项目</a></li>
+                        <li><a href="#about">关于</a></li>
                     </ul>
                 </nav>
                 
@@ -304,24 +303,20 @@
     <main class="main-content container">
         <!-- 文章列表 -->
         <div class="post-feed">
-            <!-- 文章卡片模板 - 复制此结构添加新文章 -->
+            <!-- 文章卡片1 -->
             <article class="post-card">
                 <a href="post.html">
                     <div class="post-media">
-                        <!-- 替换为文章特色图片 -->
-                        <img class="post-image" src="https://via.placeholder.com/600x400" alt="文章标题">
+                        <img class="post-image" src="https://images.unsplash.com/photo-1598960087461-556c5a1f864a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=960" alt="博客搭建指南">
                     </div>
                     
                     <div class="post-content">
-                        <!-- 替换为文章标签 -->
-                        <span class="post-tag">标签</span>
+                        <span class="post-tag">技术</span>
                         
-                        <!-- 替换为文章标题 -->
-                        <h2 class="post-title">文章标题</h2>
+                        <h2 class="post-title">使用GitHub Pages搭建个人博客</h2>
                         
-                        <!-- 替换为文章摘要 -->
                         <div class="post-excerpt">
-                            这里是文章摘要，简要描述文章内容...
+                            详细讲解如何使用GitHub Pages免费部署个人博客网站，包含HTML、CSS和GitHub配置...
                         </div>
                     </div>
                     
@@ -329,14 +324,65 @@
                         <span class="post-more">阅读更多</span>
                         
                         <div class="post-author">
-                            <!-- 替换为作者头像 -->
-                            <img class="author-image" src="https://via.placeholder.com/30" alt="作者">
+                            <img class="author-image" src="https://avatars.githubusercontent.com/u/11725315?v=4" alt="zhr">
                         </div>
                     </div>
                 </a>
             </article>
             
-            <!-- 更多文章卡片... -->
+            <!-- 文章卡片2 -->
+            <article class="post-card">
+                <a href="#">
+                    <div class="post-media">
+                        <img class="post-image" src="https://images.unsplash.com/photo-1526398977052-654221a252b1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=960" alt="学习笔记">
+                    </div>
+                    
+                    <div class="post-content">
+                        <span class="post-tag">学习</span>
+                        
+                        <h2 class="post-title">前端开发学习路线指南</h2>
+                        
+                        <div class="post-excerpt">
+                            分享前端开发的学习路径、资源推荐和实践经验，适合初学者和进阶开发者...
+                        </div>
+                    </div>
+                    
+                    <div class="post-footer">
+                        <span class="post-more">阅读更多</span>
+                        
+                        <div class="post-author">
+                            <img class="author-image" src="https://avatars.githubusercontent.com/u/11725315?v=4" alt="zhr">
+                        </div>
+                    </div>
+                </a>
+            </article>
+            
+            <!-- 文章卡片3 -->
+            <article class="post-card">
+                <a href="#">
+                    <div class="post-media">
+                        <img class="post-image" src="https://images.unsplash.com/photo-1523865236457-3ae3358a4eaa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=960" alt="生活记录">
+                    </div>
+                    
+                    <div class="post-content">
+                        <span class="post-tag">生活</span>
+                        
+                        <h2 class="post-title">数字时代的个人知识管理</h2>
+                        
+                        <div class="post-excerpt">
+                            如何在信息过载的时代有效管理个人知识体系，提高学习效率和工作质量...
+                        </div>
+                    </div>
+                    
+                    <div class="post-footer">
+                        <span class="post-more">阅读更多</span>
+                        
+                        <div class="post-author">
+                            <img class="author-image" src="https://avatars.githubusercontent.com/u/11725315?v=4" alt="zhr">
+                        </div>
+                    </div>
+                </a>
+            </article>
         </div>
     </main>
 
@@ -345,19 +391,18 @@
         <div class="container">
             <div class="footer-inner">
                 <div class="copyright">
-                    博客名称 © 2023
+                    zhr的博客 © 2023
                 </div>
                 
                 <nav class="footer-nav">
                     <ul>
-                        <li><a href="#">社交媒体1</a></li>
-                        <li><a href="#">社交媒体2</a></li>
+                        <li><a href="https://github.com/zhr-0731" target="_blank">GitHub</a></li>
                         <li><a href="#">RSS</a></li>
                     </ul>
                 </nav>
                 
                 <div class="powered-by">
-                    <a href="#" target="_blank" rel="noopener">技术支持</a>
+                    基于 GitHub Pages
                 </div>
             </div>
         </div>
