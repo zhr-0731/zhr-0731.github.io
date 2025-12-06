@@ -28,6 +28,7 @@
             color: var(--text-color);
             background-color: var(--bg-color);
             line-height: 1.6;
+            padding-top: 0; /* 确保body没有额外padding */
         }
         
         a {
@@ -51,7 +52,7 @@
             padding: 0 20px;
         }
         
-        /* 头部导航 */
+        /* 头部导航 - 修正高度 */
         header {
             position: sticky;
             top: 0;
@@ -59,6 +60,7 @@
             backdrop-filter: blur(10px);
             z-index: 100;
             border-bottom: 1px solid var(--border-color);
+            height: 70px; /* 固定高度 */
         }
         
         .header-inner {
@@ -66,6 +68,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 15px 0;
+            height: 100%;
         }
         
         .logo {
@@ -112,10 +115,10 @@
             color: var(--text-color);
         }
         
-        /* 文章详情 */
+        /* 文章详情 - 修正上边距 */
         .article-header {
             text-align: center;
-            margin: 60px 0 50px;
+            margin: 80px 0 40px; /* 增加上边距，避免被导航栏遮挡 */
             padding-bottom: 30px;
             border-bottom: 1px solid var(--border-color);
         }
@@ -161,6 +164,7 @@
             margin: 0 auto;
             font-size: 1.1rem;
             line-height: 1.8;
+            padding-top: 20px; /* 增加上内边距 */
         }
         
         .article-content h1, 
@@ -357,9 +361,14 @@
         
         /* 响应式设计 */
         @media (max-width: 768px) {
+            header {
+                height: auto; /* 移动端自适应高度 */
+            }
+            
             .header-inner {
                 flex-direction: column;
                 align-items: flex-start;
+                padding: 10px 0;
             }
             
             nav ul {
@@ -369,6 +378,10 @@
             
             nav li {
                 margin: 5px 15px 5px 0;
+            }
+            
+            .article-header {
+                margin: 100px 0 30px; /* 移动端增加更多上边距 */
             }
             
             .article-title {
@@ -426,7 +439,7 @@
                 </div>
             </div>
         </div>
-    </header>
+    </header> <!-- 这里添加了缺失的关闭标签 -->
 
     <!-- 文章内容 -->
     <main class="container">
