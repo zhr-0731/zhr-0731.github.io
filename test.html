@@ -3,760 +3,927 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML测试页面</title>
+    <title>如何向博客添加新文章 - zhr的博客</title>
+    <meta name="description" content="详细说明如何向zhr的博客中添加新文章，包括HTML结构、文件管理和发布流程。">
     <style>
+        /* 全局样式 */
+        :root {
+            --ghost-accent-color: #59c090;
+            --text-color: #333;
+            --bg-color: #fff;
+            --light-gray: #f5f5f5;
+            --border-color: #eaeaea;
+            --font-serif: 'Noto Serif SC', serif;
+            --font-sans: 'Noto Sans SC', sans-serif;
+            --code-bg: #f8f8f8;
+            --code-border: #e0e0e0;
+            --code-color: #d63384;
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            background-color: #f5f7fa;
-            color: #333;
+            font-family: var(--font-sans);
+            color: var(--text-color);
+            background-color: var(--bg-color);
             line-height: 1.6;
-            padding: 20px;
+        }
+        
+        a {
+            text-decoration: none;
+            color: var(--ghost-accent-color);
+            transition: color 0.3s;
+        }
+        
+        a:hover {
+            color: #3da074;
+            text-decoration: underline;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
+            padding: 0 20px;
         }
         
+        /* 头部导航 */
         header {
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
+            background: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
         }
         
-        h1 {
-            font-size: 2.8rem;
-            margin-bottom: 10px;
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
         }
         
-        .subtitle {
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .logo-text {
+            font-weight: bold;
             font-size: 1.2rem;
-            opacity: 0.9;
-        }
-        
-        nav {
-            background-color: #2d3748;
-            padding: 15px;
         }
         
         nav ul {
             display: flex;
             list-style: none;
-            justify-content: center;
-            flex-wrap: wrap;
         }
         
         nav li {
-            margin: 0 15px;
+            margin-left: 25px;
         }
         
         nav a {
-            color: white;
-            text-decoration: none;
+            font-size: 0.9rem;
             font-weight: 500;
-            padding: 5px 10px;
-            border-radius: 4px;
-            transition: background-color 0.3s;
         }
         
-        nav a:hover {
-            background-color: #4a5568;
-        }
-        
-        .content {
-            display: grid;
-            grid-template-columns: 1fr 300px;
-            gap: 30px;
-            padding: 30px;
-        }
-        
-        @media (max-width: 768px) {
-            .content {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        .main-content {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-        
-        .section {
-            background-color: #f8fafc;
-            border-radius: 8px;
-            padding: 25px;
-            border-left: 5px solid #4299e1;
-        }
-        
-        .section h2 {
-            color: #2d3748;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #e2e8f0;
-        }
-        
-        .section h3 {
-            color: #4a5568;
-            margin: 15px 0 10px;
-        }
-        
-        .sidebar {
-            background-color: #edf2f7;
-            border-radius: 8px;
-            padding: 20px;
-        }
-        
-        .sidebar h3 {
-            color: #2d3748;
-            margin-bottom: 15px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #cbd5e0;
-        }
-        
-        footer {
-            background-color: #2d3748;
-            color: white;
+        /* 文章详情 */
+        .article-header {
             text-align: center;
-            padding: 20px;
-            margin-top: 20px;
+            margin: 40px 0 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
         }
         
-        .element-demo {
-            background-color: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 6px;
-            padding: 15px;
+        .article-meta {
+            color: #888;
+            font-size: 0.9rem;
             margin-bottom: 20px;
         }
         
-        .element-demo h4 {
-            margin-bottom: 10px;
-            color: #4a5568;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .article-tag {
+            display: inline-block;
+            background: var(--ghost-accent-color);
+            color: white;
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            border-radius: 12px;
+            margin-right: 10px;
         }
         
-        code {
-            background-color: #f1f5f9;
+        .article-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-family: var(--font-serif);
+            line-height: 1.2;
+        }
+        
+        .article-excerpt {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        .article-content {
+            max-width: 900px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .article-content h1, 
+        .article-content h2, 
+        .article-content h3 {
+            margin: 40px 0 20px;
+            font-family: var(--font-serif);
+        }
+        
+        .article-content h2 {
+            border-left: 4px solid var(--ghost-accent-color);
+            padding-left: 15px;
+            margin-top: 60px;
+        }
+        
+        .article-content p {
+            margin-bottom: 20px;
+        }
+        
+        .article-content blockquote {
+            border-left: 4px solid var(--ghost-accent-color);
+            padding-left: 20px;
+            margin: 30px 0;
+            color: #666;
+            font-style: italic;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .article-content ul, .article-content ol {
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+        
+        .article-content li {
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .article-content li:before {
+            content: "•";
+            color: var(--ghost-accent-color);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        
+        .article-content code {
+            background-color: var(--code-bg);
+            color: var(--code-color);
             padding: 2px 6px;
             border-radius: 4px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+            border: 1px solid var(--code-border);
         }
         
-        pre {
-            background-color: #1a202c;
+        .article-content pre {
+            background-color: #2d3748;
             color: #e2e8f0;
-            padding: 15px;
-            border-radius: 6px;
+            padding: 20px;
+            border-radius: 8px;
             overflow-x: auto;
-            margin: 15px 0;
+            margin: 25px 0;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
         }
         
-        .btn {
-            display: inline-block;
-            background-color: #4299e1;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: 500;
+        .article-content pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
             border: none;
+            font-size: inherit;
+        }
+        
+        .code-block {
+            position: relative;
+            margin: 25px 0;
+        }
+        
+        .code-header {
+            background-color: #4a5568;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px 8px 0 0;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .code-copy-btn {
+            background: none;
+            border: none;
+            color: white;
             cursor: pointer;
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 4px;
             transition: background-color 0.3s;
-            margin: 5px;
         }
         
-        .btn:hover {
-            background-color: #3182ce;
+        .code-copy-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
         }
         
-        .btn-danger {
-            background-color: #f56565;
+        .code-block pre {
+            margin-top: 0;
+            border-radius: 0 0 8px 8px;
         }
         
-        .btn-danger:hover {
-            background-color: #e53e3e;
+        .step {
+            background-color: #f8fafc;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px 0;
+            border-left: 5px solid var(--ghost-accent-color);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
         
-        .btn-success {
-            background-color: #48bb78;
+        .step-number {
+            display: inline-block;
+            background-color: var(--ghost-accent-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 10px;
+            font-weight: bold;
         }
         
-        .btn-success:hover {
-            background-color: #38a169;
+        .step-title {
+            display: inline;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .tip-box {
+            background-color: #e6f7ff;
+            border-left: 4px solid #1890ff;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .tip-box strong {
+            color: #1890ff;
+        }
+        
+        .warning-box {
+            background-color: #fffbe6;
+            border-left: 4px solid #faad14;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .warning-box strong {
+            color: #faad14;
+        }
+        
+        .file-structure {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+        
+        .file-item {
+            margin-left: 20px;
+            position: relative;
+        }
+        
+        .file-item:before {
+            content: "📄";
+            margin-right: 8px;
+        }
+        
+        .folder-item {
+            margin-left: 10px;
+            position: relative;
+        }
+        
+        .folder-item:before {
+            content: "📁";
+            margin-right: 8px;
+        }
+        
+        .folder-item .file-item {
+            margin-left: 30px;
         }
         
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 15px 0;
+            margin: 25px 0;
         }
         
         th, td {
-            border: 1px solid #cbd5e0;
+            border: 1px solid #e0e0e0;
             padding: 12px 15px;
             text-align: left;
         }
         
         th {
-            background-color: #edf2f7;
+            background-color: #f5f5f5;
             font-weight: 600;
         }
         
         tr:nth-child(even) {
-            background-color: #f8fafc;
+            background-color: #f9f9f9;
         }
         
-        form {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
+        /* 导航按钮 */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin: 60px 0;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
         }
         
-        .form-group {
-            margin-bottom: 15px;
+        .navigation-item {
+            max-width: 45%;
         }
         
-        label {
+        .navigation-label {
             display: block;
+            color: #888;
+            font-size: 0.9rem;
             margin-bottom: 5px;
+        }
+        
+        .navigation-title {
             font-weight: 500;
         }
         
-        input, select, textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #cbd5e0;
-            border-radius: 5px;
-            font-size: 1rem;
+        /* 评论区域 */
+        .comments-section {
+            max-width: 800px;
+            margin: 80px auto 40px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border-color);
         }
         
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: #4299e1;
-            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+        .comments-title {
+            margin-bottom: 30px;
+            text-align: center;
         }
         
-        .color-box {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border-radius: 3px;
-            margin-right: 5px;
-            vertical-align: middle;
+        /* Giscus 评论容器 */
+        .giscus-container {
+            margin-top: 30px;
         }
         
-        .alert {
-            padding: 15px;
-            border-radius: 5px;
-            margin: 15px 0;
+        /* 页脚 */
+        footer {
+            background: var(--light-gray);
+            padding: 50px 0;
+            margin-top: 80px;
         }
         
-        .alert-success {
-            background-color: #c6f6d5;
-            color: #22543d;
-            border-left: 5px solid #48bb78;
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
-        .alert-warning {
-            background-color: #feebc8;
-            color: #744210;
-            border-left: 5px solid #ed8936;
+        .copyright {
+            color: #888;
         }
         
-        .alert-error {
-            background-color: #fed7d7;
-            color: #742a2a;
-            border-left: 5px solid #f56565;
+        .footer-nav ul {
+            display: flex;
+            list-style: none;
         }
         
-        .tag {
-            display: inline-block;
-            background-color: #e2e8f0;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            margin: 2px;
+        .footer-nav li {
+            margin-left: 20px;
         }
         
-        .progress-bar {
-            height: 20px;
-            background-color: #e2e8f0;
-            border-radius: 10px;
-            margin: 10px 0;
-            overflow: hidden;
+        .powered-by {
+            color: #888;
+            font-size: 0.9rem;
         }
         
-        .progress {
-            height: 100%;
-            background-color: #4299e1;
-            border-radius: 10px;
-        }
-        
-        .progress-75 {
-            width: 75%;
-        }
-        
-        .progress-50 {
-            width: 50%;
-        }
-        
-        .progress-25 {
-            width: 25%;
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .header-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+                flex-wrap: wrap;
+            }
+            
+            nav li {
+                margin: 5px 15px 5px 0;
+            }
+            
+            .article-title {
+                font-size: 2rem;
+            }
+            
+            .navigation {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .navigation-item {
+                max-width: 100%;
+            }
+            
+            .footer-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-nav ul {
+                margin: 20px 0;
+                justify-content: center;
+            }
+            
+            .footer-nav li {
+                margin: 0 10px;
+            }
+            
+            .step {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>HTML测试页面</h1>
-            <p class="subtitle">一个包含各种HTML元素的综合测试页面</p>
-        </header>
-        
-        <nav>
-            <ul>
-                <li><a href="#text">文本元素</a></li>
-                <li><a href="#lists">列表</a></li>
-                <li><a href="#tables">表格</a></li>
-                <li><a href="#forms">表单</a></li>
-                <li><a href="#media">媒体</a></li>
-                <li><a href="#other">其他元素</a></li>
-            </ul>
-        </nav>
-        
-        <div class="content">
-            <div class="main-content">
-                <section id="text" class="section">
-                    <h2>文本元素</h2>
-                    
-                    <div class="element-demo">
-                        <h4>标题 (h1-h6)</h4>
-                        <h1>一级标题 (h1)</h1>
-                        <h2>二级标题 (h2)</h2>
-                        <h3>三级标题 (h3)</h3>
-                        <h4>四级标题 (h4)</h4>
-                        <h5>五级标题 (h5)</h5>
-                        <h6>六级标题 (h6)</h6>
-                    </div>
-                    
-                    <div class="element-demo">
-                        <h4>段落与文本格式</h4>
-                        <p>这是一个普通段落。HTML测试页面用于测试各种HTML元素在浏览器中的渲染效果。</p>
-                        <p>这是一个带有<b>粗体文本</b>、<i>斜体文本</i>、<u>下划线文本</u>和<mark>高亮文本</mark>的段落。</p>
-                        <p>化学公式：H<sub>2</sub>O，数学公式：x<sup>2</sup> + y<sup>2</sup> = z<sup>2</sup></p>
-                        <p><code>这是行内代码</code>和<kbd>键盘输入</kbd>的示例。</p>
-                        <blockquote>
-                            <p>这是一个引用块。HTML测试页面对于前端开发人员非常有用，可以快速检查元素在不同浏览器中的显示效果。</p>
-                        </blockquote>
-                    </div>
-                    
-                    <div class="element-demo">
-                        <h4>链接</h4>
-                        <p><a href="#top">内部链接(返回顶部)</a> | <a href="https://example.com" target="_blank">外部链接(新窗口打开)</a> | <a href="mailto:test@example.com">电子邮件链接</a></p>
-                    </div>
-                </section>
-                
-                <section id="lists" class="section">
-                    <h2>列表</h2>
-                    
-                    <div class="element-demo">
-                        <h4>无序列表</h4>
-                        <ul>
-                            <li>列表项 1</li>
-                            <li>列表项 2
-                                <ul>
-                                    <li>嵌套列表项 1</li>
-                                    <li>嵌套列表项 2</li>
-                                </ul>
-                            </li>
-                            <li>列表项 3</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="element-demo">
-                        <h4>有序列表</h4>
-                        <ol>
-                            <li>第一步：打开浏览器</li>
-                            <li>第二步：访问测试页面</li>
-                            <li>第三步：检查元素渲染</li>
-                        </ol>
-                    </div>
-                    
-                    <div class="element-demo">
-                        <h4>描述列表</h4>
-                        <dl>
-                            <dt>HTML</dt>
-                            <dd>超文本标记语言，用于创建网页结构</dd>
-                            <dt>CSS</dt>
-                            <dd>层叠样式表，用于描述网页外观</dd>
-                            <dt>JavaScript</dt>
-                            <dd>脚本语言，用于实现网页交互</dd>
-                        </dl>
-                    </div>
-                </section>
-                
-                <section id="tables" class="section">
-                    <h2>表格</h2>
-                    
-                    <div class="element-demo">
-                        <h4>基本表格</h4>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>姓名</th>
-                                    <th>年龄</th>
-                                    <th>职业</th>
-                                    <th>城市</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>张三</td>
-                                    <td>28</td>
-                                    <td>前端开发</td>
-                                    <td>北京</td>
-                                </tr>
-                                <tr>
-                                    <td>李四</td>
-                                    <td>32</td>
-                                    <td>UI设计师</td>
-                                    <td>上海</td>
-                                </tr>
-                                <tr>
-                                    <td>王五</td>
-                                    <td>25</td>
-                                    <td>测试工程师</td>
-                                    <td>深圳</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <div class="element-demo">
-                        <h4>复杂表格</h4>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th rowspan="2">月份</th>
-                                    <th colspan="2">销售数据</th>
-                                    <th rowspan="2">增长率</th>
-                                </tr>
-                                <tr>
-                                    <th>产品A</th>
-                                    <th>产品B</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>一月</td>
-                                    <td>120</td>
-                                    <td>150</td>
-                                    <td>+15%</td>
-                                </tr>
-                                <tr>
-                                    <td>二月</td>
-                                    <td>135</td>
-                                    <td>140</td>
-                                    <td>+8%</td>
-                                </tr>
-                                <tr>
-                                    <td>三月</td>
-                                    <td>160</td>
-                                    <td>180</td>
-                                    <td>+20%</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
-                
-                <section id="forms" class="section">
-                    <h2>表单元素</h2>
-                    
-                    <form>
-                        <div class="form-group">
-                            <label for="name">姓名:</label>
-                            <input type="text" id="name" placeholder="请输入姓名">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="email">邮箱:</label>
-                            <input type="email" id="email" placeholder="example@email.com">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="password">密码:</label>
-                            <input type="password" id="password" placeholder="至少8位字符">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="bio">个人简介:</label>
-                            <textarea id="bio" rows="4" placeholder="请简要介绍自己..."></textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="country">国家:</label>
-                            <select id="country">
-                                <option value="">请选择</option>
-                                <option value="cn">中国</option>
-                                <option value="us">美国</option>
-                                <option value="jp">日本</option>
-                                <option value="uk">英国</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>性别:</label>
-                            <div>
-                                <input type="radio" id="male" name="gender" value="male">
-                                <label for="male" style="display: inline; margin-right: 15px;">男</label>
-                                
-                                <input type="radio" id="female" name="gender" value="female">
-                                <label for="female" style="display: inline; margin-right: 15px;">女</label>
-                                
-                                <input type="radio" id="other" name="gender" value="other">
-                                <label for="other" style="display: inline;">其他</label>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>兴趣爱好:</label>
-                            <div>
-                                <input type="checkbox" id="reading" name="hobbies" value="reading">
-                                <label for="reading" style="display: inline; margin-right: 15px;">阅读</label>
-                                
-                                <input type="checkbox" id="sports" name="hobbies" value="sports">
-                                <label for="sports" style="display: inline; margin-right: 15px;">运动</label>
-                                
-                                <input type="checkbox" id="music" name="hobbies" value="music">
-                                <label for="music" style="display: inline; margin-right: 15px;">音乐</label>
-                                
-                                <input type="checkbox" id="travel" name="hobbies" value="travel">
-                                <label for="travel" style="display: inline;">旅游</label>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="range">满意度:</label>
-                            <input type="range" id="range" min="0" max="100" value="50">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="file">上传文件:</label>
-                            <input type="file" id="file">
-                        </div>
-                        
-                        <button type="submit" class="btn btn-success">提交表单</button>
-                        <button type="reset" class="btn">重置</button>
-                    </form>
-                </section>
-                
-                <section id="media" class="section">
-                    <h2>媒体元素</h2>
-                    
-                    <div class="element-demo">
-                        <h4>图像</h4>
-                        <div style="display: flex; flex-wrap: wrap; gap: 15px;">
-                            <img src="https://via.placeholder.com/300x200/4299e1/ffffff?text=示例图片1" alt="示例图片1" style="max-width: 100%; border-radius: 5px;">
-                            <img src="https://via.placeholder.com/300x200/48bb78/ffffff?text=示例图片2" alt="示例图片2" style="max-width: 100%; border-radius: 5px;">
-                        </div>
-                    </div>
-                    
-                    <div class="element-demo">
-                        <h4>颜色示例</h4>
-                        <div>
-                            <p><span class="color-box" style="background-color: #4299e1;"></span> 主色调 (#4299e1)</p>
-                            <p><span class="color-box" style="background-color: #48bb78;"></span> 成功色 (#48bb78)</p>
-                            <p><span class="color-box" style="background-color: #ed8936;"></span> 警告色 (#ed8936)</p>
-                            <p><span class="color-box" style="background-color: #f56565;"></span> 错误色 (#f56565)</p>
-                        </div>
-                    </div>
-                </section>
-                
-                <section id="other" class="section">
-                    <h2>其他元素</h2>
-                    
-                    <div class="element-demo">
-                        <h4>按钮</h4>
-                        <button class="btn">普通按钮</button>
-                        <button class="btn btn-success">成功按钮</button>
-                        <button class="btn btn-danger">危险按钮</button>
-                        <a href="#" class="btn">链接按钮</a>
-                        <button disabled class="btn">禁用按钮</button>
-                    </div>
-                    
-                    <div class="element-demo">
-                        <h4>提示框</h4>
-                        <div class="alert alert-success">
-                            <strong>成功!</strong> 操作已成功完成。
-                        </div>
-                        <div class="alert alert-warning">
-                            <strong>警告!</strong> 请确认您的操作。
-                        </div>
-                        <div class="alert alert-error">
-                            <strong>错误!</strong> 操作过程中出现问题。
-                        </div>
-                    </div>
-                    
-                    <div class="element-demo">
-                        <h4>标签</h4>
-                        <span class="tag">HTML</span>
-                        <span class="tag">CSS</span>
-                        <span class="tag">JavaScript</span>
-                        <span class="tag">前端开发</span>
-                        <span class="tag">响应式设计</span>
-                    </div>
-                    
-                    <div class="element-demo">
-                        <h4>进度条</h4>
-                        <div class="progress-bar">
-                            <div class="progress progress-75"></div>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress progress-50"></div>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress progress-25"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="element-demo">
-                        <h4>代码示例</h4>
-                        <pre><code>&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;title&gt;示例页面&lt;/title&gt;
-    &lt;style&gt;
-        body {
-            font-family: Arial, sans-serif;
-        }
-    &lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;h1&gt;Hello World!&lt;/h1&gt;
-    &lt;script&gt;
-        console.log('页面加载完成');
-    &lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre>
-                    </div>
-                </section>
-            </div>
-            
-            <aside class="sidebar">
-                <h3>关于此页面</h3>
-                <p>这个HTML测试页面包含了各种常见的HTML元素和结构，可用于测试浏览器的渲染能力、CSS样式兼容性等。</p>
-                
-                <h3>测试要点</h3>
-                <ul>
-                    <li>检查元素是否正确显示</li>
-                    <li>测试响应式布局</li>
-                    <li>验证表单功能</li>
-                    <li>测试不同浏览器兼容性</li>
-                    <li>检查颜色和字体渲染</li>
-                </ul>
-                
-                <h3>HTML5特性</h3>
-                <p>本页面使用了以下HTML5特性：</p>
-                <ul>
-                    <li>语义化标签 (header, section, aside, footer)</li>
-                    <li>表单输入类型 (email, range)</li>
-                    <li>媒体元素 (图片占位符)</li>
-                    <li>CSS Grid和Flexbox布局</li>
-                </ul>
-                
-                <h3>快速测试</h3>
-                <p>点击下方按钮测试JavaScript交互：</p>
-                <button id="testButton" class="btn" style="width: 100%;">点击测试</button>
-                <div id="testResult" style="margin-top: 15px; padding: 10px; background-color: #e2e8f0; border-radius: 5px; display: none;">
-                    按钮点击成功！
+    <!-- 头部导航 -->
+    <header>
+        <div class="container">
+            <div class="header-inner">
+                <div class="logo">
+                    <img src="https://avatars.githubusercontent.com/u/11725315?v=4" alt="zhr">
+                    <span class="logo-text">zhr的博客</span>
                 </div>
                 
-                <h3>浏览器信息</h3>
-                <p id="browserInfo">正在检测浏览器...</p>
-            </aside>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">文章|Article</a></li>
+                        <li><a href="https://zhr-0731.github.io/zhr-s-videos/">视频|Video</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- 文章内容 -->
+    <main class="container">
+        <article class="article">
+            <header class="article-header">
+                <div class="article-meta">
+                    作者：<a href="https://bgithub.xyz/zhr-0731" target="_blank">张皓然</a>
+                    分类：
+                    <a class="article-tag" href="#">教程</a>
+                    <a class="article-tag" href="#">博客</a>
+                    <a class="article-tag" href="#">指南</a>
+                    —
+                    <time datetime="2025-12-07">2025年12月7日</time>
+                </div>
+
+                <h1 class="article-title">如何向博客添加新文章</h1>
+
+                <p class="article-excerpt">详细说明如何向zhr的博客中添加新文章，包括HTML结构、文件管理和发布流程。</p>
+            </header>
+
+            <!-- 文章正文 -->
+            <div class="article-content">
+                <blockquote>
+                    <p>本教程适用于使用GitHub Pages部署的静态博客。通过本指南，您可以了解如何创建、编写和发布新的博客文章。</p>
+                </blockquote>
+                
+                <h2>准备工作</h2>
+                
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">了解博客结构</h3>
+                    <p>在开始添加新文章之前，您需要了解博客的基本文件结构：</p>
+                    
+                    <div class="file-structure">
+                        <div class="folder-item">博客目录
+                            <div class="file-item">index.html (首页)</div>
+                            <div class="file-item">post.html (第一篇文章)</div>
+                            <div class="file-item">post2.html (第二篇文章)</div>
+                            <div class="folder-item">images (图片文件夹)
+                                <div class="file-item">article-image-1.jpg</div>
+                                <div class="file-item">article-image-2.jpg</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p>每篇文章都是一个独立的HTML文件，通过链接相互连接。首页（index.html）包含所有文章的预览卡片。</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">创建新的HTML文件</h3>
+                    <p>要为新的博客文章创建HTML文件，请按照以下步骤操作：</p>
+                    
+                    <ol>
+                        <li>复制现有的文章文件（如post2.html）并重命名（如post3.html）</li>
+                        <li>打开新文件，修改文章内容</li>
+                        <li>更新元数据（标题、描述、作者、日期等）</li>
+                        <li>上传相关图片到images文件夹（可选）</li>
+                    </ol>
+                    
+                    <div class="tip-box">
+                        <strong>提示：</strong> 建议使用有意义的文件名，如"how-to-add-article.html"或"post-2025-12-07.html"。
+                    </div>
+                </div>
+                
+                <h2>编辑文章内容</h2>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">修改HTML头部信息</h3>
+                    <p>在HTML文件的&lt;head&gt;部分，更新以下信息：</p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>HTML头部信息</span>
+                            <button class="code-copy-btn" onclick="copyCode(this)">复制</button>
+                        </div>
+                        <pre><code>&lt;title&gt;文章标题 - zhr的博客&lt;/title&gt;
+&lt;meta name="description" content="文章简要描述..."&gt;</code></pre>
+                    </div>
+                    
+                    <p>同时，在&lt;header&gt;部分更新文章标题和元数据：</p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>文章头部信息</span>
+                            <button class="code-copy-btn" onclick="copyCode(this)">复制</button>
+                        </div>
+                        <pre><code>&lt;h1 class="article-title"&gt;文章标题&lt;/h1&gt;
+&lt;p class="article-excerpt"&gt;文章简要描述...&lt;/p&gt;
+&lt;div class="article-meta"&gt;
+    作者：&lt;a href="#" target="_blank"&gt;作者名&lt;/a&gt;
+    分类：
+    &lt;a class="article-tag" href="#"&gt;标签1&lt;/a&gt;
+    &lt;a class="article-tag" href="#"&gt;标签2&lt;/a&gt;
+    —
+    &lt;time datetime="2025-12-07"&gt;2025年12月7日&lt;/time&gt;
+&lt;/div&gt;</code></pre>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3 class="step-title">编写文章正文</h3>
+                    <p>在<code>&lt;div class="article-content"&gt;</code>部分编写文章正文。以下是一些常用的HTML标记：</p>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>HTML标记</th>
+                                <th>用途</th>
+                                <th>示例</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>&lt;p&gt;</code></td>
+                                <td>段落</td>
+                                <td><code>&lt;p&gt;这是一个段落。&lt;/p&gt;</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>&lt;h2&gt;</code>, <code>&lt;h3&gt;</code></td>
+                                <td>小标题</td>
+                                <td><code>&lt;h2&gt;二级标题&lt;/h2&gt;</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>&lt;ul&gt;</code>和<code>&lt;li&gt;</code></td>
+                                <td>无序列表</td>
+                                <td><code>&lt;ul&gt;&lt;li&gt;项目1&lt;/li&gt;&lt;li&gt;项目2&lt;/li&gt;&lt;/ul&gt;</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>&lt;ol&gt;</code>和<code>&lt;li&gt;</code></td>
+                                <td>有序列表</td>
+                                <td><code>&lt;ol&gt;&lt;li&gt;第一步&lt;/li&gt;&lt;li&gt;第二步&lt;/li&gt;&lt;/ol&gt;</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>&lt;blockquote&gt;</code></td>
+                                <td>引用</td>
+                                <td><code>&lt;blockquote&gt;&lt;p&gt;引用内容&lt;/p&gt;&lt;/blockquote&gt;</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>&lt;code&gt;</code></td>
+                                <td>行内代码</td>
+                                <td><code>&lt;code&gt;console.log()&lt;/code&gt;</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>&lt;pre&gt;</code></td>
+                                <td>代码块</td>
+                                <td><code>&lt;pre&gt;&lt;code&gt;代码内容&lt;/code&gt;&lt;/pre&gt;</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="tip-box">
+                        <strong>提示：</strong> 您可以在文章中使用<code>&lt;img src="图片URL" alt="描述"&gt;</code>来添加图片。建议将图片上传到images文件夹或使用外部图床。
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <h3 class="step-title">更新导航按钮</h3>
+                    <p>在文章末尾的导航部分，更新"上一篇"和"下一篇"的链接：</p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>导航按钮代码</span>
+                            <button class="code-copy-btn" onclick="copyCode(this)">复制</button>
+                        </div>
+                        <pre><code>&lt;div class="navigation"&gt;
+    &lt;a class="navigation-item navigation-previous" href="post2.html"&gt;
+        &lt;span class="navigation-label"&gt;上一篇&lt;/span&gt;
+        &lt;h4 class="navigation-title"&gt;走出书本，对生活更有体会&lt;/h4&gt;
+    &lt;/a&gt;
+    &lt;a class="navigation-item navigation-next" href="index.html"&gt;
+        &lt;span class="navigation-label"&gt;返回首页&lt;/span&gt;
+        &lt;h4 class="navigation-title"&gt;浏览更多文章&lt;/h4&gt;
+    &lt;/a&gt;
+&lt;/div&gt;</code></pre>
+                    </div>
+                    
+                    <div class="warning-box">
+                        <strong>注意：</strong> 不要忘记更新现有文章的导航链接，使其指向新文章。
+                    </div>
+                </div>
+                
+                <h2>更新首页</h2>
+                
+                <div class="step">
+                    <div class="step-number">6</div>
+                    <h3 class="step-title">在首页添加文章卡片</h3>
+                    <p>打开<code>index.html</code>文件，在文章列表部分添加新文章的预览卡片：</p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>文章卡片代码</span>
+                            <button class="code-copy-btn" onclick="copyCode(this)">复制</button>
+                        </div>
+<pre><code>&lt;article class="post-card"&gt;
+    &lt;a href="post3.html"&gt;
+        &lt;div class="post-media"&gt;
+            &lt;img class="post-image" src="图片URL" alt="文章封面"&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="post-content"&gt;
+            &lt;span class="post-tag"&gt;教程&lt;/span&gt;
+            &lt;span class="post-tag"&gt;博客&lt;/span&gt;
+            
+            &lt;h2 class="post-title"&gt;如何向博客添加新文章&lt;/h2&gt;
+            
+            &lt;div class="post-excerpt"&gt;
+                详细说明如何向zhr的博客中添加新文章，包括HTML结构、文件管理和发布流程。
+            &lt;/div&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="post-footer"&gt;
+            &lt;span class="post-more"&gt;阅读更多&lt;/span&gt;
+            
+            &lt;div class="post-author"&gt;
+                &lt;img class="author-image" src="作者头像URL" alt="zhr"&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/a&gt;
+&lt;/article&gt;</code></pre>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">7</div>
+                    <h3 class="step-title">更新搜索功能（可选）</h3>
+                    <p>如果您使用了搜索功能，需要在<code>index.html</code>的JavaScript部分添加新文章的信息：</p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>更新搜索数据</span>
+                            <button class="code-copy-btn" onclick="copyCode(this)">复制</button>
+                        </div>
+                        <pre><code>const articles = [
+    // 现有文章...
+    {
+        id: 3,
+        title: "如何向博客添加新文章",
+        excerpt: "详细说明如何向zhr的博客中添加新文章，包括HTML结构、文件管理和发布流程。",
+        tags: ["教程", "博客", "指南"],
+        date: "2025-12-07",
+        link: "post3.html",
+        image: "图片URL"
+    }
+];</code></pre>
+                    </div>
+                </div>
+                
+                <h2>发布与部署</h2>
+                
+                <div class="step">
+                    <div class="step-number">8</div>
+                    <h3 class="step-title">GitHub Pages部署</h3>
+                    <p>如果您使用GitHub Pages托管博客，只需将新文件推送到GitHub仓库即可自动部署：</p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Git命令</span>
+                            <button class="code-copy-btn" onclick="copyCode(this)">复制</button>
+                        </div>
+                        <pre><code># 添加新文件
+git add post3.html
+
+# 提交更改
+git commit -m "添加新文章：如何向博客添加新文章"
+
+# 推送到GitHub
+git push origin main</code></pre>
+                    </div>
+                    
+                    <p>GitHub Pages会自动部署您的更改，通常几分钟后就可以通过<code>https://用户名.github.io/仓库名/post3.html</code>访问新文章。</p>
+                </div>
+                
+                <h2>常见问题</h2>
+                
+                <div class="step">
+                    <h3>Q: 如何添加文章分类/标签？</h3>
+                    <p>A: 在文章头部和首页卡片中，使用<code>&lt;span class="article-tag"&gt;</code>或<code>&lt;span class="post-tag"&gt;</code>来添加标签。建议保持标签的一致性，便于分类和搜索。</p>
+                    
+                    <h3>Q: 如何添加评论功能？</h3>
+                    <p>A: 本博客使用Giscus评论系统，它会根据页面URL自动加载评论。您不需要为新文章单独配置评论系统。</p>
+                    
+                    <h3>Q: 文章中的图片无法显示怎么办？</h3>
+                    <p>A: 检查图片URL是否正确。建议将图片上传到GitHub仓库的images文件夹或使用稳定的图床服务。</p>
+                    
+                    <h3>Q: 如何让文章在首页显示为精选文章？</h3>
+                    <p>A: 编辑<code>index.html</code>中的轮播图部分，添加新文章的轮播项目。</p>
+                </div>
+                
+                <div class="tip-box">
+                    <strong>总结：</strong> 添加新文章的基本流程是：1) 创建HTML文件，2) 编辑内容，3) 更新首页，4) 部署到GitHub Pages。按照上述步骤操作，您可以轻松地向博客添加新内容。
+                </div>
+            </div>
+        </article>
+        
+        <!-- 导航按钮 -->
+        <div class="navigation">
+            <a class="navigation-item navigation-previous" href="post2.html">
+                <span class="navigation-label">上一篇</span>
+                <h4 class="navigation-title">走出书本，对生活更有体会</h4>
+            </a>
+            <a class="navigation-item navigation-next" href="index.html">
+                <span class="navigation-label">返回首页</span>
+                <h4 class="navigation-title">浏览更多文章</h4>
+            </a>
         </div>
         
-        <footer>
-            <p>HTML测试页面 &copy; 2023 | 用于测试和演示HTML元素</p>
-            <p>最后更新: <span id="currentDate"></span></p>
-        </footer>
-    </div>
+        <!-- 评论区域 -->
+        <section class="comments-section">
+            <h3 class="comments-title">评论与讨论</h3>
+            <div class="giscus-container">
+                <!-- Giscus 评论系统 -->
+                <script src="https://giscus.app/client.js"
+        data-repo="zhr-0731/zhr-0731.github.io"
+        data-repo-id="R_kgDOQhEetg"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOQhEets4CzTCY"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
+            </div>
+        </section>
+    </main>
 
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <div class="copyright">
+                    © 2025 zhr的博客
+                </div>
+                
+                <nav class="footer-nav">
+                    <ul>
+                        <li><a href="https://bgithub.xyz/zhr-0731" target="_blank">GitHub</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="powered-by">
+                    基于 GitHub Pages
+                </div>
+            </div>
+        </div>
+    </footer>
+    
     <script>
-        // 显示当前日期
-        const now = new Date();
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById('currentDate').textContent = now.toLocaleDateString('zh-CN', options);
-        
-        // 测试按钮交互
-        document.getElementById('testButton').addEventListener('click', function() {
-            const resultDiv = document.getElementById('testResult');
-            resultDiv.style.display = 'block';
-            resultDiv.style.backgroundColor = '#c6f6d5';
-            resultDiv.style.color = '#22543d';
-            resultDiv.textContent = '按钮点击成功！JavaScript运行正常。';
+        // 复制代码功能
+        function copyCode(button) {
+            const codeBlock = button.closest('.code-block');
+            const codeElement = codeBlock.querySelector('code');
+            const textArea = document.createElement('textarea');
+            textArea.value = codeElement.textContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
             
-            // 3秒后隐藏结果
-            setTimeout(function() {
-                resultDiv.style.display = 'none';
-            }, 3000);
-        });
-        
-        // 检测浏览器信息
-        function getBrowserInfo() {
-            const userAgent = navigator.userAgent;
-            let browserName;
+            // 显示复制成功反馈
+            const originalText = button.textContent;
+            button.textContent = '已复制!';
+            button.style.backgroundColor = '#4CAF50';
             
-            if (userAgent.includes("Chrome") && !userAgent.includes("Edg")) {
-                browserName = "Google Chrome";
-            } else if (userAgent.includes("Firefox")) {
-                browserName = "Mozilla Firefox";
-            } else if (userAgent.includes("Safari") && !userAgent.includes("Chrome")) {
-                browserName = "Apple Safari";
-            } else if (userAgent.includes("Edg")) {
-                browserName = "Microsoft Edge";
-            } else if (userAgent.includes("Trident") || userAgent.includes("MSIE")) {
-                browserName = "Internet Explorer";
-            } else {
-                browserName = "未知浏览器";
-            }
-            
-            return browserName;
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.backgroundColor = '';
+            }, 1500);
         }
         
-        document.getElementById('browserInfo').textContent = `您正在使用: ${getBrowserInfo()}`;
-        
-        // 表单提交演示
-        const form = document.querySelector('form');
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('表单提交演示 (实际提交已阻止)');
-        });
-        
-        // 范围输入实时显示
-        const rangeInput = document.getElementById('range');
-        const rangeValueDisplay = document.createElement('span');
-        rangeValueDisplay.textContent = ` (${rangeInput.value})`;
-        rangeInput.parentNode.appendChild(rangeValueDisplay);
-        
-        rangeInput.addEventListener('input', function() {
-            rangeValueDisplay.textContent = ` (${this.value})`;
+        // 添加文章内容的代码高亮（简化的实现）
+        document.addEventListener('DOMContentLoaded', function() {
+            // 自动为pre标签内的代码添加行号
+            const preElements = document.querySelectorAll('pre');
+            preElements.forEach(pre => {
+                const code = pre.querySelector('code');
+                if (code) {
+                    const lines = code.textContent.split('\n').length;
+                    if (lines > 1) {
+                        // 创建一个包裹容器
+                        const wrapper = document.createElement('div');
+                        wrapper.className = 'code-wrapper';
+                        wrapper.style.display = 'flex';
+                        wrapper.style.overflow = 'auto';
+                        
+                        // 创建行号容器
+                        const lineNumbers = document.createElement('div');
+                        lineNumbers.style.cssText = 'background-color: #2d3748; color: #718096; padding: 20px 10px; text-align: right; user-select: none; border-right: 1px solid #4a5568; line-height: 1.5;';
+                        
+                        // 添加行号
+                        let lineNumbersHtml = '';
+                        for (let i = 1; i <= lines; i++) {
+                            lineNumbersHtml += i + '<br>';
+                        }
+                        lineNumbers.innerHTML = lineNumbersHtml;
+                        
+                        // 将原始pre的内容移到新容器中
+                        const codeContainer = document.createElement('div');
+                        codeContainer.style.cssText = 'flex: 1; overflow: auto;';
+                        codeContainer.appendChild(code.cloneNode(true));
+                        
+                        // 重新组装
+                        wrapper.appendChild(lineNumbers);
+                        wrapper.appendChild(codeContainer);
+                        pre.innerHTML = '';
+                        pre.appendChild(wrapper);
+                    }
+                }
+            });
         });
     </script>
 </body>
