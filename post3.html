@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>四季的花 - zhr的博客</title>
+    <meta name="description" content="花，是四季的讯号，每当花一开，人们便知道一个新的季节又到了。">
+    <style>
+        /* 全局样式 */
+        :root {
+            --ghost-accent-color: #59c090;
+            --text-color: #333;
+            --bg-color: #fff;
+            --light-gray: #f5f5f5;
+            --border-color: #eaeaea;
+            --font-serif: 'Noto Serif SC', serif;
+            --font-sans: 'Noto Sans SC', sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-sans);
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            line-height: 1.6;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s;
+        }
+        
+        a:hover {
+            color: var(--ghost-accent-color);
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 头部导航 */
+        header {
+            background: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .logo-text {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav li {
+            margin-left: 25px;
+        }
+        
+        nav a {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text-color);
+        }
+        
+        /* 文章详情 */
+        .article-header {
+            text-align: center;
+            margin: 40px 0 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .article-meta {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+        
+        .article-tag {
+            display: inline-block;
+            background: var(--ghost-accent-color);
+            color: white;
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            border-radius: 12px;
+            margin-right: 10px;
+        }
+        
+        .article-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-family: var(--font-serif);
+            line-height: 1.2;
+        }
+        
+        .article-excerpt {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        .article-image {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+        
+        .article-content {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .article-content h1, 
+        .article-content h2, 
+        .article-content h3 {
+            margin: 40px 0 20px;
+            font-family: var(--font-serif);
+        }
+        
+        .article-content p {
+            margin-bottom: 20px;
+        }
+        
+        .article-content blockquote {
+            border-left: 4px solid var(--ghost-accent-color);
+            padding-left: 20px;
+            margin: 30px 0;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .article-content ul, .article-content ol {
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+        
+        .article-content li {
+            margin-bottom: 10px;
+        }
+        
+        .article-content code {
+            background-color: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .article-content pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        .article-content pre code {
+            background: none;
+            padding: 0;
+        }
+        
+        /* 导航按钮 */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin: 60px 0;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .navigation-item {
+            max-width: 45%;
+        }
+        
+        .navigation-label {
+            display: block;
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .navigation-title {
+            font-weight: 500;
+        }
+        
+        /* 评论区域 */
+        .comments-section {
+            max-width: 800px;
+            margin: 80px auto 40px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .comments-title {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        /* Giscus 评论容器 */
+        .giscus-container {
+            margin-top: 30px;
+        }
+        
+        /* 相关文章 */
+        .related-posts {
+            margin: 80px 0 40px;
+        }
+        
+        .related-title {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .post-feed {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .post-card {
+            background: var(--bg-color);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .post-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .post-media {
+            height: 150px;
+            overflow: hidden;
+        }
+        
+        .post-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .post-card:hover .post-image {
+            transform: scale(1.05);
+        }
+        
+        .post-content {
+            padding: 20px;
+        }
+        
+        .post-tag {
+            display: inline-block;
+            background: var(--ghost-accent-color);
+            color: white;
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+        
+        .post-title {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            font-family: var(--font-serif);
+            line-height: 1.3;
+        }
+        
+        .post-excerpt {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* 页脚 */
+        footer {
+            background: var(--light-gray);
+            padding: 50px 0;
+            margin-top: 80px;
+        }
+        
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .copyright {
+            color: #888;
+        }
+        
+        .footer-nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        .footer-nav li {
+            margin-left: 20px;
+        }
+        
+        .powered-by {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .header-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+                flex-wrap: wrap;
+            }
+            
+            nav li {
+                margin: 5px 15px 5px 0;
+            }
+            
+            .article-title {
+                font-size: 2rem;
+            }
+            
+            .post-feed {
+                grid-template-columns: 1fr;
+            }
+            
+            .navigation {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .navigation-item {
+                max-width: 100%;
+            }
+            
+            .footer-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-nav ul {
+                margin: 20px 0;
+                justify-content: center;
+            }
+            
+            .footer-nav li {
+                margin: 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header>
+        <div class="container">
+            <div class="header-inner">
+                <div class="logo">
+                    <img src="https://avatars.githubusercontent.com/u/11725315?v=4" alt="zhr">
+                    <span class="logo-text">zhr的博客</span>
+                </div>
+                
+                <nav>
+                    <ul>
+                        <li><a href="index.html">文章|Article</a></li>
+                        <li><a href="https://zhr-0731.github.io/zhr-s-videos/">视频|Video</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="header-actions">
+                    <button class="search-btn">🔍</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 文章内容 -->
+    <main class="container">
+        <article class="article">
+            <header class="article-header">
+                <div class="article-meta">
+                    作者：<a href="https://bgithub.xyz/zhr-0731" target="_blank">张皓然</a>
+                    分类：
+                    <a class="article-tag" href="#">生活</a>
+                    <a class="article-tag" href="#">感悟</a>
+                    —
+                    <time datetime="2025-12-07">2025年12月7日</time>
+                </div>
+
+                <h1 class="article-title">四季的花</h1>
+
+                <p class="article-excerpt">花，是四季的讯号，每当花一开，人们便知道一个新的季节又到了。</p>
+
+                <figure class="article-image">
+                    <img src="https://s41.ax1x.com/2025/12/07/pZnFlYF.md.png" alt="四季的花">
+                </figure>
+            </header>
+
+            <!-- 文章正文 -->
+            <div class="article-content">
+                <blockquote>
+                    <p>感谢张家界近林书院博思文艺创作工作室对本文的大力支持</p>
+                </blockquote>
+                
+                <p>花，是四季的讯号，每当花一开，人们便知道一个新的季节又到了。</p>
+                
+                <p>于春来说，山花盛开，便是春姑娘最美之时。“乱花渐入迷人眼，浅草才能没马蹄”，你瞧，那成片的山花竞相登场，有的含苞待放，有的半开着，有的都已经全部舒展开了自己的花瓣，露出了羞答答的花蕊，似乎将冬天积蓄的所有力量都使了出来，白白粉粉，亮亮黄黄，红红紫紫，轻轻盈盈，让人眼前一亮，让人心灵舒畅。每每山花盛开，人们就知道了，春天来了，天转暖了，精气神儿更足了。</p>
+                
+                <p>于夏来说，荷花盛开，便是夏先生英姿飒爽之时。“接天莲叶无穷碧，映日荷花别样红”，你瞧那荷花，有的紧紧包住，有的已经亭亭玉立，花瓣粉中透红，白中泛紫，像呈色丰富的玉一般。荷叶衬托着荷花，一片连着一片，一朵映着一朵，像无比清新的水墨画。每每荷花盛开，荷叶连天，人们便知道了，夏天来了，生机旺了。</p>
+                
+                <p>于秋来说，菊花盛开，便是秋仙子最华丽之时。“采菊东篱下，悠然见南山”，你瞧那菊花每每盛开，“南山”便呈现出一片金黄。花瓣细细的，长长的，柔柔的，还打着卷儿，中间裹着的花瓣像一个毛茸茸的小球，乍一看，还想朵朵正在像绽放的烟花。每每人们看到菊花盛放，便知道，金色的季节临了，丰收的季节来了，喜悦的季节到了。</p>
+                
+                <p>于冬来说，蜡梅盛开时，就是冬天最漂亮之时。“墙角数枝梅，凌寒独自开。”梅花花瓣是黄色的，却透着光。花瓣一圈一圈的，围绕着里面的花蕊，枝条上开满了花，整个是冬天的一道亮丽的风景线。天越冷，这花儿越挺，雪越大，这花儿越亮，气更寒，这花儿越香，每每人们看到蜡梅凌寒自开，便知道冰雪之季又来了，银装素裹的童话般世界真美啊！</p>
+                
+                <p>花是四季的使者，是自然的仙子，是美的象征。我想，人生路上，亦应努力成长，绽开烂漫的生命之花。</p>
+                
+                <blockquote>
+                    <p><a href="https://mp.weixin.qq.com/s/jkmt5HYtPaa-5KbhSW_gdg" target="_blank">原刊载于</a></p>
+                </blockquote>
+            </div>
+        </article>
+        
+        <!-- 导航按钮 -->
+        <div class="navigation">
+            <a class="navigation-item navigation-previous" href="index.html">
+                <span class="navigation-label">返回首页</span>
+                <h4 class="navigation-title">浏览更多文章</h4>
+            </a>
+            <a class="navigation-item navigation-next" href="#">
+                <span class="navigation-label">下一篇</span>
+                <h4 class="navigation-title">暂无更新</h4>
+            </a>
+        </div>
+        
+        <!-- 评论区域 -->
+        <section class="comments-section">
+            <h3 class="comments-title">评论与讨论</h3>
+            <div class="giscus-container">
+                <!-- Giscus 评论系统 -->
+                <script src="https://giscus.app/client.js"
+        data-repo="zhr-0731/zhr-0731.github.io"
+        data-repo-id="R_kgDOQhEetg"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOQhEets4CzTCY"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                
+                <nav class="footer-nav">
+                    <ul>
+                        <li><a href="https://bgithub.xyz/zhr-0731" target="_blank">GitHub</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="powered-by">
+                    基于 GitHub Pages
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
