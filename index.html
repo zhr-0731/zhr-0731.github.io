@@ -115,6 +115,155 @@
             color: var(--text-color);
         }
         
+        /* 轮播图样式 */
+        .carousel-section {
+            margin-bottom: 60px;
+        }
+        
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .carousel-slide.active {
+            opacity: 1;
+        }
+        
+        .carousel-slide a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        
+        .carousel-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .carousel-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            padding: 30px;
+            transform: translateY(0);
+            transition: transform 0.3s;
+        }
+        
+        .carousel-slide:hover .carousel-caption {
+            transform: translateY(-5px);
+        }
+        
+        .carousel-title {
+            font-size: 1.8rem;
+            font-family: var(--font-serif);
+            margin-bottom: 8px;
+            color: white;
+        }
+        
+        .carousel-excerpt {
+            font-size: 1rem;
+            opacity: 0.9;
+            max-width: 600px;
+        }
+        
+        .carousel-controls {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            padding: 0 20px;
+            z-index: 10;
+        }
+        
+        .carousel-btn {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+        }
+        
+        .carousel-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+        
+        .carousel-indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            z-index: 10;
+        }
+        
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .indicator.active {
+            background: white;
+            transform: scale(1.2);
+        }
+        
+        .carousel-section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            font-family: var(--font-serif);
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .carousel-section-title::before {
+            content: "";
+            display: inline-block;
+            width: 6px;
+            height: 24px;
+            background: var(--ghost-accent-color);
+            margin-right: 12px;
+            border-radius: 3px;
+        }
+        
         /* 主要内容区 */
         .main-content {
             padding: 60px 0;
@@ -258,6 +407,28 @@
                 margin: 5px 15px 5px 0;
             }
             
+            .carousel-container {
+                height: 300px;
+            }
+            
+            .carousel-caption {
+                padding: 20px;
+            }
+            
+            .carousel-title {
+                font-size: 1.4rem;
+            }
+            
+            .carousel-excerpt {
+                font-size: 0.9rem;
+            }
+            
+            .carousel-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            
             .post-feed {
                 grid-template-columns: 1fr;
             }
@@ -274,6 +445,24 @@
             
             .footer-nav li {
                 margin: 0 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .carousel-container {
+                height: 250px;
+            }
+            
+            .carousel-caption {
+                padding: 15px;
+            }
+            
+            .carousel-title {
+                font-size: 1.2rem;
+            }
+            
+            .carousel-excerpt {
+                display: none;
             }
         }
     </style>
@@ -304,6 +493,46 @@
 
     <!-- 主要内容区 -->
     <main class="main-content container">
+        <!-- 轮播图部分 -->
+        <section class="carousel-section">
+            <h2 class="carousel-section-title">精选文章</h2>
+            <div class="carousel-container">
+                <!-- 轮播项目1 -->
+                <div class="carousel-slide active" data-index="0">
+                    <a href="post.html">
+                        <img class="carousel-image" src="https://images.unsplash.com/photo-1598960087461-556c5a1f864a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200" alt="文章封面1">
+                        <div class="carousel-caption">
+                            <h3 class="carousel-title">使用GitHub Pages搭建个人博客</h3>
+                            <p class="carousel-excerpt">详细讲解如何使用GitHub Pages免费部署个人博客网站，包含HTML、CSS和GitHub配置...</p>
+                        </div>
+                    </a>
+                </div>
+                
+                <!-- 轮播项目2 -->
+                <div class="carousel-slide" data-index="1">
+                    <a href="post2.html">
+                        <img class="carousel-image" src="https://s41.ax1x.com/2025/12/06/pZmROmT.jpg" alt="文章封面2">
+                        <div class="carousel-caption">
+                            <h3 class="carousel-title">走出书本，对生活更有体会</h3>
+                            <p class="carousel-excerpt">书本中的世界固然是精彩的，但书本外的世界会更丰富。读过书后再走出书本，对生活会有更深的体会。</p>
+                        </div>
+                    </a>
+                </div>
+                
+                <!-- 轮播控制按钮 -->
+                <div class="carousel-controls">
+                    <button class="carousel-btn prev-btn">❮</button>
+                    <button class="carousel-btn next-btn">❯</button>
+                </div>
+                
+                <!-- 轮播指示器 -->
+                <div class="carousel-indicators">
+                    <div class="indicator active" data-index="0"></div>
+                    <div class="indicator" data-index="1"></div>
+                </div>
+            </div>
+        </section>
+
         <!-- 文章列表 -->
         <div class="post-feed">
             <!-- 文章卡片1 -->
@@ -379,5 +608,139 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        // 轮播功能脚本
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.carousel-slide');
+            const indicators = document.querySelectorAll('.indicator');
+            const prevBtn = document.querySelector('.prev-btn');
+            const nextBtn = document.querySelector('.next-btn');
+            const carouselContainer = document.querySelector('.carousel-container');
+            
+            let currentIndex = 0;
+            let slideInterval;
+            const slideDuration = 5000; // 5秒自动切换
+            
+            // 初始化轮播
+            function initCarousel() {
+                // 设置初始状态
+                updateSlide();
+                
+                // 开始自动轮播
+                startAutoSlide();
+                
+                // 鼠标悬停时暂停轮播
+                carouselContainer.addEventListener('mouseenter', () => {
+                    clearInterval(slideInterval);
+                });
+                
+                // 鼠标离开时恢复轮播
+                carouselContainer.addEventListener('mouseleave', () => {
+                    startAutoSlide();
+                });
+                
+                // 上一张按钮事件
+                prevBtn.addEventListener('click', () => {
+                    prevSlide();
+                    resetAutoSlide();
+                });
+                
+                // 下一张按钮事件
+                nextBtn.addEventListener('click', () => {
+                    nextSlide();
+                    resetAutoSlide();
+                });
+                
+                // 指示器点击事件
+                indicators.forEach((indicator, index) => {
+                    indicator.addEventListener('click', () => {
+                        goToSlide(index);
+                        resetAutoSlide();
+                    });
+                });
+                
+                // 键盘控制
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowLeft') {
+                        prevSlide();
+                        resetAutoSlide();
+                    } else if (e.key === 'ArrowRight') {
+                        nextSlide();
+                        resetAutoSlide();
+                    }
+                });
+            }
+            
+            // 更新轮播显示
+            function updateSlide() {
+                // 隐藏所有幻灯片
+                slides.forEach(slide => {
+                    slide.classList.remove('active');
+                });
+                
+                // 显示当前幻灯片
+                slides[currentIndex].classList.add('active');
+                
+                // 更新指示器
+                indicators.forEach(indicator => {
+                    indicator.classList.remove('active');
+                });
+                indicators[currentIndex].classList.add('active');
+            }
+            
+            // 下一张幻灯片
+            function nextSlide() {
+                currentIndex = (currentIndex + 1) % slides.length;
+                updateSlide();
+            }
+            
+            // 上一张幻灯片
+            function prevSlide() {
+                currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+                updateSlide();
+            }
+            
+            // 跳转到指定幻灯片
+            function goToSlide(index) {
+                currentIndex = index;
+                updateSlide();
+            }
+            
+            // 开始自动轮播
+            function startAutoSlide() {
+                slideInterval = setInterval(nextSlide, slideDuration);
+            }
+            
+            // 重置自动轮播计时器
+            function resetAutoSlide() {
+                clearInterval(slideInterval);
+                startAutoSlide();
+            }
+            
+            // 初始化轮播
+            initCarousel();
+            
+            // 文章卡片悬停效果增强
+            const postCards = document.querySelectorAll('.post-card');
+            postCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px)';
+                    this.style.boxShadow = '0 15px 30px rgba(0, 0, 0, 0.12)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.05)';
+                });
+            });
+            
+            // 搜索按钮模拟功能
+            const searchBtn = document.querySelector('.search-btn');
+            searchBtn.addEventListener('click', function() {
+                alert('搜索功能即将上线！');
+            });
+        });
+    </script>
 </body>
 </html>
