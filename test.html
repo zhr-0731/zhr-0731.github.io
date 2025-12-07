@@ -1,90 +1,763 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>示例文章 — zhr的博客</title>
-    <meta name="description" content="这是一个用于演示的文章模板，可直接上传到 GitHub Pages" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML测试页面</title>
     <style>
-        :root{
-            --accent:#59c090;
-            --text:#333;
-            --bg:#fff;
-            --muted:#888;
-            --container:1100px;
-            --serif:'Noto Serif SC', serif;
-            --sans:'Noto Sans SC', sans-serif;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        *{box-sizing:border-box;margin:0;padding:0}
-        body{font-family:var(--sans);color:var(--text);background:var(--bg);line-height:1.7}
-        .wrap{max-width:var(--container);margin:32px auto;padding:0 20px}
-        header.site{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #eee}
-        .logo{display:flex;align-items:center;gap:10px}
-        .logo img{width:40px;height:40px;border-radius:50%}
-        nav ul{display:flex;gap:20px;list-style:none}
-        a{color:inherit;text-decoration:none}
-        a:hover{color:var(--accent)}
-        main.article{margin-top:36px}
-        .meta{color:var(--muted);font-size:0.9rem;margin-bottom:12px}
-        h1.title{font-family:var(--serif);font-size:2rem;margin-bottom:8px}
-        .excerpt{color:#666;margin-bottom:20px}
-        .article-content{max-width:780px}
-        .article-content p{margin-bottom:16px}
-        footer{margin:60px 0 30px;color:var(--muted);text-align:center}
-        @media(max-width:700px){h1.title{font-size:1.6rem}}
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        nav {
+            background-color: #2d3748;
+            padding: 15px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        nav li {
+            margin: 0 15px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        nav a:hover {
+            background-color: #4a5568;
+        }
+        
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+            padding: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .section {
+            background-color: #f8fafc;
+            border-radius: 8px;
+            padding: 25px;
+            border-left: 5px solid #4299e1;
+        }
+        
+        .section h2 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .section h3 {
+            color: #4a5568;
+            margin: 15px 0 10px;
+        }
+        
+        .sidebar {
+            background-color: #edf2f7;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        
+        .sidebar h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #cbd5e0;
+        }
+        
+        footer {
+            background-color: #2d3748;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .element-demo {
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .element-demo h4 {
+            margin-bottom: 10px;
+            color: #4a5568;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        code {
+            background-color: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        
+        pre {
+            background-color: #1a202c;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #4299e1;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 5px;
+        }
+        
+        .btn:hover {
+            background-color: #3182ce;
+        }
+        
+        .btn-danger {
+            background-color: #f56565;
+        }
+        
+        .btn-danger:hover {
+            background-color: #e53e3e;
+        }
+        
+        .btn-success {
+            background-color: #48bb78;
+        }
+        
+        .btn-success:hover {
+            background-color: #38a169;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        th, td {
+            border: 1px solid #cbd5e0;
+            padding: 12px 15px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #edf2f7;
+            font-weight: 600;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+        
+        form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e0;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+        }
+        
+        .color-box {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        
+        .alert-success {
+            background-color: #c6f6d5;
+            color: #22543d;
+            border-left: 5px solid #48bb78;
+        }
+        
+        .alert-warning {
+            background-color: #feebc8;
+            color: #744210;
+            border-left: 5px solid #ed8936;
+        }
+        
+        .alert-error {
+            background-color: #fed7d7;
+            color: #742a2a;
+            border-left: 5px solid #f56565;
+        }
+        
+        .tag {
+            display: inline-block;
+            background-color: #e2e8f0;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin: 2px;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background-color: #e2e8f0;
+            border-radius: 10px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: #4299e1;
+            border-radius: 10px;
+        }
+        
+        .progress-75 {
+            width: 75%;
+        }
+        
+        .progress-50 {
+            width: 50%;
+        }
+        
+        .progress-25 {
+            width: 25%;
+        }
     </style>
 </head>
 <body>
-    <div class="wrap">
-        <header class="site">
-            <div class="logo">
-                <img src="https://avatars.githubusercontent.com/u/11725315?v=4" alt="zhr">
-                <div>
-                    <div style="font-weight:700">zhr的博客</div>
-                    <div style="font-size:0.85rem;color:var(--muted)">记录学习与实践</div>
-                </div>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="index.html">首页</a></li>
-                    <li><a href="post.html">文章</a></li>
-                    <li><a href="#about">关于</a></li>
-                </ul>
-            </nav>
+    <div class="container">
+        <header>
+            <h1>HTML测试页面</h1>
+            <p class="subtitle">一个包含各种HTML元素的综合测试页面</p>
         </header>
-
-        <main class="article">
-            <div class="meta">
-                作者：<a href="https://bgithub.xyz/zhr-0731" target="_blank">zhr</a> · 分类：示例 · <time datetime="2025-12-06">2025-12-06</time>
+        
+        <nav>
+            <ul>
+                <li><a href="#text">文本元素</a></li>
+                <li><a href="#lists">列表</a></li>
+                <li><a href="#tables">表格</a></li>
+                <li><a href="#forms">表单</a></li>
+                <li><a href="#media">媒体</a></li>
+                <li><a href="#other">其他元素</a></li>
+            </ul>
+        </nav>
+        
+        <div class="content">
+            <div class="main-content">
+                <section id="text" class="section">
+                    <h2>文本元素</h2>
+                    
+                    <div class="element-demo">
+                        <h4>标题 (h1-h6)</h4>
+                        <h1>一级标题 (h1)</h1>
+                        <h2>二级标题 (h2)</h2>
+                        <h3>三级标题 (h3)</h3>
+                        <h4>四级标题 (h4)</h4>
+                        <h5>五级标题 (h5)</h5>
+                        <h6>六级标题 (h6)</h6>
+                    </div>
+                    
+                    <div class="element-demo">
+                        <h4>段落与文本格式</h4>
+                        <p>这是一个普通段落。HTML测试页面用于测试各种HTML元素在浏览器中的渲染效果。</p>
+                        <p>这是一个带有<b>粗体文本</b>、<i>斜体文本</i>、<u>下划线文本</u>和<mark>高亮文本</mark>的段落。</p>
+                        <p>化学公式：H<sub>2</sub>O，数学公式：x<sup>2</sup> + y<sup>2</sup> = z<sup>2</sup></p>
+                        <p><code>这是行内代码</code>和<kbd>键盘输入</kbd>的示例。</p>
+                        <blockquote>
+                            <p>这是一个引用块。HTML测试页面对于前端开发人员非常有用，可以快速检查元素在不同浏览器中的显示效果。</p>
+                        </blockquote>
+                    </div>
+                    
+                    <div class="element-demo">
+                        <h4>链接</h4>
+                        <p><a href="#top">内部链接(返回顶部)</a> | <a href="https://example.com" target="_blank">外部链接(新窗口打开)</a> | <a href="mailto:test@example.com">电子邮件链接</a></p>
+                    </div>
+                </section>
+                
+                <section id="lists" class="section">
+                    <h2>列表</h2>
+                    
+                    <div class="element-demo">
+                        <h4>无序列表</h4>
+                        <ul>
+                            <li>列表项 1</li>
+                            <li>列表项 2
+                                <ul>
+                                    <li>嵌套列表项 1</li>
+                                    <li>嵌套列表项 2</li>
+                                </ul>
+                            </li>
+                            <li>列表项 3</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="element-demo">
+                        <h4>有序列表</h4>
+                        <ol>
+                            <li>第一步：打开浏览器</li>
+                            <li>第二步：访问测试页面</li>
+                            <li>第三步：检查元素渲染</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="element-demo">
+                        <h4>描述列表</h4>
+                        <dl>
+                            <dt>HTML</dt>
+                            <dd>超文本标记语言，用于创建网页结构</dd>
+                            <dt>CSS</dt>
+                            <dd>层叠样式表，用于描述网页外观</dd>
+                            <dt>JavaScript</dt>
+                            <dd>脚本语言，用于实现网页交互</dd>
+                        </dl>
+                    </div>
+                </section>
+                
+                <section id="tables" class="section">
+                    <h2>表格</h2>
+                    
+                    <div class="element-demo">
+                        <h4>基本表格</h4>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>姓名</th>
+                                    <th>年龄</th>
+                                    <th>职业</th>
+                                    <th>城市</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>张三</td>
+                                    <td>28</td>
+                                    <td>前端开发</td>
+                                    <td>北京</td>
+                                </tr>
+                                <tr>
+                                    <td>李四</td>
+                                    <td>32</td>
+                                    <td>UI设计师</td>
+                                    <td>上海</td>
+                                </tr>
+                                <tr>
+                                    <td>王五</td>
+                                    <td>25</td>
+                                    <td>测试工程师</td>
+                                    <td>深圳</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="element-demo">
+                        <h4>复杂表格</h4>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th rowspan="2">月份</th>
+                                    <th colspan="2">销售数据</th>
+                                    <th rowspan="2">增长率</th>
+                                </tr>
+                                <tr>
+                                    <th>产品A</th>
+                                    <th>产品B</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>一月</td>
+                                    <td>120</td>
+                                    <td>150</td>
+                                    <td>+15%</td>
+                                </tr>
+                                <tr>
+                                    <td>二月</td>
+                                    <td>135</td>
+                                    <td>140</td>
+                                    <td>+8%</td>
+                                </tr>
+                                <tr>
+                                    <td>三月</td>
+                                    <td>160</td>
+                                    <td>180</td>
+                                    <td>+20%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                
+                <section id="forms" class="section">
+                    <h2>表单元素</h2>
+                    
+                    <form>
+                        <div class="form-group">
+                            <label for="name">姓名:</label>
+                            <input type="text" id="name" placeholder="请输入姓名">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">邮箱:</label>
+                            <input type="email" id="email" placeholder="example@email.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">密码:</label>
+                            <input type="password" id="password" placeholder="至少8位字符">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="bio">个人简介:</label>
+                            <textarea id="bio" rows="4" placeholder="请简要介绍自己..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="country">国家:</label>
+                            <select id="country">
+                                <option value="">请选择</option>
+                                <option value="cn">中国</option>
+                                <option value="us">美国</option>
+                                <option value="jp">日本</option>
+                                <option value="uk">英国</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>性别:</label>
+                            <div>
+                                <input type="radio" id="male" name="gender" value="male">
+                                <label for="male" style="display: inline; margin-right: 15px;">男</label>
+                                
+                                <input type="radio" id="female" name="gender" value="female">
+                                <label for="female" style="display: inline; margin-right: 15px;">女</label>
+                                
+                                <input type="radio" id="other" name="gender" value="other">
+                                <label for="other" style="display: inline;">其他</label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>兴趣爱好:</label>
+                            <div>
+                                <input type="checkbox" id="reading" name="hobbies" value="reading">
+                                <label for="reading" style="display: inline; margin-right: 15px;">阅读</label>
+                                
+                                <input type="checkbox" id="sports" name="hobbies" value="sports">
+                                <label for="sports" style="display: inline; margin-right: 15px;">运动</label>
+                                
+                                <input type="checkbox" id="music" name="hobbies" value="music">
+                                <label for="music" style="display: inline; margin-right: 15px;">音乐</label>
+                                
+                                <input type="checkbox" id="travel" name="hobbies" value="travel">
+                                <label for="travel" style="display: inline;">旅游</label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="range">满意度:</label>
+                            <input type="range" id="range" min="0" max="100" value="50">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="file">上传文件:</label>
+                            <input type="file" id="file">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-success">提交表单</button>
+                        <button type="reset" class="btn">重置</button>
+                    </form>
+                </section>
+                
+                <section id="media" class="section">
+                    <h2>媒体元素</h2>
+                    
+                    <div class="element-demo">
+                        <h4>图像</h4>
+                        <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+                            <img src="https://via.placeholder.com/300x200/4299e1/ffffff?text=示例图片1" alt="示例图片1" style="max-width: 100%; border-radius: 5px;">
+                            <img src="https://via.placeholder.com/300x200/48bb78/ffffff?text=示例图片2" alt="示例图片2" style="max-width: 100%; border-radius: 5px;">
+                        </div>
+                    </div>
+                    
+                    <div class="element-demo">
+                        <h4>颜色示例</h4>
+                        <div>
+                            <p><span class="color-box" style="background-color: #4299e1;"></span> 主色调 (#4299e1)</p>
+                            <p><span class="color-box" style="background-color: #48bb78;"></span> 成功色 (#48bb78)</p>
+                            <p><span class="color-box" style="background-color: #ed8936;"></span> 警告色 (#ed8936)</p>
+                            <p><span class="color-box" style="background-color: #f56565;"></span> 错误色 (#f56565)</p>
+                        </div>
+                    </div>
+                </section>
+                
+                <section id="other" class="section">
+                    <h2>其他元素</h2>
+                    
+                    <div class="element-demo">
+                        <h4>按钮</h4>
+                        <button class="btn">普通按钮</button>
+                        <button class="btn btn-success">成功按钮</button>
+                        <button class="btn btn-danger">危险按钮</button>
+                        <a href="#" class="btn">链接按钮</a>
+                        <button disabled class="btn">禁用按钮</button>
+                    </div>
+                    
+                    <div class="element-demo">
+                        <h4>提示框</h4>
+                        <div class="alert alert-success">
+                            <strong>成功!</strong> 操作已成功完成。
+                        </div>
+                        <div class="alert alert-warning">
+                            <strong>警告!</strong> 请确认您的操作。
+                        </div>
+                        <div class="alert alert-error">
+                            <strong>错误!</strong> 操作过程中出现问题。
+                        </div>
+                    </div>
+                    
+                    <div class="element-demo">
+                        <h4>标签</h4>
+                        <span class="tag">HTML</span>
+                        <span class="tag">CSS</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">前端开发</span>
+                        <span class="tag">响应式设计</span>
+                    </div>
+                    
+                    <div class="element-demo">
+                        <h4>进度条</h4>
+                        <div class="progress-bar">
+                            <div class="progress progress-75"></div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress progress-50"></div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress progress-25"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="element-demo">
+                        <h4>代码示例</h4>
+                        <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;示例页面&lt;/title&gt;
+    &lt;style&gt;
+        body {
+            font-family: Arial, sans-serif;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Hello World!&lt;/h1&gt;
+    &lt;script&gt;
+        console.log('页面加载完成');
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </div>
+                </section>
             </div>
-
-            <h1 class="title">示例文章：如何快速部署 GitHub Pages</h1>
-
-            <p class="excerpt">这是一个简洁的文章模板，用于在 GitHub Pages 上演示文章发布流程。复制此文件并修改标题与内容，即可作为新文章上传。</p>
-
-            <div class="article-content">
-                <p>第一段示例文字：简要介绍文章内容，说明目的与背景。</p>
-
-                <h2>步骤一：准备仓库</h2>
-                <p>在 GitHub 上创建仓库并命名为 <code>yourusername.github.io</code>（替换为你的用户名），将页面文件放在仓库根目录并启用 Pages。</p>
-
-                <h2>步骤二：上传并触发部署</h2>
-                <p>将本文件保存为例如 <code>2025-12-06-demo.html</code>，提交到 <code>main</code> 分支，等待几分钟完成部署后通过 <code>https://yourusername.github.io/2025-12-06-demo.html</code> 访问。</p>
-
-                <h2>常见问题</h2>
+            
+            <aside class="sidebar">
+                <h3>关于此页面</h3>
+                <p>这个HTML测试页面包含了各种常见的HTML元素和结构，可用于测试浏览器的渲染能力、CSS样式兼容性等。</p>
+                
+                <h3>测试要点</h3>
                 <ul>
-                    <li>404：确保文件已 push 且 Pages 发布分支为包含该文件的分支</li>
-                    <li>被重定向到首页：检查 index.html 是否有 SPA 路由拦截</li>
-                    <li>Jekyll 忽略：若使用纯静态文件，建议在根目录添加 <code>.nojekyll</code></li>
+                    <li>检查元素是否正确显示</li>
+                    <li>测试响应式布局</li>
+                    <li>验证表单功能</li>
+                    <li>测试不同浏览器兼容性</li>
+                    <li>检查颜色和字体渲染</li>
                 </ul>
-
-                <p>祝你部署顺利！如需我帮你把这个文件直接添加到仓库（创建 PR 或直接 push），告诉我即可。</p>
-            </div>
-        </main>
-
+                
+                <h3>HTML5特性</h3>
+                <p>本页面使用了以下HTML5特性：</p>
+                <ul>
+                    <li>语义化标签 (header, section, aside, footer)</li>
+                    <li>表单输入类型 (email, range)</li>
+                    <li>媒体元素 (图片占位符)</li>
+                    <li>CSS Grid和Flexbox布局</li>
+                </ul>
+                
+                <h3>快速测试</h3>
+                <p>点击下方按钮测试JavaScript交互：</p>
+                <button id="testButton" class="btn" style="width: 100%;">点击测试</button>
+                <div id="testResult" style="margin-top: 15px; padding: 10px; background-color: #e2e8f0; border-radius: 5px; display: none;">
+                    按钮点击成功！
+                </div>
+                
+                <h3>浏览器信息</h3>
+                <p id="browserInfo">正在检测浏览器...</p>
+            </aside>
+        </div>
+        
         <footer>
-            zhr的博客 © 2025 · 基于 GitHub Pages
+            <p>HTML测试页面 &copy; 2023 | 用于测试和演示HTML元素</p>
+            <p>最后更新: <span id="currentDate"></span></p>
         </footer>
     </div>
+
+    <script>
+        // 显示当前日期
+        const now = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('currentDate').textContent = now.toLocaleDateString('zh-CN', options);
+        
+        // 测试按钮交互
+        document.getElementById('testButton').addEventListener('click', function() {
+            const resultDiv = document.getElementById('testResult');
+            resultDiv.style.display = 'block';
+            resultDiv.style.backgroundColor = '#c6f6d5';
+            resultDiv.style.color = '#22543d';
+            resultDiv.textContent = '按钮点击成功！JavaScript运行正常。';
+            
+            // 3秒后隐藏结果
+            setTimeout(function() {
+                resultDiv.style.display = 'none';
+            }, 3000);
+        });
+        
+        // 检测浏览器信息
+        function getBrowserInfo() {
+            const userAgent = navigator.userAgent;
+            let browserName;
+            
+            if (userAgent.includes("Chrome") && !userAgent.includes("Edg")) {
+                browserName = "Google Chrome";
+            } else if (userAgent.includes("Firefox")) {
+                browserName = "Mozilla Firefox";
+            } else if (userAgent.includes("Safari") && !userAgent.includes("Chrome")) {
+                browserName = "Apple Safari";
+            } else if (userAgent.includes("Edg")) {
+                browserName = "Microsoft Edge";
+            } else if (userAgent.includes("Trident") || userAgent.includes("MSIE")) {
+                browserName = "Internet Explorer";
+            } else {
+                browserName = "未知浏览器";
+            }
+            
+            return browserName;
+        }
+        
+        document.getElementById('browserInfo').textContent = `您正在使用: ${getBrowserInfo()}`;
+        
+        // 表单提交演示
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('表单提交演示 (实际提交已阻止)');
+        });
+        
+        // 范围输入实时显示
+        const rangeInput = document.getElementById('range');
+        const rangeValueDisplay = document.createElement('span');
+        rangeValueDisplay.textContent = ` (${rangeInput.value})`;
+        rangeInput.parentNode.appendChild(rangeValueDisplay);
+        
+        rangeInput.addEventListener('input', function() {
+            rangeValueDisplay.textContent = ` (${this.value})`;
+        });
+    </script>
 </body>
 </html>
