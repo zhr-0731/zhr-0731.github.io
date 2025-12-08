@@ -306,7 +306,7 @@
             font-size: 0.95rem;
         }
         
-        /* 轮播图样式 - 修复切换问题 */
+        /* 轮播图样式 */
         .carousel-section {
             margin-bottom: 60px;
         }
@@ -338,7 +338,7 @@
             z-index: 1;
         }
         
-        /* 修复：只对非活动幻灯片的链接禁用点击，但保持幻灯片本身可点击（用于切换） */
+        /* 只对非活动幻灯片的链接禁用点击 */
         .carousel-slide:not(.active) a {
             pointer-events: none;
         }
@@ -755,7 +755,7 @@
         <!-- 轮播图部分 -->
         <section class="carousel-section">
             <h2 class="carousel-section-title">精选文章</h2>
-            <div class="carousel-container">
+            <div class="carousel-container" id="carouselContainer">
                 <!-- 轮播项目1 - 确保链接正确 -->
                 <div class="carousel-slide active" data-index="0">
                     <a href="post.html" class="carousel-link">
@@ -944,127 +944,126 @@
             }
         ];
         
-        // 轮播功能脚本
+        // 轮播功能脚本 - 完全重写
         document.addEventListener('DOMContentLoaded', function() {
-            const slides = document.querySelectorAll('.carousel-slide');
-            const indicators = document.querySelectorAll('.indicator');
-            const prevBtn = document.querySelector('.prev-btn');
-            const nextBtn = document.querySelector('.next-btn');
-            const carouselContainer = document.querySelector('.carousel-container');
-            
-            let currentIndex = 0;
-            let slideInterval;
-            const slideDuration = 5000; // 5秒自动切换
-            
-            // 初始化轮播
-            function initCarousel() {
-                // 设置初始状态
-                updateSlide();
-                
-                // 开始自动轮播
-                startAutoSlide();
-                
-                // 鼠标悬停时暂停轮播
-                carouselContainer.addEventListener('mouseenter', () => {
-                    clearInterval(slideInterval);
-                });
-                
-                // 鼠标离开时恢复轮播
-                carouselContainer.addEventListener('mouseleave', () => {
-                    startAutoSlide();
-                });
-                
-                // 上一张按钮事件
-                prevBtn.addEventListener('click', () => {
-                    prevSlide();
-                    resetAutoSlide();
-                });
-                
-                // 下一张按钮事件
-                nextBtn.addEventListener('click', () => {
-                    nextSlide();
-                    resetAutoSlide();
-                });
-                
-                // 指示器点击事件
-                indicators.forEach((indicator, index) => {
-                    indicator.addEventListener('click', () => {
-                        goToSlide(index);
-                        resetAutoSlide();
-                    });
-                });
-                
-                // 键盘控制
-                document.addEventListener('keydown', (e) => {
-                    if (e.key === 'ArrowLeft') {
-                        prevSlide();
-                        resetAutoSlide();
-                    } else if (e.key === 'ArrowRight') {
-                        nextSlide();
-                        resetAutoSlide();
-                    }
-                });
-                
-                // 简化链接处理：直接让浏览器处理链接，我们只控制哪些链接可点击
-                console.log('轮播图初始化完成');
-                console.log('轮播1链接:', slides[0].querySelector('a').href);
-                console.log('轮播2链接:', slides[1].querySelector('a').href);
-                console.log('轮播3链接:', slides[2].querySelector('a').href);
-            }
-            
-            // 更新轮播显示
-            function updateSlide() {
-                console.log('切换到幻灯片:', currentIndex);
-                
-                // 隐藏所有幻灯片
-                slides.forEach(slide => {
-                    slide.classList.remove('active');
-                });
-                
-                // 显示当前幻灯片
-                slides[currentIndex].classList.add('active');
-                
-                // 更新指示器
-                indicators.forEach(indicator => {
-                    indicator.classList.remove('active');
-                });
-                indicators[currentIndex].classList.add('active');
-            }
-            
-            // 下一张幻灯片
-            function nextSlide() {
-                currentIndex = (currentIndex + 1) % slides.length;
-                updateSlide();
-            }
-            
-            // 上一张幻灯片
-            function prevSlide() {
-                currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-                updateSlide();
-            }
-            
-            // 跳转到指定幻灯片
-            function goToSlide(index) {
-                currentIndex = index;
-                updateSlide();
-            }
-            
-            // 开始自动轮播
-            function startAutoSlide() {
-                if (slideInterval) {
-                    clearInterval(slideInterval);
+            // 轮播功能
+            class Carousel {
+                constructor(containerId) {
+                    this.container = document.getElementById(containerId);
+                    this.slides = this.container.querySelectorAll('.carousel-slide');
+                    this.indicators = this.container.querySelectorAll('.indicator');
+                    this.prevBtn = this.container.querySelector('.prev-btn');
+                    this.nextBtn = this.container.querySelector('.next-btn');
+                    
+                    this.currentIndex = 0;
+                    this.totalSlides = this.slides.length;
+                    this.autoSlideInterval = null;
+                    this.autoSlideDuration = 5000; // 5秒
+                    
+                    this.init();
                 }
-                slideInterval = setInterval(nextSlide, slideDuration);
-            }
-            
-            // 重置自动轮播计时器
-            function resetAutoSlide() {
-                clearInterval(slideInterval);
-                startAutoSlide();
+                
+                init() {
+                    // 绑定事件
+                    this.prevBtn.addEventListener('click', () => this.prevSlide());
+                    this.nextBtn.addEventListener('click', () => this.nextSlide());
+                    
+                    // 绑定指示器事件
+                    this.indicators.forEach((indicator, index) => {
+                        indicator.addEventListener('click', () => this.goToSlide(index));
+                    });
+                    
+                    // 绑定键盘事件
+                    document.addEventListener('keydown', (e) => {
+                        if (e.key === 'ArrowLeft') this.prevSlide();
+                        if (e.key === 'ArrowRight') this.nextSlide();
+                    });
+                    
+                    // 鼠标悬停暂停轮播
+                    this.container.addEventListener('mouseenter', () => {
+                        this.stopAutoSlide();
+                    });
+                    
+                    this.container.addEventListener('mouseleave', () => {
+                        this.startAutoSlide();
+                    });
+                    
+                    // 开始自动轮播
+                    this.startAutoSlide();
+                    
+                    console.log('轮播初始化完成，共' + this.totalSlides + '个幻灯片');
+                }
+                
+                updateSlide() {
+                    // 更新幻灯片显示
+                    this.slides.forEach((slide, index) => {
+                        if (index === this.currentIndex) {
+                            slide.classList.add('active');
+                        } else {
+                            slide.classList.remove('active');
+                        }
+                    });
+                    
+                    // 更新指示器
+                    this.indicators.forEach((indicator, index) => {
+                        if (index === this.currentIndex) {
+                            indicator.classList.add('active');
+                        } else {
+                            indicator.classList.remove('active');
+                        }
+                    });
+                    
+                    console.log('切换到幻灯片:', this.currentIndex);
+                }
+                
+                nextSlide() {
+                    this.currentIndex = (this.currentIndex + 1) % this.totalSlides;
+                    this.updateSlide();
+                    this.resetAutoSlide();
+                }
+                
+                prevSlide() {
+                    this.currentIndex = (this.currentIndex - 1 + this.totalSlides) % this.totalSlides;
+                    this.updateSlide();
+                    this.resetAutoSlide();
+                }
+                
+                goToSlide(index) {
+                    if (index >= 0 && index < this.totalSlides) {
+                        this.currentIndex = index;
+                        this.updateSlide();
+                        this.resetAutoSlide();
+                    }
+                }
+                
+                startAutoSlide() {
+                    if (this.autoSlideInterval) {
+                        clearInterval(this.autoSlideInterval);
+                    }
+                    
+                    this.autoSlideInterval = setInterval(() => {
+                        this.nextSlide();
+                    }, this.autoSlideDuration);
+                    
+                    console.log('自动轮播已启动');
+                }
+                
+                stopAutoSlide() {
+                    if (this.autoSlideInterval) {
+                        clearInterval(this.autoSlideInterval);
+                        this.autoSlideInterval = null;
+                        console.log('自动轮播已暂停');
+                    }
+                }
+                
+                resetAutoSlide() {
+                    this.stopAutoSlide();
+                    this.startAutoSlide();
+                }
             }
             
             // 初始化轮播
-            initCarousel();
+            const carousel = new Carousel('carouselContainer');
             
             // 文章卡片悬停效果增强
             const postCards = document.querySelectorAll('.post-card');
@@ -1217,6 +1216,12 @@
                 }
             `;
             document.head.appendChild(style);
+            
+            // 调试：检查轮播图链接
+            console.log('轮播图链接检查:');
+            console.log('轮播1链接:', document.querySelector('.carousel-slide[data-index="0"] a')?.href);
+            console.log('轮播2链接:', document.querySelector('.carousel-slide[data-index="1"] a')?.href);
+            console.log('轮播3链接:', document.querySelector('.carousel-slide[data-index="2"] a')?.href);
         });
     </script>
 </body>
