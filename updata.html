@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发布文章 - zhr的博客</title>
+    <meta name="description" content="发布新文章到zhr的博客">
+    
+    <!-- 网页图标 -->
+    <link rel="icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png" type="image/png">
+    
+    <!-- 引入markdown编辑器 -->
+    <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
+    <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+    
+    <style>
+        /* 全局样式 */
+        :root {
+            --ghost-accent-color: #59c090;
+            --text-color: #333;
+            --bg-color: #fff;
+            --light-gray: #f5f5f5;
+            --border-color: #eaeaea;
+            --error-color: #e74c3c;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s;
+        }
+        
+        a:hover {
+            color: var(--ghost-accent-color);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 头部导航 */
+        header {
+            background: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 0;
+        }
+        
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .logo-text {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        /* 主要内容区 */
+        .upload-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .upload-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .upload-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+        
+        .upload-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        /* 上传表单 */
+        .upload-form {
+            background: var(--bg-color);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+        }
+        
+        .form-group {
+            margin-bottom: 30px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+        
+        .form-label .required {
+            color: var(--error-color);
+            margin-left: 4px;
+        }
+        
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s;
+            background: var(--bg-color);
+        }
+        
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--ghost-accent-color);
+            box-shadow: 0 0 0 3px rgba(89, 192, 144, 0.1);
+        }
+        
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .form-hint {
+            display: block;
+            margin-top: 6px;
+            font-size: 0.875rem;
+            color: #666;
+        }
+        
+        /* 标签输入 */
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            background: var(--ghost-accent-color);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .tag:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        
+        .tag-remove {
+            margin-left: 6px;
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+        
+        .tag-input-container {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .tag-input {
+            width: 120px;
+            padding: 4px 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 20px;
+            font-size: 0.875rem;
+        }
+        
+        /* Markdown编辑器样式 */
+        .editor-container {
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .EasyMDEContainer .editor-toolbar {
+            border: none;
+            border-bottom: 1px solid var(--border-color);
+            background: var(--light-gray);
+        }
+        
+        .EasyMDEContainer .CodeMirror {
+            border: none;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            min-height: 300px;
+        }
+        
+        .editor-preview {
+            padding: 20px;
+        }
+        
+        /* 文件上传 */
+        .file-upload {
+            position: relative;
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 40px 20px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .file-upload:hover,
+        .file-upload.dragover {
+            border-color: var(--ghost-accent-color);
+            background: rgba(89, 192, 144, 0.05);
+        }
+        
+        .upload-icon {
+            font-size: 48px;
+            color: var(--ghost-accent-color);
+            margin-bottom: 16px;
+        }
+        
+        .file-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .file-info {
+            margin-top: 16px;
+            font-size: 0.875rem;
+            color: #666;
+        }
+        
+        .preview-image {
+            max-width: 100%;
+            max-height: 200px;
+            margin-top: 16px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        /* 表单操作按钮 */
+        .form-actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .btn {
+            padding: 12px 32px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: var(--ghost-accent-color);
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            background: #4aad7c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(89, 192, 144, 0.3);
+        }
+        
+        .btn-secondary {
+            background: var(--light-gray);
+            color: var(--text-color);
+        }
+        
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+        
+        /* 状态消息 */
+        .status-message {
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .status-message.success {
+            background: rgba(46, 204, 113, 0.1);
+            color: var(--success-color);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            display: flex;
+        }
+        
+        .status-message.error {
+            background: rgba(231, 76, 60, 0.1);
+            color: var(--error-color);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            display: flex;
+        }
+        
+        .status-message.info {
+            background: rgba(52, 152, 219, 0.1);
+            color: #3498db;
+            border: 1px solid rgba(52, 152, 219, 0.3);
+            display: flex;
+        }
+        
+        .status-icon {
+            font-size: 1.5rem;
+        }
+        
+        /* GitHub配置 */
+        .github-config {
+            background: var(--light-gray);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .github-config h3 {
+            margin-bottom: 16px;
+            color: var(--text-color);
+        }
+        
+        .config-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #95a5a6;
+        }
+        
+        .status-indicator.connected {
+            background: var(--success-color);
+        }
+        
+        /* 加载动画 */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--ghost-accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .upload-container {
+                margin: 20px auto;
+            }
+            
+            .upload-header h1 {
+                font-size: 2rem;
+            }
+            
+            .upload-form {
+                padding: 20px;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .upload-header h1 {
+                font-size: 1.75rem;
+            }
+            
+            .upload-form {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header>
+        <div class="container">
+            <div class="header-inner">
+                <div class="logo">
+                    <img src="https://s41.ax1x.com/2025/12/06/pZmaGuR.png" alt="zhr">
+                    <span class="logo-text">zhr的博客 - 发布文章</span>
+                </div>
+                <nav>
+                    <a href="index.html">返回首页</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容区 -->
+    <main>
+        <div class="upload-container">
+            <div class="upload-header">
+                <h1>发布新文章</h1>
+                <p>撰写并发布新文章到您的GitHub博客</p>
+            </div>
+
+            <!-- GitHub配置区域 -->
+            <div class="github-config">
+                <h3>GitHub配置</h3>
+                <div class="config-status">
+                    <div class="status-indicator" id="githubStatus"></div>
+                    <span id="githubStatusText">未连接</span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">GitHub仓库地址 <span class="required">*</span></label>
+                    <input type="text" class="form-input" id="repoUrl" 
+                           placeholder="https://github.com/用户名/仓库名"
+                           value="https://github.com/zhr-0731/zhr-0731.github.io">
+                    <span class="form-hint">请输入您的GitHub Pages仓库地址</span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">GitHub访问令牌 <span class="required">*</span></label>
+                    <input type="password" class="form-input" id="githubToken" 
+                           placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+                    <span class="form-hint">
+                        需要在GitHub设置中生成Personal Access Token，并授予repo权限。
+                        <a href="https://github.com/settings/tokens" target="_blank">生成Token</a>
+                    </span>
+                </div>
+                <button class="btn btn-secondary" id="testConnection">测试连接</button>
+            </div>
+
+            <!-- 状态消息 -->
+            <div class="status-message" id="statusMessage"></div>
+
+            <!-- 上传表单 -->
+            <form class="upload-form" id="articleForm">
+                <div class="form-group">
+                    <label class="form-label">文章标题 <span class="required">*</span></label>
+                    <input type="text" class="form-input" id="articleTitle" 
+                           placeholder="输入文章标题" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">文章简介</label>
+                    <textarea class="form-textarea" id="articleExcerpt" 
+                              placeholder="输入文章简介，将显示在文章列表中" 
+                              rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">文章标签</label>
+                    <div class="tags-container" id="tagsContainer">
+                        <!-- 标签将通过JS动态添加 -->
+                    </div>
+                    <div class="tag-input-container">
+                        <input type="text" class="tag-input" id="tagInput" 
+                               placeholder="输入标签，按Enter添加">
+                    </div>
+                    <span class="form-hint">常用标签：技术、生活、感悟、自然、随笔</span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">封面图片URL</label>
+                    <input type="text" class="form-input" id="coverImage" 
+                           placeholder="https://example.com/image.jpg">
+                    <span class="form-hint">建议使用稳定的图床服务，如Imgur、SM.MS等</span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">或上传封面图片</label>
+                    <div class="file-upload" id="fileUploadArea">
+                        <div class="upload-icon">📁</div>
+                        <p>拖放图片到这里，或点击选择文件</p>
+                        <input type="file" class="file-input" id="fileInput" accept="image/*">
+                        <div class="file-info">支持 JPG, PNG, GIF 格式，最大5MB</div>
+                        <img class="preview-image" id="previewImage" alt="预览">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">文章内容 <span class="required">*</span></label>
+                    <div class="editor-container">
+                        <textarea id="articleContent" placeholder="开始撰写您的文章..."></textarea>
+                    </div>
+                    <span class="form-hint">支持Markdown格式，可以使用工具栏按钮格式化文本</span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">文件名 <span class="required">*</span></label>
+                    <input type="text" class="form-input" id="fileName" 
+                           placeholder="例如：my-new-post.md" required>
+                    <span class="form-hint">将以.md格式保存到_posts目录下</span>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="previewBtn">
+                        <span>👁️</span> 预览
+                    </button>
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        <span>🚀</span> 发布到GitHub
+                    </button>
+                </div>
+            </form>
+
+            <!-- 加载动画 -->
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>正在发布文章到GitHub...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- 预览模态框 -->
+    <div id="previewModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center;">
+        <div style="background: white; padding: 30px; border-radius: 12px; max-width: 800px; width: 90%; max-height: 90vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2>文章预览</h2>
+                <button onclick="closePreview()" style="background: none; border: none; font-size: 24px; cursor: pointer;">×</button>
+            </div>
+            <div id="previewContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // 初始化Markdown编辑器
+        const easyMDE = new EasyMDE({
+            element: document.getElementById('articleContent'),
+            spellChecker: false,
+            autosave: {
+                enabled: true,
+                uniqueId: 'article-draft',
+                delay: 1000,
+            },
+            toolbar: [
+                'bold', 'italic', 'heading', '|',
+                'quote', 'unordered-list', 'ordered-list', '|',
+                'link', 'image', '|',
+                'preview', 'side-by-side', 'fullscreen', '|',
+                'guide'
+            ],
+            placeholder: '开始撰写您的文章...',
+            status: false,
+        });
+
+        // 标签管理
+        const tagsContainer = document.getElementById('tagsContainer');
+        const tagInput = document.getElementById('tagInput');
+        const defaultTags = ['技术', '生活', '感悟', '自然', '随笔'];
+        let selectedTags = [];
+
+        // 初始化默认标签
+        defaultTags.forEach(tag => {
+            const tagElement = document.createElement('span');
+            tagElement.className = 'tag';
+            tagElement.innerHTML = `
+                ${tag}
+                <span class="tag-remove">×</span>
+            `;
+            tagElement.onclick = function() {
+                toggleTag(tag);
+            };
+            tagsContainer.appendChild(tagElement);
+        });
+
+        function toggleTag(tag) {
+            const index = selectedTags.indexOf(tag);
+            if (index === -1) {
+                selectedTags.push(tag);
+                event.target.closest('.tag').style.backgroundColor = '#4aad7c';
+            } else {
+                selectedTags.splice(index, 1);
+                event.target.closest('.tag').style.backgroundColor = '';
+            }
+        }
+
+        tagInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const newTag = this.value.trim();
+                if (newTag && !selectedTags.includes(newTag)) {
+                    selectedTags.push(newTag);
+                    const tagElement = document.createElement('span');
+                    tagElement.className = 'tag';
+                    tagElement.innerHTML = `
+                        ${newTag}
+                        <span class="tag-remove">×</span>
+                    `;
+                    tagElement.onclick = function() {
+                        const tagText = this.textContent.replace('×', '').trim();
+                        const index = selectedTags.indexOf(tagText);
+                        if (index > -1) {
+                            selectedTags.splice(index, 1);
+                        }
+                        this.remove();
+                    };
+                    tagsContainer.insertBefore(tagElement, tagInput.parentNode);
+                    this.value = '';
+                }
+            }
+        });
+
+        // 文件上传处理
+        const fileInput = document.getElementById('fileInput');
+        const previewImage = document.getElementById('previewImage');
+        const fileUploadArea = document.getElementById('fileUploadArea');
+        let uploadedImageUrl = '';
+
+        fileUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.add('dragover');
+        });
+
+        fileUploadArea.addEventListener('dragleave', () => {
+            fileUploadArea.classList.remove('dragover');
+        });
+
+        fileUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            handleImageFile(file);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            handleImageFile(file);
+        });
+
+        function handleImageFile(file) {
+            if (!file.type.match('image.*')) {
+                showMessage('请选择图片文件', 'error');
+                return;
+            }
+
+            if (file.size > 5 * 1024 * 1024) {
+                showMessage('图片大小不能超过5MB', 'error');
+                return;
+            }
+
+            // 显示预览
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImage.src = e.target.result;
+                previewImage.style.display = 'block';
+                uploadedImageUrl = e.target.result;
+                document.getElementById('coverImage').value = '已上传图片';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // GitHub API 函数
+        async function testGitHubConnection(token, repoUrl) {
+            try {
+                const repoPath = repoUrl.replace('https://github.com/', '');
+                const response = await fetch(`https://api.github.com/repos/${repoPath}`, {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+
+                if (response.ok) {
+                    return { success: true, data: await response.json() };
+                } else {
+                    return { success: false, error: '连接失败，请检查Token和仓库地址' };
+                }
+            } catch (error) {
+                return { success: false, error: error.message };
+            }
+        }
+
+        async function createGitHubFile(token, repoUrl, path, content, message) {
+            try {
+                const repoPath = repoUrl.replace('https://github.com/', '');
+                const [owner, repo] = repoPath.split('/');
+                
+                const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        content: btoa(unescape(encodeURIComponent(content))),
+                        committer: {
+                            name: 'Blog Publisher',
+                            email: 'blog@example.com'
+                        }
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (response.ok) {
+                    return { success: true, url: result.content.html_url };
+                } else {
+                    return { success: false, error: result.message || '上传失败' };
+                }
+            } catch (error) {
+                return { success: false, error: error.message };
+            }
+        }
+
+        // 显示消息函数
+        function showMessage(message, type = 'info') {
+            const statusMessage = document.getElementById('statusMessage');
+            statusMessage.className = `status-message ${type}`;
+            
+            let icon = 'ℹ️';
+            if (type === 'success') icon = '✅';
+            if (type === 'error') icon = '❌';
+            
+            statusMessage.innerHTML = `
+                <span class="status-icon">${icon}</span>
+                <span>${message}</span>
+            `;
+            statusMessage.style.display = 'flex';
+            
+            if (type === 'success') {
+                setTimeout(() => {
+                    statusMessage.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        // 测试GitHub连接
+        document.getElementById('testConnection').addEventListener('click', async () => {
+            const token = document.getElementById('githubToken').value;
+            const repoUrl = document.getElementById('repoUrl').value;
+            
+            if (!token || !repoUrl) {
+                showMessage('请填写GitHub Token和仓库地址', 'error');
+                return;
+            }
+
+            showMessage('正在测试连接...', 'info');
+            
+            const result = await testGitHubConnection(token, repoUrl);
+            
+            if (result.success) {
+                document.getElementById('githubStatus').className = 'status-indicator connected';
+                document.getElementById('githubStatusText').textContent = '已连接';
+                document.getElementById('githubStatusText').style.color = 'var(--success-color)';
+                showMessage('GitHub连接成功！', 'success');
+            } else {
+                document.getElementById('githubStatus').className = 'status-indicator';
+                document.getElementById('githubStatusText').textContent = '连接失败';
+                document.getElementById('githubStatusText').style.color = 'var(--error-color)';
+                showMessage(`连接失败: ${result.error}`, 'error');
+            }
+        });
+
+        // 表单提交
+        document.getElementById('articleForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const token = document.getElementById('githubToken').value;
+            const repoUrl = document.getElementById('repoUrl').value;
+            const title = document.getElementById('articleTitle').value;
+            const excerpt = document.getElementById('articleExcerpt').value;
+            const coverImage = document.getElementById('coverImage').value;
+            const fileName = document.getElementById('fileName').value;
+            const content = easyMDE.value();
+            
+            if (!token || !repoUrl) {
+                showMessage('请先配置GitHub连接', 'error');
+                return;
+            }
+            
+            if (!title || !content || !fileName) {
+                showMessage('请填写必填字段', 'error');
+                return;
+            }
+
+            // 显示加载动画
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('submitBtn').disabled = true;
+
+            try {
+                // 生成Markdown内容
+                const date = new Date().toISOString().split('T')[0];
+                const tags = selectedTags.length > 0 ? selectedTags : ['未分类'];
+                
+                const markdownContent = `---
+title: "${title}"
+date: ${date}
+excerpt: "${excerpt}"
+tags: [${tags.map(tag => `"${tag}"`).join(', ')}]
+coverImage: "${coverImage}"
+---
+
+${content}
+`;
+
+                // 创建文件
+                const result = await createGitHubFile(
+                    token,
+                    repoUrl,
+                    `_posts/${fileName.endsWith('.md') ? fileName : fileName + '.md'}`,
+                    markdownContent,
+                    `发布新文章: ${title}`
+                );
+
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('submitBtn').disabled = false;
+
+                if (result.success) {
+                    showMessage(`文章发布成功！<a href="${result.url}" target="_blank">查看文件</a>`, 'success');
+                    
+                    // 重置表单
+                    easyMDE.value('');
+                    document.getElementById('articleTitle').value = '';
+                    document.getElementById('articleExcerpt').value = '';
+                    document.getElementById('coverImage').value = '';
+                    document.getElementById('fileName').value = '';
+                    previewImage.style.display = 'none';
+                    selectedTags = [];
+                    
+                    // 重置标签样式
+                    document.querySelectorAll('.tag').forEach(tag => {
+                        tag.style.backgroundColor = '';
+                    });
+                } else {
+                    showMessage(`发布失败: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('submitBtn').disabled = false;
+                showMessage(`发生错误: ${error.message}`, 'error');
+            }
+        });
+
+        // 预览功能
+        document.getElementById('previewBtn').addEventListener('click', () => {
+            const title = document.getElementById('articleTitle').value || '文章标题';
+            const content = easyMDE.value() || '文章内容';
+            const date = new Date().toLocaleDateString('zh-CN');
+            
+            const previewHTML = `
+                <h1>${title}</h1>
+                <p style="color: #666; margin-bottom: 30px;">发布日期: ${date}</p>
+                <div style="border-top: 1px solid #eee; padding-top: 20px;">
+                    ${marked.parse(content)}
+                </div>
+            `;
+            
+            document.getElementById('previewContent').innerHTML = previewHTML;
+            document.getElementById('previewModal').style.display = 'flex';
+        });
+
+        function closePreview() {
+            document.getElementById('previewModal').style.display = 'none';
+        }
+
+        // 自动生成文件名
+        document.getElementById('articleTitle').addEventListener('input', function() {
+            const title = this.value;
+            if (title && !document.getElementById('fileName').value) {
+                const fileName = title
+                    .toLowerCase()
+                    .replace(/[^\w\u4e00-\u9fa5]/g, '-')
+                    .replace(/-+/g, '-')
+                    .replace(/^-|-$/g, '');
+                document.getElementById('fileName').value = `${fileName}.md`;
+            }
+        });
+
+        // 使用marked.js解析Markdown
+        const markedScript = document.createElement('script');
+        markedScript.src = 'https://cdn.jsdelivr.net/npm/marked/marked.min.js';
+        document.head.appendChild(markedScript);
+    </script>
+</body>
+</html>
