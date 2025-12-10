@@ -692,7 +692,7 @@
 
                     <div class="form-group">
                         <label class="form-label">文章标签</label>
-                        <div class="tags-container" id="tagsContainer">
+                        <div style="margin-bottom: 10px;" id="tagsContainer">
                             <!-- 标签将通过JS动态添加 -->
                         </div>
                         <div style="margin-top: 10px;">
@@ -836,9 +836,8 @@
             tagsContainer.innerHTML = '';
             selectedTags.forEach(tag => {
                 const tagElement = document.createElement('span');
-                tagElement.className = 'tag';
                 tagElement.innerHTML = `
-                    <span style="display: inline-block; background: var(--ghost-accent-color); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.875rem; margin-right: 8px; cursor: pointer;">
+                    <span style="display: inline-block; background: var(--ghost-accent-color); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.875rem; margin-right: 8px; margin-bottom: 8px; cursor: pointer;">
                         ${tag} ×
                     </span>
                 `;
@@ -868,7 +867,6 @@
         const fileInput = document.getElementById('fileInput');
         const previewImage = document.getElementById('previewImage');
         const fileUploadArea = document.getElementById('fileUploadArea');
-        let uploadedImageUrl = '';
 
         fileUploadArea.addEventListener('dragover', (e) => {
             e.preventDefault();
@@ -907,7 +905,6 @@
             reader.onload = function(e) {
                 previewImage.src = e.target.result;
                 previewImage.style.display = 'block';
-                uploadedImageUrl = e.target.result;
                 document.getElementById('coverImage').value = '已上传图片';
             };
             reader.readAsDataURL(file);
@@ -994,6 +991,21 @@
             }
         }
 
+        // 辅助函数：转义HTML
+        function escapeHTML(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // 辅助函数：格式化日期
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.getFullYear() + '年' + 
+                   (date.getMonth() + 1) + '月' + 
+                   date.getDate() + '日';
+        }
+
         // 生成HTML预览
         function generateHTMLPreview() {
             const previewLoading = document.getElementById('previewLoading');
@@ -1033,6 +1045,20 @@
             const tagsHTML = data.tags.map(tag => 
                 `<a class="article-tag" href="#">${tag}</a>`
             ).join('\n                    ');
+            
+            // 使用简单的Markdown解析（如果没有引入marked库）
+            let parsedContent = data.content;
+            // 简单的转换
+            parsedContent = parsedContent
+                .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+                .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+                .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/^\> (.*$)/gm, '<blockquote><p>$1</p></blockquote>')
+                .replace(/\n\n/g, '</p><p>')
+                .replace(/!\[(.*?)\]\((.*?)\)/g, '<img src="$2" alt="$1">')
+                .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2">$1</a>');
             
             return `<!DOCTYPE html>
 <html lang="zh-CN">
@@ -1396,7 +1422,7 @@
 
                 <p class="article-excerpt">${data.excerpt}</p>
 
-                ${data.coverImage ? `
+                ${data.coverImage && data.coverImage !== '已上传图片' ? `
                 <figure class="article-image">
                     <img src="${data.coverImage}" alt="${data.title}">
                 </figure>
@@ -1405,7 +1431,7 @@
 
             <!-- 文章正文 -->
             <div class="article-content">
-                ${marked.parse(data.content)}
+                ${parsedContent}
             </div>
         </article>
         
@@ -1463,20 +1489,6 @@
     </footer>
 </body>
 </html>`;
-        }
-
-        // 辅助函数
-        function escapeHTML(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.getFullYear() + '年' + 
-                   (date.getMonth() + 1) + '月' + 
-                   date.getDate() + '日';
         }
 
         // 发布文章到GitHub
@@ -1659,11 +1671,6 @@
                 document.getElementById('fileName').value = `${fileName}.html`;
             }
         });
-
-        // 使用marked.js解析Markdown
-        const markedScript = document.createElement('script');
-        markedScript.src = 'https://cdn.jsdelivr.net/npm/marked/marked.min.js';
-        document.head.appendChild(markedScript);
     </script>
 </body>
 </html>
