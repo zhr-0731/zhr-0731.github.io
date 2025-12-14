@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>去了一趟重庆 - zhr的博客</title>
+    <meta name="description" content="2月，我终于有了机会，和同学去重庆看看。这是一个充满惊喜和美食的城市。">
+    <style>
+        /* 全局样式 */
+        :root {
+            --ghost-accent-color: #59c090;
+            --text-color: #333;
+            --bg-color: #fff;
+            --light-gray: #f5f5f5;
+            --border-color: #eaeaea;
+            --font-serif: 'Noto Serif SC', serif;
+            --font-sans: 'Noto Sans SC', sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-sans);
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            line-height: 1.6;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s;
+        }
+        
+        a:hover {
+            color: var(--ghost-accent-color);
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 头部导航 */
+        header {
+            background: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .logo-text {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav li {
+            margin-left: 25px;
+        }
+        
+        nav a {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text-color);
+        }
+        
+        /* 文章详情 */
+        .article-header {
+            text-align: center;
+            margin: 40px 0 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .article-meta {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+        
+        .article-tag {
+            display: inline-block;
+            background: var(--ghost-accent-color);
+            color: white;
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            border-radius: 12px;
+            margin-right: 10px;
+        }
+        
+        .article-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-family: var(--font-serif);
+            line-height: 1.2;
+        }
+        
+        .article-excerpt {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        .article-image {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+        
+        .article-content {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .article-content h1, 
+        .article-content h2, 
+        .article-content h3 {
+            margin: 40px 0 20px;
+            font-family: var(--font-serif);
+        }
+        
+        .article-content p {
+            margin-bottom: 20px;
+        }
+        
+        .article-content blockquote {
+            border-left: 4px solid var(--ghost-accent-color);
+            padding-left: 20px;
+            margin: 30px 0;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .article-content ul, .article-content ol {
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+        
+        .article-content li {
+            margin-bottom: 10px;
+        }
+        
+        .article-content code {
+            background-color: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .article-content pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        .article-content pre code {
+            background: none;
+            padding: 0;
+        }
+        
+        /* 导航按钮 */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin: 60px 0;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .navigation-item {
+            max-width: 45%;
+        }
+        
+        .navigation-label {
+            display: block;
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .navigation-title {
+            font-weight: 500;
+        }
+        
+        /* 评论区域 */
+        .comments-section {
+            max-width: 800px;
+            margin: 80px auto 40px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .comments-title {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        /* Giscus 评论容器 */
+        .giscus-container {
+            margin-top: 30px;
+        }
+        
+        /* 页脚 */
+        footer {
+            background: var(--light-gray);
+            padding: 50px 0;
+            margin-top: 80px;
+        }
+        
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .copyright {
+            color: #888;
+        }
+        
+        .footer-nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        .footer-nav li {
+            margin-left: 20px;
+        }
+        
+        .powered-by {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .header-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+                flex-wrap: wrap;
+            }
+            
+            nav li {
+                margin: 5px 15px 5px 0;
+            }
+            
+            .article-title {
+                font-size: 2rem;
+            }
+            
+            .navigation {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .navigation-item {
+                max-width: 100%;
+            }
+            
+            .footer-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-nav ul {
+                margin: 20px 0;
+                justify-content: center;
+            }
+            
+            .footer-nav li {
+                margin: 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header>
+        <div class="container">
+            <div class="header-inner">
+                <div class="logo">
+                    <img src="https://avatars.githubusercontent.com/u/11725315?v=4" alt="zhr">
+                    <span class="logo-text">zhr的博客</span>
+                </div>
+                
+                <nav>
+                    <ul>
+                        <li><a href="index.html">文章|Article</a></li>
+                        <li><a href="https://zhr-0731.github.io/zhr-s-videos/">视频|Video</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="header-actions">
+                    <button class="search-btn">🔍</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 文章内容 -->
+    <main class="container">
+        <article class="article">
+            <header class="article-header">
+                <div class="article-meta">
+                    作者：<a href="https://bgithub.xyz/zhr-0731" target="_blank">张皓然</a>
+                    分类：
+                    <a class="article-tag" href="#">旅行</a>
+                    <a class="article-tag" href="#">重庆</a>
+                    —
+                    <time datetime="2025-12-14">2025年12月14日</time>
+                </div>
+
+                <h1 class="article-title">去了一趟重庆</h1>
+
+                <p class="article-excerpt">2月，我终于有了机会，和同学去重庆看看。这是一个充满惊喜和美食的城市。</p>
+            </header>
+
+            <!-- 文章正文 -->
+            <div class="article-content">
+                <blockquote>
+                    <p>感谢我的小学同学们提供机会，让我去到这座奇妙的城市</p>
+                </blockquote>
+                
+                <h2>引言</h2>
+                
+                <p>对于重庆，其实我一直就想去看看，但一直没有机会。2月，我终于有了机会，和同学去重庆看看。</p>
+                
+                <p>去重庆，其实我们比较匆忙。我的同学在成都玩好了，劝我去重庆转转。他们给我描述了重庆是多好，说得我心动了。于是，我做了一个我认为最疯狂的决定：现在睡觉，凌晨2点，开车去重庆。</p>
+                
+                <p>于是高速上，我和妈妈开车8小时，披星戴月，赶到了重庆。</p>
+                
+                <h2>Day 1</h2>
+                
+                <p>从G5021的南岸收费站下高速后，重庆的高架桥首先给了我们一个"下马威"：一层一层的匝道（没错，这里的高架桥要"层"计数），数不胜数的车道，我反正是不想再见到了。</p>
+                
+                <p>去了酒店，放下包，在楼下吃了重庆的面，我就和同学乘地铁来到了解放碑。</p>
+                
+                <figure class="article-image">
+                    <a href="https://imgchr.com/i/pZMrGVg" target="_blank">
+                        <img src="https://s41.ax1x.com/2025/12/13/pZMrGVg.jpg" alt="解放碑">
+                    </a>
+                </figure>
+                
+                <p>解放碑是重庆为纪念抗战胜利而建的纪念碑。碑上刻着"人民英雄纪念碑"，表示这碑是为纪念历史上为重庆解放而努力的所有人而建。这是一块见证着重庆人民艰苦奋斗、由无数人的鲜血染红的土地。在这块土地上一代代革命者过去了，一个充满光明的重庆建立起来了。这座石碑，刻满了重庆人民的丰功伟绩，它在默默地守护着重庆。</p>
+                
+                <p>走过解放碑，我们不晓得要去哪儿，便在路边闲逛。这里的路面很特别，是由石块铺成的（连车道都是这样）。路上的灯柱，挂了广告牌，牌子上打着"我在重庆"的标语，让人感受到了重庆人民的热情。路边的店子里，人们围观着商品。我去一个奶茶店买了杯奶茶出来，一座摩天大楼矗立在我眼前。</p>
+                
+                <figure class="article-image">
+                    <a href="https://imgchr.com/i/pZnTDc4" target="_blank">
+                        <img src="https://s41.ax1x.com/2025/12/08/pZnTDc4.jpg" alt="重庆来福士广场">
+                    </a>
+                </figure>
+                
+                <p>这栋楼可能是我见过的最奇特的建筑。它依山而建，从地里长起像帆一样的6个建筑，在靠近顶端的部分有一个圆柱体，一边不时有人坐着秋千飞出来。打开手机一查，哦，原来是重庆来福士广场。我们打算上去看看。</p>
+                
+                <p>去顶楼需要收费。有一个人恐高，上不去，剩下的人买票，坐电梯上了几十层楼，到了上面。在这上面，重庆市这周围的大部分区域都能看到。江上，货船来来往往，载着人、载着货，往远处行驶。长江与嘉陵江在这里交汇，形成一种一边清一边浊的奇特场景，两者间还有明显界限。同行的一个同学说，这里就是"泾渭分明"成语的来源。真可惜我手机没电了，不然还能拍点照片。但转念一想，还有一个同学没上来呢，真可惜他没有感受"一览众山小"的气概。</p>
+                
+                <p>此时，那个同学跟着我们的家长游览了白象居回来（他们说没什么看的），催我们去长江索道。没错，今天的重头戏来了，重庆长江索道。手机打开导航后，我们小跑赶到了索道站。听人说，这条索道线，横跨长江，曾经是重庆市民很重要的交通方式。我不知道，这条索道，一天要送多少背着菜的农民、手拿锤子的工人、背着一大包信的邮递员、多少位重庆的建设者。而现在，新的交通工具出现，索道也改为了旅游项目，出现在人们面前。</p>
+                
+                <p>等了很长时间，我们终于上了索道。轿厢里没有座位，我们只能站着。我靠着窗户，一列一列的房屋向后方涌去，一条川流不息的马路过去了，紧接着就是长江。长江的水是碧蓝的，水面上不时有水鸟飞过，货轮也一艘一艘过去了（毕竟这里是水上交通枢纽），汽笛发出的声音，让人听着非常温暖。远处，双子塔耸立江边，与江上的航标，为航船提供引领。</p>
+                
+              	<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=114793788741931&bvid=BV1dc3Ez9EqF&cid=30845043977&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+              
+                <p>"好像是梦中的景象。"</p>
+                
+                <p>没错，这种景象，在以前，只会在我的梦中出现。</p>
+                
+                <p>轿厢滑到了江的另一边。我站在出口处，眺望对岸，仍恋恋不舍。</p>
+                
+                <figure class="article-image">
+                    <a href="https://imgchr.com/i/pZnTB3F" target="_blank">
+                        <img src="https://s41.ax1x.com/2025/12/08/pZnTB3F.jpg" alt="长江索道景色">
+                    </a>
+                </figure>
+                
+                <p>出了站，右转，直走，右转，上台阶。在一个巷子里，一个火锅店（名字是"山城力老火锅"），我又领略到另一种美味。</p>
+                
+                <p>桌上，一大锅红汤烧得滚沸，里面的辣子、花椒上下翻腾。一大盘一大盘的肉、火腿、蛋饺正摆在旁边，让人口水直流。人一来齐，各种涮菜马上往锅里一倒，那味道，简直无法用言语形容。这就是我在重庆正正经经的第一顿饭。老板看我们是外地来的，又吃得那么起劲，主动过来给我们上菜。饭桌旁，他给我们讲了一个故事：</p>
+                
+                <p>几十年前，差不多是改革开放的民工潮时，人们工资比较少，无法像现在这样，一家人围着一锅。在那时，几乎都是各种人，在前台付了钱后，与他人合用一张桌子、一口大锅。锅用的是九宫格，锅旁的人素不相识。好在最后经济发展起来，这种情况越来越少，人们可以想点什么就点什么了。</p>
+                
+                <p>吃完后，大部分人累了，回去了。我则和另一个同学和他的家人，乘地铁到了下浩里。</p>
+                
+                <p>这可真是梦中的景象。这里是一个山坡，靠近河边。坡上，一条条青石台阶交错其中。从一条台阶向上走，一面墙上写着"重慶"二字，路灯照在砖墙上，让人感觉异常温暖。在一个拐角处，有一个甜点店。我们走了进去。它的二楼是一个客厅，很宽敞。吃着面包，喝着果茶，看着地铁在桥上飞驰，那是很惬意的事情。</p>
+                
+                <figure class="article-image">
+                    <a href="https://imgchr.com/i/pZMrNPs" target="_blank">
+                        <img src="https://s41.ax1x.com/2025/12/13/pZMrNPs.jpg" alt="下浩里夜景">
+                    </a>
+                </figure>
+            </div>
+        </article>
+        
+        <!-- 导航按钮 -->
+        <div class="navigation">
+            <a class="navigation-item navigation-previous" href="index.html">
+                <span class="navigation-label">返回首页</span>
+                <h4 class="navigation-title">浏览更多文章</h4>
+            </a>
+            <a class="navigation-item navigation-next" href="#">
+                <span class="navigation-label">下一篇</span>
+                <h4 class="navigation-title">暂无更新</h4>
+            </a>
+        </div>
+        
+        <!-- 评论区域 -->
+        <section class="comments-section">
+            <h3 class="comments-title">评论与讨论</h3>
+            <div class="giscus-container">
+                <!-- Giscus 评论系统 -->
+                <script src="https://giscus.app/client.js"
+        data-repo="zhr-0731/zhr-0731.github.io"
+        data-repo-id="R_kgDOQhEetg"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOQhEets4CzTCY"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <div class="copyright">
+                    © 2025 zhr的博客
+                </div>
+                
+                <nav class="footer-nav">
+                    <ul>
+                        <li><a href="https://bgithub.xyz/zhr-0731" target="_blank">GitHub</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="powered-by">
+                    基于 GitHub Pages
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
