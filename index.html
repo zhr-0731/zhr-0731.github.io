@@ -788,7 +788,17 @@
                         </div>
                     </a>
                 </div>
-                
+
+               <!-- 轮播项目4 -->
+                <div class="carousel-slide" data-index="2">
+                    <a href="post3.html" class="carousel-link">
+                        <img class="carousel-image" src="https://s41.ax1x.com/2025/12/14/pZMRq76.jpg" alt="文章封面4">
+                        <div class="carousel-caption">
+                            <h3 class="carousel-title">去了一趟重庆 #1</h3>
+                            <p class="carousel-excerpt">2月，我终于有了机会，和同学去这个充满惊喜和美食的城市看看。</p>
+                        </div>
+                    </a>
+                </div>
                 <!-- 轮播控制按钮 -->
                 <div class="carousel-controls">
                     <button class="carousel-btn prev-btn">❮</button>
@@ -892,6 +902,36 @@
                     </div>
                 </a>
             </article>
+
+            <!-- 文章卡片4 -->
+            <article class="post-card">
+                <a href="post2.html">
+                    <div class="post-media">
+                        <img class="post-image" src="https://s41.ax1x.com/2025/12/14/pZMRq76.jpg" alt="文章封面4">
+                    </div>
+                    
+                    <div class="post-content">
+                        <span class="post-tag">旅行</span>
+                        <span class="post-tag">城市</span>
+                        
+                        <h2 class="post-title">去了一趟重庆 #1</h2>
+                        
+                        <div class="post-excerpt">
+                            2月，我终于有了机会，和同学去这个充满惊喜和美食的城市看看。
+                        </div>
+                    </div>
+                    
+                    <div class="post-footer">
+                        <span class="post-more">阅读更多</span>
+                        
+                        <div class="post-author">
+                            <!-- 这里保持原来的作者头像 -->
+                            <img class="author-image" src="https://s41.ax1x.com/2025/12/06/pZmaGuR.png" alt="zhr">
+                        </div>
+                    </div>
+                </a>
+            </article>
+
         </div>
     </main>
 
@@ -941,10 +981,20 @@
                 date: "2023-10-05",
                 link: "post3.html",
                 image: "https://s41.ax1x.com/2025/12/07/pZnFlYF.md.png"
+            },
+            {
+                id: 4,
+                title: "去了一趟重庆 #1",
+                excerpt: "2月，我终于有了机会，和同学去这个充满惊喜和美食的城市看看。",
+                tags: ["旅行", "城市"],
+                date: "2025-12-14",
+                link: "post4.html",
+                image: "https://s41.ax1x.com/2025/12/14/pZMRq76.jpg"
             }
+
         ];
         
-        // 轮播功能脚本 - 完全重写
+        // 轮播功能脚本
         document.addEventListener('DOMContentLoaded', function() {
             // 轮播功能
             class Carousel {
