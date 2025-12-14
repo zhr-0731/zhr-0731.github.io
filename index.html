@@ -789,9 +789,9 @@
                     </a>
                 </div>
 
-               <!-- 轮播项目4 -->
-                <div class="carousel-slide" data-index="2">
-                    <a href="post3.html" class="carousel-link">
+                <!-- 轮播项目4 - 修复了data-index和链接 -->
+                <div class="carousel-slide" data-index="3">
+                    <a href="post4.html" class="carousel-link">
                         <img class="carousel-image" src="https://s41.ax1x.com/2025/12/14/pZMRq76.jpg" alt="文章封面4">
                         <div class="carousel-caption">
                             <h3 class="carousel-title">去了一趟重庆 #1</h3>
@@ -799,17 +799,19 @@
                         </div>
                     </a>
                 </div>
+                
                 <!-- 轮播控制按钮 -->
                 <div class="carousel-controls">
                     <button class="carousel-btn prev-btn">❮</button>
                     <button class="carousel-btn next-btn">❯</button>
                 </div>
                 
-                <!-- 轮播指示器 -->
+                <!-- 轮播指示器 - 添加了第4个指示器 -->
                 <div class="carousel-indicators">
                     <div class="indicator active" data-index="0"></div>
                     <div class="indicator" data-index="1"></div>
                     <div class="indicator" data-index="2"></div>
+                    <div class="indicator" data-index="3"></div>
                 </div>
             </div>
         </section>
@@ -903,9 +905,9 @@
                 </a>
             </article>
 
-            <!-- 文章卡片4 -->
+            <!-- 文章卡片4 - 修复了链接 -->
             <article class="post-card">
-                <a href="post2.html">
+                <a href="post4.html">
                     <div class="post-media">
                         <img class="post-image" src="https://s41.ax1x.com/2025/12/14/pZMRq76.jpg" alt="文章封面4">
                     </div>
@@ -931,7 +933,6 @@
                     </div>
                 </a>
             </article>
-
         </div>
     </main>
 
@@ -953,7 +954,7 @@
     </footer>
 
     <script>
-        // 文章数据（用于搜索功能）
+        // 文章数据（用于搜索功能） - 添加了新文章
         const articles = [
             {
                 id: 1,
@@ -991,7 +992,6 @@
                 link: "post4.html",
                 image: "https://s41.ax1x.com/2025/12/14/pZMRq76.jpg"
             }
-
         ];
         
         // 轮播功能脚本
@@ -1152,7 +1152,7 @@
                         <div class="no-results">
                             <div class="no-results-icon">🔍</div>
                             <h3 class="no-results-title">输入关键词搜索文章</h3>
-                            <p class="no-results-text">尝试搜索"GitHub"、"博客"、"生活"、"四季"等关键词</p>
+                            <p class="no-results-text">尝试搜索"GitHub"、"博客"、"生活"、"四季"、"重庆"等关键词</p>
                         </div>
                     `;
                     return;
@@ -1272,6 +1272,7 @@
             console.log('轮播1链接:', document.querySelector('.carousel-slide[data-index="0"] a')?.href);
             console.log('轮播2链接:', document.querySelector('.carousel-slide[data-index="1"] a')?.href);
             console.log('轮播3链接:', document.querySelector('.carousel-slide[data-index="2"] a')?.href);
+            console.log('轮播4链接:', document.querySelector('.carousel-slide[data-index="3"] a')?.href);
         });
     </script>
 </body>
