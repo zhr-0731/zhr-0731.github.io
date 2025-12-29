@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>搜索文章</title>
+    <title>zhr的博客 - 搜索</title>
     
     <!-- 网页图标 -->
     <link rel="icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png" type="image/png">
@@ -148,8 +148,8 @@
         }
         
         .search-box {
-            max-width: 800px;
-            margin: 0 auto 40px;
+            max-width: 1000px;
+            margin: 0 auto 60px;
             position: relative;
         }
         
@@ -169,8 +169,8 @@
         
         .search-input {
             flex: 1;
-            padding: 20px 30px;
-            font-size: 1.2rem;
+            padding: 22px 35px;
+            font-size: 1.3rem;
             border: none;
             outline: none;
             font-family: var(--font-sans);
@@ -180,8 +180,8 @@
             background: var(--ghost-accent-color);
             color: white;
             border: none;
-            padding: 0 40px;
-            font-size: 1.1rem;
+            padding: 0 50px;
+            font-size: 1.2rem;
             cursor: pointer;
             transition: all 0.3s;
             font-weight: 500;
@@ -191,50 +191,29 @@
             background: #4aa97a;
         }
         
-        .search-examples {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        
-        .search-example {
-            background: var(--light-gray);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            color: #666;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .search-example:hover {
-            background: var(--ghost-accent-color);
-            color: white;
-        }
-        
         /* 搜索结果 */
         .search-results {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
         }
         
         .search-stats {
-            font-size: 0.95rem;
+            font-size: 1rem;
             color: #888;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
             border-bottom: 1px solid var(--border-color);
         }
         
         .search-result-item {
-            margin-bottom: 40px;
-            padding: 25px;
+            margin-bottom: 50px;
+            padding: 0;
             border-radius: 12px;
             background: white;
             border: 1px solid var(--border-color);
             transition: all 0.3s;
+            overflow: hidden;
+            display: flex;
         }
         
         .search-result-item:hover {
@@ -243,8 +222,13 @@
             transform: translateY(-3px);
         }
         
+        .result-content {
+            flex: 1;
+            padding: 30px;
+        }
+        
         .result-title {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             margin-bottom: 15px;
             font-family: var(--font-serif);
             line-height: 1.3;
@@ -257,36 +241,54 @@
         
         .result-excerpt {
             color: #666;
-            margin-bottom: 15px;
-            font-size: 0.95rem;
+            margin-bottom: 20px;
+            font-size: 1rem;
             line-height: 1.6;
         }
         
         .result-date {
             color: #888;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
+        }
+        
+        .result-image {
+            width: 250px;
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .result-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .search-result-item:hover .result-image img {
+            transform: scale(1.05);
         }
         
         .no-results {
             text-align: center;
-            padding: 60px 20px;
+            padding: 80px 20px;
             color: #888;
         }
         
         .no-results-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
+            font-size: 3.5rem;
+            margin-bottom: 25px;
             opacity: 0.5;
         }
         
         .no-results-title {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
+            font-size: 1.7rem;
+            margin-bottom: 15px;
         }
         
         .no-results-text {
-            font-size: 1rem;
-            max-width: 500px;
+            font-size: 1.1rem;
+            max-width: 600px;
             margin: 0 auto;
         }
         
@@ -343,21 +345,31 @@
             }
             
             .search-input {
-                padding: 15px 20px;
-                font-size: 1rem;
+                padding: 18px 25px;
+                font-size: 1.1rem;
             }
             
             .search-button {
-                padding: 0 25px;
+                padding: 0 30px;
                 font-size: 1rem;
             }
             
             .search-result-item {
-                padding: 20px;
+                flex-direction: column;
+            }
+            
+            .result-image {
+                width: 100%;
+                height: 200px;
+                order: -1;
+            }
+            
+            .result-content {
+                padding: 25px;
             }
             
             .result-title {
-                font-size: 1.2rem;
+                font-size: 1.3rem;
             }
             
             .footer-inner {
@@ -395,9 +407,8 @@
                 width: 100%;
             }
             
-            .search-examples {
-                flex-direction: column;
-                align-items: center;
+            .result-image {
+                height: 180px;
             }
         }
     </style>
@@ -447,13 +458,6 @@
                 >
                 <button type="submit" class="search-button">搜索</button>
             </form>
-            
-            <div class="search-examples">
-                <div class="search-example" data-search="GitHub">GitHub</div>
-                <div class="search-example" data-search="博客">博客</div>
-                <div class="search-example" data-search="生活">生活</div>
-                <div class="search-example" data-search="重庆">重庆</div>
-            </div>
         </div>
         
         <!-- 搜索结果 -->
@@ -491,35 +495,39 @@
     </footer>
 
     <script>
-        // 文章数据 - 与博客现有文章一致
+        // 文章数据 - 与博客现有文章一致，包含封面图
         const articles = [
             {
                 id: 1,
                 title: "使用GitHub Pages搭建个人博客",
                 excerpt: "详细讲解如何使用GitHub Pages免费部署个人博客网站，包含HTML、CSS和GitHub配置...",
                 date: "2023-10-15",
-                link: "post.html"
+                link: "post.html",
+                image: "https://images.unsplash.com/photo-1598960087461-556c5a1f864a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=960"
             },
             {
                 id: 2,
                 title: "走出书本，对生活更有体会",
                 excerpt: "书本中的世界固然是精彩的，但书本外的世界会更丰富。读过书后再走出书本，对生活会有更深的体会。",
                 date: "2023-10-10",
-                link: "post2.html"
+                link: "post2.html",
+                image: "https://s41.ax1x.com/2025/12/06/pZmROmT.jpg"
             },
             {
                 id: 3,
                 title: "四季的花",
                 excerpt: "春有百花秋有月，夏有凉风冬有雪。四季更替，花儿也随之绽放，每一季都有独特的花卉装点我们的生活。",
                 date: "2023-10-05",
-                link: "post3.html"
+                link: "post3.html",
+                image: "https://s41.ax1x.com/2025/12/07/pZnFlYF.md.png"
             },
             {
                 id: 4,
                 title: "去了一趟重庆 #1",
                 excerpt: "2月，我终于有了机会，和同学去这个充满惊喜和美食的城市看看。",
                 date: "2025-12-14",
-                link: "post4.html"
+                link: "post4.html",
+                image: "https://s41.ax1x.com/2025/12/14/pZMRq76.jpg"
             }
         ];
         
@@ -583,9 +591,16 @@
                     
                     html += `
                         <div class="search-result-item">
-                            <a href="${article.link}" class="result-title">${highlightedTitle}</a>
-                            <div class="result-excerpt">${highlightedExcerpt}</div>
-                            <div class="result-date">${article.date}</div>
+                            <div class="result-content">
+                                <a href="${article.link}" class="result-title">${highlightedTitle}</a>
+                                <div class="result-excerpt">${highlightedExcerpt}</div>
+                                <div class="result-date">${article.date}</div>
+                            </div>
+                            <div class="result-image">
+                                <a href="${article.link}">
+                                    <img src="${article.image}" alt="${article.title}">
+                                </a>
+                            </div>
                         </div>
                     `;
                 });
@@ -606,6 +621,13 @@
                 performSearch(initialKeyword);
             }
             
+            // 自动聚焦搜索框
+            if (!initialKeyword) {
+                setTimeout(() => {
+                    searchInput.focus();
+                }, 300);
+            }
+            
             // 表单提交
             searchForm.addEventListener('submit', function(e) {
                 e.preventDefault();
@@ -613,15 +635,6 @@
                 if (keyword) {
                     performSearch(keyword);
                 }
-            });
-            
-            // 示例搜索点击事件
-            document.querySelectorAll('.search-example').forEach(example => {
-                example.addEventListener('click', function() {
-                    const searchTerm = this.getAttribute('data-search');
-                    searchInput.value = searchTerm;
-                    performSearch(searchTerm);
-                });
             });
             
             // 监听浏览器前进/后退
@@ -644,6 +657,10 @@
                     padding: 0 2px;
                     border-radius: 2px;
                     font-weight: 500;
+                }
+                
+                .search-input::placeholder {
+                    color: #999;
                 }
             `;
             document.head.appendChild(style);
