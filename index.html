@@ -137,6 +137,23 @@
             color: white;
         }
         
+        /* 灯笼挂件样式 */
+        .lantern-link {
+            position: absolute;
+            top: 100%;
+            left: 20px;
+            z-index: 99;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+        }
+        
+        .lantern {
+            width: 50px;
+            height: 50px;
+            object-fit: contain; /* 保持图片比例，不变形 */
+        }
+        
         /* 搜索框样式 */
         .search-container {
             position: fixed;
@@ -663,6 +680,17 @@
             .search-result-item {
                 padding: 20px;
             }
+            
+            .lantern-link {
+                left: 15px;
+                width: 40px;
+                height: 40px;
+            }
+            
+            .lantern {
+                width: 40px;
+                height: 40px;
+            }
         }
         
         @media (max-width: 480px) {
@@ -694,6 +722,17 @@
             .result-title {
                 font-size: 1.1rem;
             }
+            
+            .lantern-link {
+                left: 10px;
+                width: 35px;
+                height: 35px;
+            }
+            
+            .lantern {
+                width: 35px;
+                height: 35px;
+            }
         }
     </style>
 </head>
@@ -703,7 +742,6 @@
         <div class="container">
             <div class="header-inner">
                 <div class="logo">
-                    <!-- 这里保持原来的logo图片 -->
                     <img src="https://s41.ax1x.com/2025/12/06/pZmaGuR.png" alt="zhr">
                     <span class="logo-text">zhr的博客</span>
                 </div>
@@ -720,6 +758,11 @@
                 </div>
             </div>
         </div>
+        
+        <!-- 灯笼挂件 - 放在header内部，导航下面 -->
+        <a href="https://zhr-0731.github.io/Loading.html" class="lantern-link" target="_blank">
+            <img src="https://s41.ax1x.com/2026/01/03/pZUyQOO.png" alt="灯笼" class="lantern">
+        </a>
     </header>
 
     <!-- 搜索模态框 -->
