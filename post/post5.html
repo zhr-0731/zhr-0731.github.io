@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- 网页图标 -->
+    <link rel="icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png" type="image/png">
+    <link rel="shortcut icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png" type="image/png">
+    <link rel="apple-touch-icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>去了一趟重庆 #2 - zhr的博客</title>
+    <meta name="description" content="2月，我终于有了机会，和同学去这个充满惊喜和美食的城市看看。">
+    <style>
+        /* 全局样式 */
+        :root {
+            --ghost-accent-color: #59c090;
+            --text-color: #333;
+            --bg-color: #fff;
+            --light-gray: #f5f5f5;
+            --border-color: #eaeaea;
+            --font-serif: 'Noto Serif SC', serif;
+            --font-sans: 'Noto Sans SC', sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-sans);
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            line-height: 1.6;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s;
+        }
+        
+        a:hover {
+            color: var(--ghost-accent-color);
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 头部导航 */
+        header {
+            background: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .logo-text {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav li {
+            margin-left: 25px;
+        }
+        
+        nav a {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text-color);
+        }
+        
+        /* 文章详情 */
+        .article-header {
+            text-align: center;
+            margin: 40px 0 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .article-meta {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+        
+        .article-tag {
+            display: inline-block;
+            background: var(--ghost-accent-color);
+            color: white;
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            border-radius: 12px;
+            margin-right: 10px;
+        }
+        
+        .article-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-family: var(--font-serif);
+            line-height: 1.2;
+        }
+        
+        .article-excerpt {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        .article-image {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+        
+        .article-content {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .article-content h1, 
+        .article-content h2, 
+        .article-content h3 {
+            margin: 40px 0 20px;
+            font-family: var(--font-serif);
+        }
+        
+        .article-content p {
+            margin-bottom: 20px;
+        }
+        
+        .article-content blockquote {
+            border-left: 4px solid var(--ghost-accent-color);
+            padding-left: 20px;
+            margin: 30px 0;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .article-content ul, .article-content ol {
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+        
+        .article-content li {
+            margin-bottom: 10px;
+        }
+        
+        .article-content code {
+            background-color: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .article-content pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        .article-content pre code {
+            background: none;
+            padding: 0;
+        }
+        
+        /* 视频容器样式 */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 宽高比 */
+            height: 0;
+            margin: 30px 0;
+            overflow: hidden;
+            border-radius: 8px;
+            background-color: #f5f5f5;
+        }
+        
+        /* B站视频iframe */
+        .bilibili-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* 确保文章内容中的iframe样式正确 */
+        .article-content iframe {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+        
+        /* 导航按钮 */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin: 60px 0;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .navigation-item {
+            max-width: 45%;
+        }
+        
+        .navigation-label {
+            display: block;
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .navigation-title {
+            font-weight: 500;
+        }
+        
+        /* 评论区域 */
+        .comments-section {
+            max-width: 800px;
+            margin: 80px auto 40px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .comments-title {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        /* Giscus 评论容器 */
+        .giscus-container {
+            margin-top: 30px;
+        }
+        
+        /* 页脚 */
+        footer {
+            background: var(--light-gray);
+            padding: 50px 0;
+            margin-top: 80px;
+        }
+        
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .copyright {
+            color: #888;
+        }
+        
+        .footer-nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        .footer-nav li {
+            margin-left: 20px;
+        }
+        
+        .powered-by {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .header-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+                flex-wrap: wrap;
+            }
+            
+            nav li {
+                margin: 5px 15px 5px 0;
+            }
+            
+            .article-title {
+                font-size: 2rem;
+            }
+            
+            .navigation {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .navigation-item {
+                max-width: 100%;
+            }
+            
+            .footer-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-nav ul {
+                margin: 20px 0;
+                justify-content: center;
+            }
+            
+            .footer-nav li {
+                margin: 0 10px;
+            }
+            
+            /* 移动端视频调整 */
+            .video-container {
+                margin: 20px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header>
+        <div class="container">
+            <div class="header-inner">
+                <div class="logo">
+                    <img src="https://avatars.githubusercontent.com/u/11725315?v=4" alt="zhr">
+                    <span class="logo-text">zhr的博客</span>
+                </div>
+                
+                <nav>
+                    <ul>
+                        <li><a href="https://zhr-0731.github.io/index.html">文章|Article</a></li>
+                        <li><a href="https://zhr-0731.github.io/zhr-s-videos/">视频|Video</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="header-actions">
+                    <button class="search-btn">🔍</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 文章内容 -->
+    <main class="container">
+        <article class="article">
+            <header class="article-header">
+                <div class="article-meta">
+                    作者：<a href="https://bgithub.xyz/zhr-0731" target="_blank">张皓然</a>
+                    分类：
+                    <a class="article-tag" href="#">旅行</a>
+                    <a class="article-tag" href="#">城市</a>
+                    —
+                    <time datetime="2025-12-24">2025年12月14日</time>
+                </div>
+
+                <h1 class="article-title">去了一趟重庆 #2</h1>
+
+                <p class="article-excerpt">2月，我终于有了机会，和同学去重庆看看。这是一个充满惊喜和美食的城市。</p>
+            </header>
+
+            <!-- 文章正文 -->
+            <div class="article-content">
+                <blockquote>
+                    <p>感谢我的小学同学们提供机会，让我去到这座奇妙的城市</p>
+                </blockquote>
+                
+                <h2>Day 2</h2>
+                
+                <p>今天上午，我们参观的地方，历史味浓重。
+                这个地点的名字：渣滓洞。
+                地铁40多分钟，公交10多分钟，检票、入场，国民党旗帜高高地挂在墙上。旁边是白公馆。</p>
+                
+                <figure class="article-image">
+                    <a href="https://imgchr.com/i/pZ0NUII" target="_blank">
+                        <img src="https://s41.ax1x.com/2026/01/10/pZ0NUII.jpg" alt="渣滓洞">
+                    </a>
+                </figure>
+                
+                <figure class="article-image">
+                    <a href="https://imgchr.com/i/pZ0Ndit" target="_blank">
+                        <img src="https://s41.ax1x.com/2026/01/10/pZ0Ndit.jpg" alt="白公馆">
+                    </a>
+                </figure>
+                
+                <p>没错，这里就是当年解放重庆时，国民党反动派关押革命志士的地方。有一部写这里的小说，叫作《红岩》。其中很多人的名字，大家耳熟能详：江姐、小萝卜头……
+                这里完整地保存了当年渣滓洞的景象。一间间牢房、一排排床铺、一扇扇铁门，让人触目惊心。
+                这种景象，不得不使人悲哀、使人崇敬了。你无法想象当年的这里，是怎样一种景象。</p>
+                
+                <p>下一个地点：李子坝。
+                说的具体点，应该是重庆轨道交通2号线李子坝站。</p>
+                
+                <figure class="article-image">
+                    <a href="https://imgchr.com/i/pZ0Qu5D" target="_blank">
+                        <img src="https://s41.ax1x.com/2026/01/10/pZ0Qu5D.png" alt="李子坝轻轨站">
+                    </a>
+                </figure>
+                
+                <p>轻轨列车前，一个亮点出现在远处。紧接着变大，哦，原来是出山了。列车拐了一个弯，一栋居民楼赫然出现在眼前，墙上被挖了洞，两条水泥轨道从里面伸了出来。那就是李子坝站了。
+                重庆的居民楼有一个奇怪的现象：你以为的一楼，其实是七楼。这就是李子坝站的情况。
+                下车后，我来到站台边上。正好，有一辆列车就要进站。听着呼啸而过的声音，我感觉到了独属重庆的浪漫。
+                走了几段台阶，我来到了一楼（站台楼下有一个出站口，那里的"一层"不是实际的一层)。这里，才是观看轻轨穿楼的好地点。列车驶过涂有图案的墙壁，墙上的"李子坝站"异常醒目。它是这座城市的标志之一。</p>
+                
+                <p>最后，我们来到了观音桥"我在重庆"的显示牌前。</p>
+                
+                <figure class="article-image">
+                    <a href="https://imgchr.com/i/pZnTyu9" target="_blank">
+                        <img src="https://s41.ax1x.com/2025/12/08/pZnTyu9.jpg" alt="观音桥我在重庆显示牌">
+                    </a>
+                </figure>
+                
+                <p>这是重庆新建的显示牌，最近成为了一个打卡点。这里有一条小街，路上方有一座天桥，天桥上是显示屏。路的两侧都有平台。
+                我去时，平台上有很多人，正举着相机。一问才知道，十点显示屏就要关机。马上拿出手机拍照，我感受到了重庆的脉搏，那是一种永无止境、生生不息的脉搏。</p>
+                
+                <h2>尾声</h2>
+                
+                <p>两天的重庆之旅结束了。重庆确实是个好地方，好在它的城市风貌，好在它的城市文化，好在它的人民的热情。
+                山城重庆，希望我能再去一次。</p>
+            </div>
+        </article>
+        
+        <!-- 导航按钮 -->
+        <div class="navigation">
+            <a class="navigation-item navigation-previous" href="post4.html">
+                <span class="navigation-label">上一篇</span>
+                <h4 class="navigation-title">去了一趟重庆 #1</h4>
+            </a>
+            <a class="navigation-item navigation-next" href="https://zhr-0731.github.io/index.html">
+                <span class="navigation-label">返回首页</span>
+                <h4 class="navigation-title">浏览更多文章</h4>
+            </a>
+        </div>
+        
+        <!-- 评论区域 -->
+        <section class="comments-section">
+            <h3 class="comments-title">评论与讨论</h3>
+            <div class="giscus-container">
+                <!-- Giscus 评论系统 -->
+                <script src="https://giscus.app/client.js"
+        data-repo="zhr-0731/zhr-0731.github.io"
+        data-repo-id="R_kgDOQhEetg"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOQhEets4CzTCY"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                
+                <nav class="footer-nav">
+                    <ul>
+                        <li><a href="https://bgithub.xyz/zhr-0731" target="_blank">GitHub</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="powered-by">
+                    基于 GitHub Pages
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
