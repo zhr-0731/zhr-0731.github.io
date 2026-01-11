@@ -863,10 +863,10 @@
                                 </button>
                                 
                                 <div class="music-album-compact">
-                                    <img src="https://s41.ax1x.com/2026/01/06/pZdgzE8.jpg" alt="专辑封面" class="album-image-compact">
+                                    <img src="https://s41.ax1x.com/2026/01/10/pZ0cJLq.jpg" alt="专辑封面" class="album-image-compact">
                                 </div>
                                 
-                                <div class="music-title-compact" id="musicTitleCompact">Reach Me</div>
+                                <div class="music-title-compact" id="musicTitleCompact">金鹰955</div>
                             </div>
                         </li>
                         
@@ -887,9 +887,9 @@
         </a>
     </header>
 
-    <!-- 音频元素 - 自动播放 -->
+    <!-- 音频元素 - 自动播放（已更换为金鹰955电台） -->
     <audio id="backgroundMusic" loop autoplay>
-        <source src="https://bgithub.xyz/zhr-0731/Music-file/raw/refs/heads/main/Reach%20Me%20-%20Track%20in%20Time%20(%E7%BA%AF%E9%92%A2%E7%90%B4).mp3" type="audio/mpeg">
+        <source src="http://tvtj.jxwltx.com:8003/hunanws.m3u8" type="application/x-mpegURL">
         您的浏览器不支持音频播放
     </audio>
 
@@ -1494,14 +1494,16 @@
                 
                 if (playPromise !== undefined) {
                     playPromise.then(() => {
-                        console.log('音乐自动播放成功');
+                        console.log('金鹰955电台自动播放成功');
                         playPauseBtnCompact.classList.add('playing');
+                        // 更新音乐标题显示
+                        document.getElementById('musicTitleCompact').textContent = '金鹰955直播中';
                     }).catch(error => {
                         console.log('自动播放被阻止，等待用户交互:', error);
                         // 移除播放状态
                         playPauseBtnCompact.classList.remove('playing');
-                        // 显示提示（如果需要）
-                        // document.getElementById('musicTitleCompact').textContent = '点击播放';
+                        // 显示提示
+                        document.getElementById('musicTitleCompact').textContent = '点击播放金鹰955';
                     });
                 }
             }
@@ -1516,31 +1518,45 @@
                 if (backgroundMusic.paused) {
                     backgroundMusic.play().then(() => {
                         this.classList.add('playing');
+                        document.getElementById('musicTitleCompact').textContent = '金鹰955直播中';
                     }).catch(error => {
                         console.error('播放失败:', error);
+                        // 如果m3u8播放失败，尝试备用方案
+                        document.getElementById('musicTitleCompact').textContent = '播放失败，点击重试';
                     });
                 } else {
                     backgroundMusic.pause();
                     this.classList.remove('playing');
+                    document.getElementById('musicTitleCompact').textContent = '金鹰955已暂停';
                 }
             });
             
             // 音频事件监听
             backgroundMusic.addEventListener('play', function() {
                 playPauseBtnCompact.classList.add('playing');
+                document.getElementById('musicTitleCompact').textContent = '金鹰955直播中';
             });
             
             backgroundMusic.addEventListener('pause', function() {
                 playPauseBtnCompact.classList.remove('playing');
+                document.getElementById('musicTitleCompact').textContent = '金鹰955已暂停';
             });
             
             backgroundMusic.addEventListener('ended', function() {
                 playPauseBtnCompact.classList.remove('playing');
+                document.getElementById('musicTitleCompact').textContent = '播放结束，点击重播';
             });
             
             backgroundMusic.addEventListener('error', function() {
                 console.error('音频加载失败');
                 playPauseBtnCompact.disabled = true;
+                document.getElementById('musicTitleCompact').textContent = '音频加载失败';
+                
+                // 尝试使用备用音频源（如果主源失败）
+                console.log('尝试备用音频源...');
+                backgroundMusic.innerHTML = '<source src="https://bgithub.xyz/zhr-0731/Music-file/raw/refs/heads/main/Reach%20Me%20-%20Track%20in%20Time%20(%E7%BA%AF%E9%92%A2%E7%90%B4).mp3" type="audio/mpeg">';
+                backgroundMusic.load();
+                document.getElementById('musicTitleCompact').textContent = '切换到备用音频';
             });
             
             // 调试：检查轮播图链接
