@@ -1,14 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-
-        <!-- 网页图标 -->
+    <!-- 网页图标 -->
     <link rel="icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png" type="image/png">
     <link rel="shortcut icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png" type="image/png">
     <link rel="apple-touch-icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png">
 
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>使用GitHub Pages搭建个人博客 - zhr的博客</title>
@@ -59,14 +56,11 @@
             padding: 0 20px;
         }
         
-        /* 头部导航 */
+        /* 头部导航 - 与其他文章保持一致，移除sticky定位 */
         header {
-            position: sticky;
-            top: 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 100;
+            background: var(--bg-color);
             border-bottom: 1px solid var(--border-color);
+            position: relative;
         }
         
         .header-inner {
@@ -96,6 +90,7 @@
         nav ul {
             display: flex;
             list-style: none;
+            align-items: center;
         }
         
         nav li {
@@ -105,6 +100,78 @@
         nav a {
             font-size: 0.9rem;
             font-weight: 500;
+        }
+        
+        /* 导航栏中的音乐播放器 */
+        .nav-music-player {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: 0;
+        }
+        
+        .music-controls-compact {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .play-pause-btn-compact {
+            background: var(--ghost-accent-color);
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+        
+        .play-pause-btn-compact:hover {
+            background: #4aad7a;
+            transform: scale(1.05);
+        }
+        
+        .play-pause-btn-compact .play-icon,
+        .play-pause-btn-compact .pause-icon {
+            font-size: 14px;
+        }
+        
+        .play-pause-btn-compact .pause-icon {
+            display: none;
+        }
+        
+        .play-pause-btn-compact.playing .play-icon {
+            display: none;
+        }
+        
+        .play-pause-btn-compact.playing .pause-icon {
+            display: block;
+        }
+        
+        .music-album-compact {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .album-image-compact {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .music-title-compact {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-color);
+            white-space: nowrap;
         }
         
         .header-actions {
@@ -120,10 +187,10 @@
             color: var(--text-color);
         }
         
-        /* 文章详情 */
+        /* 文章详情 - 与其他文章保持一致 */
         .article-header {
             text-align: center;
-            margin: 60px 0 50px;
+            margin: 40px 0 30px;
             padding-bottom: 30px;
             border-bottom: 1px solid var(--border-color);
         }
@@ -261,77 +328,6 @@
             margin-top: 30px;
         }
         
-        /* 相关文章 */
-        .related-posts {
-            margin: 80px 0 40px;
-        }
-        
-        .related-title {
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        
-        .post-feed {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 30px;
-        }
-        
-        .post-card {
-            background: var(--bg-color);
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .post-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-        
-        .post-media {
-            height: 150px;
-            overflow: hidden;
-        }
-        
-        .post-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-        
-        .post-card:hover .post-image {
-            transform: scale(1.05);
-        }
-        
-        .post-content {
-            padding: 20px;
-        }
-        
-        .post-tag {
-            display: inline-block;
-            background: var(--ghost-accent-color);
-            color: white;
-            font-size: 0.75rem;
-            padding: 3px 10px;
-            border-radius: 12px;
-            margin-bottom: 10px;
-        }
-        
-        .post-title {
-            font-size: 1.1rem;
-            margin-bottom: 10px;
-            font-family: var(--font-serif);
-            line-height: 1.3;
-        }
-        
-        .post-excerpt {
-            color: #666;
-            font-size: 0.9rem;
-        }
-        
         /* 页脚 */
         footer {
             background: var(--light-gray);
@@ -379,12 +375,15 @@
                 margin: 5px 15px 5px 0;
             }
             
-            .article-title {
-                font-size: 2rem;
+            .nav-music-player {
+                order: -1;
+                margin-bottom: 10px;
+                width: 100%;
+                justify-content: flex-start;
             }
             
-            .post-feed {
-                grid-template-columns: 1fr;
+            .article-title {
+                font-size: 2rem;
             }
             
             .navigation {
@@ -410,6 +409,30 @@
                 margin: 0 10px;
             }
         }
+        
+        @media (max-width: 480px) {
+            .nav-music-player {
+                margin-bottom: 8px;
+            }
+            
+            .music-controls-compact {
+                gap: 6px;
+            }
+            
+            .music-title-compact {
+                font-size: 0.7rem;
+            }
+            
+            .play-pause-btn-compact {
+                width: 24px;
+                height: 24px;
+            }
+            
+            .music-album-compact {
+                width: 24px;
+                height: 24px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -424,6 +447,22 @@
                 
                 <nav>
                     <ul>
+                        <!-- 导航栏中的音乐播放器 -->
+                        <li class="nav-music-player">
+                            <div class="music-controls-compact">
+                                <button class="play-pause-btn-compact playing" id="playPauseBtnCompact">
+                                    <span class="play-icon">▶</span>
+                                    <span class="pause-icon">❚❚</span>
+                                </button>
+                                
+                                <div class="music-album-compact">
+                                    <img src="https://s41.ax1x.com/2026/01/10/pZ0cJLq.jpg" alt="专辑封面" class="album-image-compact">
+                                </div>
+                                
+                                <div class="music-title-compact" id="musicTitleCompact">金鹰955</div>
+                            </div>
+                        </li>
+                        
                         <li><a href="https://zhr-0731.github.io/index.html">文章|Article</a></li>
                         <li><a href="https://zhr-0731.github.io/zhr-s-videos/">视频|Video</a></li>
                     </ul>
@@ -434,7 +473,7 @@
                 </div>
             </div>
         </div>
-  
+    </header>
 
     <!-- 文章内容 -->
     <main class="container">
@@ -456,7 +495,7 @@
                 <figure class="article-image">
                     <img src="https://images.unsplash.com/photo-1598960087461-556c5a1f864a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200" alt="使用GitHub Pages搭建个人博客">
                 </figure>
-
+            </header>
 
             <!-- 文章正文 -->
             <div class="article-content">
@@ -558,17 +597,15 @@ yourusername.github.io</code></pre>
 </script>
             </div>
         </section>
-        
+    </main>
 
     <!-- 页脚 -->
     <footer>
         <div class="container">
             <div class="footer-inner">
-
                 <nav class="footer-nav">
                     <ul>
                         <li><a href="https://bgithub.xyz/zhr-0731" target="_blank">GitHub</a></li>
-
                     </ul>
                 </nav>
                 
@@ -578,5 +615,78 @@ yourusername.github.io</code></pre>
             </div>
         </div>
     </footer>
+    
+    <!-- 音频元素 - 添加autoplay属性 -->
+    <audio id="backgroundMusic" loop autoplay>
+        <source src="https://rscdn.ajmide.com/r_1700/nglive_1700.m3u8" type="application/vnd.apple.mpegurl">
+        您的浏览器不支持音频播放
+    </audio>
+
+    <script>
+        // 音乐播放器功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const backgroundMusic = document.getElementById('backgroundMusic');
+            const playPauseBtnCompact = document.getElementById('playPauseBtnCompact');
+            const musicTitleCompact = document.getElementById('musicTitleCompact');
+            
+            // 设置音频自动播放
+            function setupAutoplay() {
+                // 尝试自动播放
+                const playPromise = backgroundMusic.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        console.log('音乐自动播放成功');
+                        playPauseBtnCompact.classList.add('playing');
+                    }).catch(error => {
+                        console.log('自动播放被阻止，等待用户交互:', error);
+                        // 移除播放状态
+                        playPauseBtnCompact.classList.remove('playing');
+                        // 显示提示（如果需要）
+                        // musicTitleCompact.textContent = '点击播放';
+                    });
+                }
+            }
+            
+            // 页面加载后尝试自动播放
+            setTimeout(() => {
+                setupAutoplay();
+            }, 500);
+            
+            // 播放/暂停按钮点击事件
+            playPauseBtnCompact.addEventListener('click', function() {
+                if (backgroundMusic.paused) {
+                    backgroundMusic.play().then(() => {
+                        this.classList.add('playing');
+                    }).catch(error => {
+                        console.error('播放失败:', error);
+                    });
+                } else {
+                    backgroundMusic.pause();
+                    this.classList.remove('playing');
+                }
+            });
+            
+            // 音频事件监听
+            backgroundMusic.addEventListener('play', function() {
+                playPauseBtnCompact.classList.add('playing');
+            });
+            
+            backgroundMusic.addEventListener('pause', function() {
+                playPauseBtnCompact.classList.remove('playing');
+            });
+            
+            backgroundMusic.addEventListener('ended', function() {
+                playPauseBtnCompact.classList.remove('playing');
+            });
+            
+            backgroundMusic.addEventListener('error', function() {
+                console.error('音频加载失败');
+                playPauseBtnCompact.disabled = true;
+                playPauseBtnCompact.style.background = '#ccc';
+                musicTitleCompact.textContent = '加载失败';
+            });
+        });
+    </script>
 </body>
 </html>
