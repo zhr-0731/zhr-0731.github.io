@@ -38,5 +38,3 @@
                 link: "post/post5.html", // 新文章，在post文件夹下
                 image: "https://s41.ax1x.com/2025/12/08/pZnTyu9.jpg"
             }
-        ];
-        
