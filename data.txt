@@ -1,0 +1,42 @@
+            {
+                id: 1,
+                title: "使用GitHub Pages搭建个人博客",
+                excerpt: "详细讲解如何使用GitHub Pages免费部署个人博客网站，包含HTML、CSS和GitHub配置...",
+                date: "2023-10-15",
+                link: "post/post.html", // 更新为post文件夹下
+                image: "https://images.unsplash.com/photo-1598960087461-556c5a1f864a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=960"
+            },
+            {
+                id: 2,
+                title: "走出书本，对生活更有体会",
+                excerpt: "书本中的世界固然是精彩的，但书本外的世界会更丰富。读过书后再走出书本，对生活会有更深的体会。",
+                date: "2023-10-10",
+                link: "post/post2.html", // 更新为post文件夹下
+                image: "https://s41.ax1x.com/2025/12/06/pZmROmT.jpg"
+            },
+            {
+                id: 3,
+                title: "四季的花",
+                excerpt: "春有百花秋有月，夏有凉风冬有雪。四季更替，花儿也随之绽放，每一季都有独特的花卉装点我们的生活。",
+                date: "2023-10-05",
+                link: "post/post3.html", // 更新为post文件夹下
+                image: "https://s41.ax1x.com/2025/12/07/pZnFlYF.md.png"
+            },
+            {
+                id: 4,
+                title: "去了一趟重庆 #1",
+                excerpt: "2月，我终于有了机会，和同学去这个充满惊喜和美食的城市看看。",
+                date: "2025-12-14",
+                link: "post/post4.html", // 更新为post文件夹下
+                image: "https://s41.ax1x.com/2025/12/14/pZMRq76.jpg"
+            },
+            {
+                id: 5,
+                title: "去了一趟重庆 #2",
+                excerpt: "2月，我终于有了机会，和同学去这个充满惊喜和美食的城市看看。",
+                date: "2025-12-14",
+                link: "post/post5.html", // 新文章，在post文件夹下
+                image: "https://s41.ax1x.com/2025/12/08/pZnTyu9.jpg"
+            }
+        ];
+        
