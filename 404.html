@@ -66,13 +66,41 @@
           opacity: 0.9;
         }
         
-        .content p {
+        /* 新闻轮播容器 */
+        .news-container {
+          position: relative;
+          height: 24px; /* 单行高度 */
+          overflow: hidden;
+          margin-bottom: 40px;
+          width: 100%;
+          max-width: 500px;
+        }
+        
+        .news-slider {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .news-item {
+          height: 24px;
+          line-height: 24px;
+          text-align: center;
           font-weight: 300;
           font-size: 1rem;
           opacity: 0.7;
-          margin-bottom: 40px;
-          max-width: 500px;
+          color: #CDD4DE;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          width: 100%;
           padding: 0 20px;
+          box-sizing: border-box;
         }
         
         .content a {
@@ -126,9 +154,12 @@
             font-size: 2rem;
           }
           
-          .content p {
-            font-size: 0.9rem;
+          .news-container {
             margin-bottom: 35px;
+          }
+          
+          .news-item {
+            font-size: 0.9rem;
           }
           
           header {
@@ -150,6 +181,17 @@
             font-size: 1.8rem;
           }
           
+          .news-container {
+            height: 20px;
+            margin-bottom: 30px;
+          }
+          
+          .news-item {
+            height: 20px;
+            line-height: 20px;
+            font-size: 0.85rem;
+          }
+          
           .content a {
             padding: 10px 22px;
             font-size: 0.8rem;
@@ -168,7 +210,11 @@
         <div class="content">
             <h1>404</h1>
             <h2>页面未找到</h2>
-            <p>MAKE IT POSSIBLE</p>
+            <div class="news-container">
+                <div class="news-slider" id="news-slider">
+                    <!-- 新闻项将通过JavaScript动态插入 -->
+                </div>
+            </div>
             <a href="https://zhr-0731.github.io" id="home-button">返回首页</a>
         </div>
         
@@ -251,6 +297,114 @@
                 lFollowX = (Math.random() - 0.5) * 20;
                 lFollowY = (Math.random() - 0.5) * 15;
             }, 500);
+        });
+        
+        // 新闻轮播功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const newsSlider = document.getElementById('news-slider');
+            const apiUrl = 'https://apiserver.alcex.cn/daily-hot/thepaper';
+            let newsItems = [];
+            let currentIndex = 0;
+            let isTransitioning = false;
+            
+            // 从API获取新闻数据
+            async function fetchNews() {
+                try {
+                    const response = await fetch(apiUrl);
+                    const data = await response.json();
+                    
+                    if (data.code === 200 && data.data && data.data.length > 0) {
+                        newsItems = data.data.map(item => item.title);
+                    } else {
+                        // 如果API请求失败，使用默认新闻
+                        newsItems = [
+                            "欢迎访问我的GitHub主页",
+                            "页面未找到，请检查URL是否正确",
+                            "您可以点击下方按钮返回首页"
+                        ];
+                    }
+                } catch (error) {
+                    console.error('获取新闻失败:', error);
+                    newsItems = [
+                        "无法获取实时新闻",
+                        "请检查网络连接",
+                        "点击返回首页按钮继续浏览"
+                    ];
+                }
+                
+                // 初始化新闻轮播
+                initNewsSlider();
+            }
+            
+            // 初始化新闻轮播
+            function initNewsSlider() {
+                if (newsItems.length === 0) return;
+                
+                // 清空现有内容
+                newsSlider.innerHTML = '';
+                
+                // 创建新闻项
+                newsItems.forEach((title, index) => {
+                    const newsItem = document.createElement('div');
+                    newsItem.className = 'news-item';
+                    newsItem.textContent = title;
+                    newsSlider.appendChild(newsItem);
+                });
+                
+                // 设置初始位置（显示第一个新闻）
+                updateSliderPosition();
+                
+                // 开始轮播
+                startNewsRotation();
+            }
+            
+            // 更新轮播位置
+            function updateSliderPosition() {
+                if (newsItems.length === 0) return;
+                
+                // 计算需要移动的距离（每个新闻项24px）
+                const offset = currentIndex * 24; // 24px是每个新闻项的高度
+                newsSlider.style.transform = `translateY(-${offset}px)`;
+            }
+            
+            // 开始轮播
+            function startNewsRotation() {
+                if (newsItems.length <= 1) return;
+                
+                setInterval(() => {
+                    if (isTransitioning) return;
+                    
+                    isTransitioning = true;
+                    currentIndex++;
+                    
+                    // 如果到达最后一个，回到第一个
+                    if (currentIndex >= newsItems.length) {
+                        // 先快速重置到第一个（无动画）
+                        setTimeout(() => {
+                            currentIndex = 0;
+                            newsSlider.style.transition = 'none';
+                            updateSliderPosition();
+                            
+                            // 强制重排，确保无动画重置生效
+                            newsSlider.offsetHeight;
+                            
+                            // 恢复动画
+                            newsSlider.style.transition = 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+                            isTransitioning = false;
+                        }, 100);
+                    } else {
+                        updateSliderPosition();
+                    }
+                    
+                    // 重置过渡状态
+                    setTimeout(() => {
+                        isTransitioning = false;
+                    }, 800);
+                }, 5000); // 5秒切换一次
+            }
+            
+            // 开始获取新闻
+            fetchNews();
         });
     </script>
 </body>
