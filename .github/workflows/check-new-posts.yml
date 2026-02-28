@@ -1,0 +1,49 @@
+name: Check for New Posts and Update RSS
+
+on:
+  # 定时触发：每天 UTC 时间 00:00 (北京时间 08:00) 运行
+  schedule:
+    - cron: '0 0 * * *'
+  # 允许手动触发，方便测试
+  workflow_dispatch:
+
+jobs:
+  update-rss:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. 检出 (checkout) 仓库代码，这样脚本才能访问和修改文件
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # 使用刚创建的 secret 进行身份验证，以便有权限推送回仓库
+          token: ${{ secrets.GH_TOKEN }}
+
+      # 2. 设置 Python 环境
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # 3. 安装 Python 依赖 (如果需要解析 HTML 或生成 RSS)
+      - name: Install dependencies
+        run: |
+          pip install requests beautifulsoup4  # 用于获取文件列表和解析 HTML
+          # 如果有需要，也可以安装 RSS 生成库，如 'feedgen'
+
+      # 4. 运行核心脚本
+      - name: Run update script
+        env:
+          # 将 secret 作为环境变量传递给脚本
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: python .github/scripts/update_rss.py
+
+      # 5. 提交并推送所有更改 (如果有的话)
+      - name: Commit and push changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          # 添加所有更改，包括新的 rss.xml 和可能的状态文件
+          git add .
+          # 如果没有文件被更改，git commit 会返回非0状态，导致工作流失败。所以用 '|| exit 0' 来忽略
+          git commit -m "chore: update RSS feed with latest posts [skip ci]" || exit 0
+          git push
