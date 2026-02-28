@@ -28,7 +28,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install requests beautifulsoup4  # 用于获取文件列表和解析 HTML
-          # 如果有需要，也可以安装 RSS 生成库，如 'feedgen'
+          pip install requests beautifulsoup4 lxml
 
       # 4. 运行核心脚本
       - name: Run update script
