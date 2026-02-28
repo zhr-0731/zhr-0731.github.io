@@ -187,7 +187,7 @@ def main():
                 'name': item['name'],
                 'path': item['path'],
                 'download_url': item['download_url'],
-                'html_url': f"https://github.com/{REPO_OWNER}/{REPO_NAME}/blob/main/{item['path']}"
+                'html_url': f"https://bgithub.xyz/{REPO_OWNER}/{REPO_NAME}/blob/main/{item['path']}"
             }
             current_files[item['name']] = file_info
 
