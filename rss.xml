@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <title>My Blog RSS Feed</title>
+    <link>https://zhr-0731.github.io</link>
+    <description>Latest posts from my blog</description>
+    <item>
+      <title>post.html</title>
+      <link>https://zhr-0731.github.io/post/post.html</link>
+      <guid isPermaLink="true">https://zhr-0731.github.io/post/post.html</guid>
+      <pubDate>2026-02-28</pubDate>
+    </item>
+    <item>
+      <title>post2.html</title>
+      <link>https://zhr-0731.github.io/post/post2.html</link>
+      <guid isPermaLink="true">https://zhr-0731.github.io/post/post2.html</guid>
+      <pubDate>2026-02-28</pubDate>
+    </item>
+    <item>
+      <title>post3.html</title>
+      <link>https://zhr-0731.github.io/post/post3.html</link>
+      <guid isPermaLink="true">https://zhr-0731.github.io/post/post3.html</guid>
+      <pubDate>2026-02-28</pubDate>
+    </item>
+    <item>
+      <title>post4.html</title>
+      <link>https://zhr-0731.github.io/post/post4.html</link>
+      <guid isPermaLink="true">https://zhr-0731.github.io/post/post4.html</guid>
+      <pubDate>2026-02-28</pubDate>
+    </item>
+    <item>
+      <title>post5.html</title>
+      <link>https://zhr-0731.github.io/post/post5.html</link>
+      <guid isPermaLink="true">https://zhr-0731.github.io/post/post5.html</guid>
+      <pubDate>2026-02-28</pubDate>
+    </item>
+  </channel>
+</rss>
