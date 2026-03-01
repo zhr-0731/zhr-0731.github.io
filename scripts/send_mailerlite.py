@@ -2,8 +2,8 @@ import sys
 print("=== 脚本开始执行 ===", flush=True)
 
 import os
+import subprocess
 import requests
-from git import Repo
 
 print(f"当前工作目录: {os.getcwd()}", flush=True)
 api_key = os.getenv('MAILERLITE_API_KEY')
@@ -17,32 +17,32 @@ print(f"环境变量 REPO: {REPO}", flush=True)
 
 API_BASE = 'https://api.mailerlite.com/api/v2'
 
-# 获取本次新增的文章
+# 使用 git diff 获取新增文件列表
 try:
-    repo = Repo('.')
-    print("成功打开 Git 仓库", flush=True)
+    # 获取上一次提交与当前提交之间新增的文件（包括重命名等，但这里只取新增）
+    result = subprocess.run(
+        ['git', 'diff', '--name-only', '--diff-filter=A', 'HEAD~1', 'HEAD'],
+        capture_output=True, text=True, check=False
+    )
+    if result.returncode != 0:
+        # HEAD~1 可能不存在（首次提交），此时回退到列出所有 tracked 文件？但首次推送我们暂时不处理
+        print(f"git diff 返回错误，可能没有上一次提交。错误: {result.stderr}", flush=True)
+        # 尝试使用 git ls-files 获取所有文件？但会包括历史文件。为简单，直接退出
+        print("可能是首次提交，无新增文件可检测", flush=True)
+        sys.exit(0)
+
+    new_files = result.stdout.strip().split('\n')
+    if new_files == ['']:
+        new_files = []
+    print(f"git diff 检测到的新增文件: {new_files}", flush=True)
+
+    # 筛选 post 文件夹下的文件
+    new_posts = [f for f in new_files if f.startswith('post/')]
+    print(f"新增的文章: {new_posts}", flush=True)
+
 except Exception as e:
-    print(f"打开 Git 仓库失败: {e}", flush=True)
+    print(f"执行 git diff 失败: {e}", flush=True)
     sys.exit(1)
-
-commits = list(repo.iter_commits('HEAD~1..HEAD'))
-print(f"获取到 commits 数量: {len(commits)}", flush=True)
-
-if not commits:
-    print("没有找到 commits (可能只有一次提交)，退出", flush=True)
-    sys.exit(0)
-
-# 获取与上一次提交的差异
-try:
-    parent = commits[0].parents[0] if commits[0].parents else None
-    diff = commits[0].diff(parent)
-    print(f"差异文件列表: {[d.a_path for d in diff]}", flush=True)
-except Exception as e:
-    print(f"获取 diff 失败: {e}", flush=True)
-    sys.exit(1)
-
-new_posts = [d.a_path for d in diff if d.a_path.startswith('post/') and d.change_type == 'A']
-print(f"新增的文章: {new_posts}", flush=True)
 
 if not new_posts:
     print("没有新增文章，脚本正常退出", flush=True)
