@@ -981,6 +981,17 @@
                         </div>
                     </a>
                 </div>
+
+                <!-- 轮播项目6：张家小樵夫 -->
+                <div class="carousel-slide" data-index="5">
+                    <a href="post/post6.html" class="carousel-link">
+                        <img class="carousel-image" src="https://s41.ax1x.com/2026/03/01/peS0ln0.jpg" alt="文章封面6">
+                        <div class="carousel-caption">
+                            <h3 class="carousel-title">张家小樵夫</h3>
+                            <p class="carousel-excerpt">快要过年了，我央求妈妈带我去乡下姑姑家。帮姑姑砍柴的经历，让我成了“张家小樵夫”，也懂得了劳动创造美好生活的道理。</p>
+                        </div>
+                    </a>
+                </div>
                 
                 <!-- 轮播控制按钮 -->
                 <div class="carousel-controls">
@@ -995,6 +1006,7 @@
                     <div class="indicator" data-index="2"></div>
                     <div class="indicator" data-index="3"></div>
                     <div class="indicator" data-index="4"></div>
+                    <div class="indicator" data-index="5"></div>
                 </div>
             </div>
         </section>
@@ -1140,6 +1152,34 @@
                     </div>
                 </a>
             </article>
+
+            <!-- 文章卡片6：张家小樵夫 -->
+            <article class="post-card">
+                <a href="post/post6.html">
+                    <div class="post-media">
+                        <img class="post-image" src="https://s41.ax1x.com/2026/03/01/peS0ln0.jpg" alt="文章封面6">
+                    </div>
+                    
+                    <div class="post-content">
+                        <span class="post-tag">生活</span>
+                        <span class="post-tag">随笔</span>
+                        
+                        <h2 class="post-title">张家小樵夫</h2>
+                        
+                        <div class="post-excerpt">
+                            快要过年了，我央求妈妈带我去乡下姑姑家。帮姑姑砍柴的经历，让我成了“张家小樵夫”，也懂得了劳动创造美好生活的道理。
+                        </div>
+                    </div>
+                    
+                    <div class="post-footer">
+                        <span class="post-more">阅读更多</span>
+                        
+                        <div class="post-author">
+                            <img class="author-image" src="https://s41.ax1x.com/2025/12/06/pZmaGuR.png" alt="zhr">
+                        </div>
+                    </div>
+                </a>
+            </article>
         </div>
     </main>
 
@@ -1207,6 +1247,15 @@
                 date: "2025-12-08",
                 link: "post/post5.html",
                 image: "https://s41.ax1x.com/2025/12/08/pZnTyu9.jpg"
+            },
+            {
+                id: 6,
+                title: "张家小樵夫",
+                excerpt: "快要过年了，我央求妈妈带我去乡下姑姑家。帮姑姑砍柴的经历，让我成了“张家小樵夫”，也懂得了劳动创造美好生活的道理。",
+                tags: ["生活", "随笔"],
+                date: "2023-01-21",
+                link: "post/post6.html",
+                image: "https://s41.ax1x.com/2026/03/01/peS0ln0.jpg"
             }
         ];
         
@@ -1566,6 +1615,7 @@
             console.log('轮播3链接:', document.querySelector('.carousel-slide[data-index="2"] a')?.href);
             console.log('轮播4链接:', document.querySelector('.carousel-slide[data-index="3"] a')?.href);
             console.log('轮播5链接:', document.querySelector('.carousel-slide[data-index="4"] a')?.href);
+            console.log('轮播6链接:', document.querySelector('.carousel-slide[data-index="5"] a')?.href);
         });
     </script>
 </body>
