@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- 网页图标 -->
+    <link rel="icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png" type="image/png">
+    <link rel="shortcut icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png" type="image/png">
+    <link rel="apple-touch-icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全平台订阅指南·RSS - zhr的博客</title>
+    <meta name="description" content="开放、自由的互联网需要RSS。通过RSS定制你的信息流，本指南介绍如何在全平台订阅本博客。">
+
+    <style>
+        /* 全局样式 (完全保留原模板) */
+        :root {
+            --ghost-accent-color: #59c090;
+            --text-color: #333;
+            --bg-color: #fff;
+            --light-gray: #f5f5f5;
+            --border-color: #eaeaea;
+            --font-serif: 'Noto Serif SC', serif;
+            --font-sans: 'Noto Sans SC', sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-sans);
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            line-height: 1.6;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s;
+        }
+        
+        a:hover {
+            color: var(--ghost-accent-color);
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 头部导航 */
+        header {
+            background: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .logo-text {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            align-items: center;
+        }
+        
+        nav li {
+            margin-left: 25px;
+        }
+        
+        nav a {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        /* 导航栏中的音乐播放器 */
+        .nav-music-player {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: 0;
+        }
+        
+        .music-controls-compact {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .play-pause-btn-compact {
+            background: var(--ghost-accent-color);
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+        
+        .play-pause-btn-compact:hover {
+            background: #4aad7a;
+            transform: scale(1.05);
+        }
+        
+        .play-pause-btn-compact .play-icon,
+        .play-pause-btn-compact .pause-icon {
+            font-size: 14px;
+        }
+        
+        .play-pause-btn-compact .pause-icon {
+            display: none;
+        }
+        
+        .play-pause-btn-compact.playing .play-icon {
+            display: none;
+        }
+        
+        .play-pause-btn-compact.playing .pause-icon {
+            display: block;
+        }
+        
+        .music-album-compact {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .album-image-compact {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .music-title-compact {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-color);
+            white-space: nowrap;
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text-color);
+        }
+        
+        /* 文章详情 */
+        .article-header {
+            text-align: center;
+            margin: 40px 0 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .article-meta {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+        
+        .article-tag {
+            display: inline-block;
+            background: var(--ghost-accent-color);
+            color: white;
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            border-radius: 12px;
+            margin-right: 10px;
+        }
+        
+        .article-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-family: var(--font-serif);
+            line-height: 1.2;
+        }
+        
+        .article-excerpt {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        .article-image {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+        
+        .article-content {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .article-content h1, 
+        .article-content h2, 
+        .article-content h3 {
+            margin: 40px 0 20px;
+            font-family: var(--font-serif);
+        }
+        
+        .article-content p {
+            margin-bottom: 20px;
+        }
+        
+        .article-content blockquote {
+            border-left: 4px solid var(--ghost-accent-color);
+            padding-left: 20px;
+            margin: 30px 0;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .article-content ul, .article-content ol {
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+        
+        .article-content li {
+            margin-bottom: 10px;
+        }
+        
+        .article-content code {
+            background-color: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .article-content pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        .article-content pre code {
+            background: none;
+            padding: 0;
+        }
+        
+        /* 视频容器样式 (保留但不用) */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+            margin: 30px 0;
+            overflow: hidden;
+            border-radius: 8px;
+            background-color: #f5f5f5;
+        }
+        
+        .bilibili-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .article-content iframe {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+        
+        /* 导航按钮 */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin: 60px 0;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .navigation-item {
+            max-width: 45%;
+        }
+        
+        .navigation-label {
+            display: block;
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .navigation-title {
+            font-weight: 500;
+        }
+        
+        /* 评论区域 */
+        .comments-section {
+            max-width: 800px;
+            margin: 80px auto 40px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .comments-title {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        /* Giscus 评论容器 */
+        .giscus-container {
+            margin-top: 30px;
+        }
+        
+        /* 页脚 */
+        footer {
+            background: var(--light-gray);
+            padding: 50px 0;
+            margin-top: 80px;
+        }
+        
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .copyright {
+            color: #888;
+        }
+        
+        .footer-nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        .footer-nav li {
+            margin-left: 20px;
+        }
+        
+        .powered-by {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .header-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+                flex-wrap: wrap;
+            }
+            
+            nav li {
+                margin: 5px 15px 5px 0;
+            }
+            
+            .nav-music-player {
+                order: -1;
+                margin-bottom: 10px;
+                width: 100%;
+                justify-content: flex-start;
+            }
+            
+            .article-title {
+                font-size: 2rem;
+            }
+            
+            .navigation {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .navigation-item {
+                max-width: 100%;
+            }
+            
+            .footer-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-nav ul {
+                margin: 20px 0;
+                justify-content: center;
+            }
+            
+            .footer-nav li {
+                margin: 0 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .nav-music-player {
+                margin-bottom: 8px;
+            }
+            
+            .music-controls-compact {
+                gap: 6px;
+            }
+            
+            .music-title-compact {
+                font-size: 0.7rem;
+            }
+            
+            .play-pause-btn-compact {
+                width: 24px;
+                height: 24px;
+            }
+            
+            .music-album-compact {
+                width: 24px;
+                height: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部导航 (与原模板一致) -->
+    <header>
+        <div class="container">
+            <div class="header-inner">
+                <div class="logo">
+                    <img src="https://avatars.githubusercontent.com/u/11725315?v=4" alt="zhr">
+                    <span class="logo-text">zhr的博客</span>
+                </div>
+                
+                <nav>
+                    <ul>
+                        <!-- 导航栏中的音乐播放器 (保留) -->
+                        <li class="nav-music-player">
+                            <div class="music-controls-compact">
+                                <button class="play-pause-btn-compact playing" id="playPauseBtnCompact">
+                                    <span class="play-icon">▶</span>
+                                    <span class="pause-icon">❚❚</span>
+                                </button>
+                                
+                                <div class="music-album-compact">
+                                    <img src="https://s41.ax1x.com/2026/01/10/pZ0cJLq.jpg" alt="专辑封面" class="album-image-compact">
+                                </div>
+                                
+                                <div class="music-title-compact" id="musicTitleCompact">金鹰955</div>
+                            </div>
+                        </li>
+                        
+                        <li><a href="https://zhr-0731.github.io/index.html">文章|Article</a></li>
+                        <li><a href="https://zhr-0731.github.io/zhr-s-videos/">视频|Video</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="header-actions">
+                    <button class="search-btn">🔍</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 文章主要内容 (完全替换为RSS订阅指南) -->
+    <main class="container">
+        <article class="article">
+            <header class="article-header">
+                <div class="article-meta">
+                    作者：<a href="https://bgithub.xyz/zhr-0731" target="_blank">张皓然</a>
+                    分类：
+                    <a class="article-tag" href="#">教程</a>
+                    <a class="article-tag" href="#">RSS</a>
+                    —
+                    <time datetime="2026-03-01">2026年3月1日</time>
+                </div>
+
+                <h1 class="article-title">全平台订阅指南 · RSS</h1>
+
+                <p class="article-excerpt">开放、自由的互联网需要RSS。通过RSS定制你的信息流，不受算法控制。本指南介绍如何在全平台订阅本博客。</p>
+                
+                <!-- 封面图: 换成RSS标志 -->
+                <figure class="article-image">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/43/Feed-icon.svg" alt="RSS订阅图标" style="max-width: 200px; background: #59c090; border-radius: 50%; padding: 20px;">
+                </figure>
+            </header>
+
+            <!-- 文章正文 (全为新内容) -->
+            <div class="article-content">
+                <blockquote>
+                    <p>「RSS 是互联网的最后一道自由之光。」 —— 无数怀念纯粹信息流的人</p>
+                </blockquote>
+                
+                <h2>为什么使用 RSS？</h2>
+                
+                <p>在算法推荐主宰视野的今天，RSS 依然保持着自己的初心：你选择什么，就看到什么。没有信息茧房，没有广告轰炸，只有你主动订阅的内容。本博客一直提供全文 RSS 输出，现在我把订阅方式整理出来，无论你使用电脑、手机还是命令行，都能第一时间收到更新。</p>
+                
+                <h2>📡 本博客 RSS 地址</h2>
+                
+                <p>将以下链接复制到任何 RSS 阅读器中即可订阅：</p>
+                <pre><code>https://raw.githubusercontent.com/zhr-0731/zhr-0731.github.io/refs/heads/main/rss.xml</code></pre>
+                
+                <p>你也可以直接点击下方图片（模拟添加订阅）：</p>
+                
+                <figure class="article-image">
+                    <img src="https://via.placeholder.com/800x300/59c090/ffffff?text=RSS+Feed+URL+->+https://raw.githubusercontent.com/zhr-0731/zhr-0731.github.io/refs/heads/main/rss.xml" alt="RSS地址示意图">
+                </figure>
+                
+                <h2>💻 桌面端订阅指南</h2>
+                
+                <p><strong>Windows / macOS / Linux</strong> 平台均有优秀的原生阅读器：</p>
+                <ul>
+                    <li><strong>Windows:</strong> 推荐 <a href="https://www.quiterss.org/" target="_blank">QuiteRSS</a> (开源、功能全面) 或 <a href="https://feedreader.com/" target="_blank">FeedReader</a>。</li>
+                    <li><strong>macOS:</strong> 原生简洁的 <a href="https://netnewswire.com/" target="_blank">NetNewsWire</a> (免费开源) 或 <a href="https://reederapp.com/" target="_blank">Reeder</a> (付费但体验极佳)。</li>
+                    <li><strong>Linux:</strong> <a href="https://news-flash.github.io/" target="_blank">NewsFlash</a> (适配 GNOME) 或 <a href="https://quiterss.org/" target="_blank">QuiteRSS</a> 同样可用。</li>
+                    <li><strong>浏览器扩展:</strong> <a href="https://addons.mozilla.org/firefox/addon/feedbroreader/" target="_blank">Feedbro</a> (Chrome/Firefox/Edge)，直接在浏览器中阅读。</li>
+                </ul>
+                
+                <figure class="article-image">
+                    <img src="https://via.placeholder.com/800x400/59c090/ffffff?text=Desktop+RSS+Readers+Examples" alt="桌面阅读器示意图">
+                </figure>
+                
+                <h2>📱 移动端订阅指南</h2>
+                
+                <p><strong>Android 和 iOS</strong> 上的阅读器同样丰富：</p>
+                <ul>
+                    <li><strong>Android:</strong> <a href="https://github.com/spacecowboy/Feeder" target="_blank">Feeder</a> (开源轻量)、<a href="https://f-droid.org/packages/com.nononsenseapps.feeder/" target="_blank">Readrops</a> 或 <a href="https://play.google.com/store/apps/details?id=com.seazon.feedme" target="_blank">FeedMe</a> (功能强大)。</li>
+                    <li><strong>iOS/iPadOS:</strong> <a href="https://netnewswire.com/" target="_blank">NetNewsWire</a> (免费)、<a href="https://reederapp.com/" target="_blank">Reeder</a> (通用购买) 或 <a href="https://fieryfeeds.com/" target="_blank">Fiery Feeds</a> (高度自定义)。</li>
+                </ul>
+                <p>操作示例：在 Reeder 中添加订阅，选择「Add Feed」，输入上面的 RSS 地址即可。</p>
+                
+                <figure class="article-image">
+                    <img src="https://via.placeholder.com/800x400/59c090/ffffff?text=Mobile+RSS+Apps" alt="移动端阅读器示意图">
+                </figure>
+                
+                <h2>☁️ 在线 RSS 服务（跨平台同步）</h2>
+                
+                <p>如果你需要在多个设备之间保持阅读进度同步，可以使用云服务：</p>
+                <ul>
+                    <li><a href="https://feedly.com/" target="_blank">Feedly</a> – 最流行的聚合器，免费版够用。</li>
+                    <li><a href="https://www.inoreader.com/" target="_blank">Inoreader</a> – 强大的规则与过滤，免费版支持 150 个源。</li>
+                    <li><a href="https://theoldreader.com/" target="_blank">The Old Reader</a> – 简洁，类似 Google Reader 风格。</li>
+                </ul>
+                <p>将 RSS 地址添加到上述服务后，再通过手机 App 登录同一账号，即可实现云端同步。</p>
+                
+                <h2>⌨️ 命令行与极客方式</h2>
+                
+                <p>如果你经常在终端工作，可以试试 <a href="https://newsboat.org/" target="_blank">Newsboat</a> – 一个终端下的 RSS 阅读器，快速、轻量、可脚本化。配置只需将 RSS 链接加入 urls 文件。</p>
+                
+                <pre><code># 在 ~/.newsboat/urls 中添加一行
+https://raw.githubusercontent.com/zhr-0731/zhr-0731.github.io/refs/heads/main/rss.xml</code></pre>
+                
+                <h2>🔁 更新频率与内容</h2>
+                
+                <p>本博客 RSS 会同步发布所有文章（包括这篇指南），包含完整全文，不截断。大约每月更新 1-4 次，你可以在阅读器中设置检查间隔（例如每 6 小时）。</p>
+                
+                <!-- 原视频容器已删除，替换为一个简单的提示块 -->
+                <div style="background: #f0f9f4; padding: 20px; border-radius: 8px; margin: 30px 0; border-left: 4px solid var(--ghost-accent-color);">
+                    <p style="margin:0; font-weight:500;">✨ 小提示：如果你使用 Feedly 或 Inoreader，可以直接搜索「zhr的博客」，有时能自动发现 RSS 地址。不过手动输入上述链接最保险。</p>
+                </div>
+                
+                <h2>🎯 结语</h2>
+                
+                <p>RSS 不会消失，因为它由用户掌控。希望这份指南能帮助你重新夺回信息主动权。如果你在订阅过程中遇到任何问题，欢迎在下方评论留言，或者通过 GitHub 讨论区反馈。</p>
+                
+                <p>现在，复制 RSS 链接，挑选一款喜欢的阅读器，开始清爽的阅读之旅吧。</p>
+                
+                <!-- 原重庆文章的图片全部替换为 RSS 占位图，下方保留最后一张装饰 -->
+                <figure class="article-image">
+                    <img src="https://via.placeholder.com/800x400/59c090/ffffff?text=Enjoy+RSS+Feeds" alt="Enjoy RSS">
+                </figure>
+            </div>
+        </article>
+        
+        <!-- 导航按钮 (重新指向博客首页和其他文章，避免死链) -->
+        <div class="navigation">
+            <a class="navigation-item navigation-previous" href="post6.html">
+                <span class="navigation-label">上一篇</span>
+                <h4 class="navigation-title">张家小樵夫</h4>
+            </a>
+            <a class="navigation-item navigation-next" href="https://zhr-0731.github.io/">
+                <span class="navigation-label">返回首页</span>
+                <h4 class="navigation-title">浏览更多文章</h4>
+            </a>
+        </div>
+        
+        <!-- 评论区域 (保留Giscus，基于原配置) -->
+        <section class="comments-section">
+            <h3 class="comments-title">评论与讨论</h3>
+            <div class="giscus-container">
+                <script src="https://giscus.app/client.js"
+        data-repo="zhr-0731/zhr-0731.github.io"
+        data-repo-id="R_kgDOQhEetg"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOQhEets4CzTCY"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 (与原模板一致) -->
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                
+                <nav class="footer-nav">
+                    <ul>
+                        <li><a href="https://bgithub.xyz/zhr-0731" target="_blank">GitHub</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="powered-by">
+                    基于 GitHub Pages
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- 音频元素 (保留，自动播放) -->
+    <audio id="backgroundMusic" loop autoplay>
+        <source src="https://rscdn.ajmide.com/r_1700/nglive_1700.m3u8" type="application/vnd.apple.mpegurl">
+        您的浏览器不支持音频播放
+    </audio>
+
+    <script>
+        // 音乐播放器功能 (完全保留)
+        document.addEventListener('DOMContentLoaded', function() {
+            const backgroundMusic = document.getElementById('backgroundMusic');
+            const playPauseBtnCompact = document.getElementById('playPauseBtnCompact');
+            const musicTitleCompact = document.getElementById('musicTitleCompact');
+            
+            function setupAutoplay() {
+                const playPromise = backgroundMusic.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        console.log('音乐自动播放成功');
+                        playPauseBtnCompact.classList.add('playing');
+                    }).catch(error => {
+                        console.log('自动播放被阻止，等待用户交互:', error);
+                        playPauseBtnCompact.classList.remove('playing');
+                    });
+                }
+            }
+            
+            setTimeout(() => {
+                setupAutoplay();
+            }, 500);
+            
+            playPauseBtnCompact.addEventListener('click', function() {
+                if (backgroundMusic.paused) {
+                    backgroundMusic.play().then(() => {
+                        this.classList.add('playing');
+                    }).catch(error => {
+                        console.error('播放失败:', error);
+                    });
+                } else {
+                    backgroundMusic.pause();
+                    this.classList.remove('playing');
+                }
+            });
+            
+            backgroundMusic.addEventListener('play', function() {
+                playPauseBtnCompact.classList.add('playing');
+            });
+            
+            backgroundMusic.addEventListener('pause', function() {
+                playPauseBtnCompact.classList.remove('playing');
+            });
+            
+            backgroundMusic.addEventListener('ended', function() {
+                playPauseBtnCompact.classList.remove('playing');
+            });
+            
+            backgroundMusic.addEventListener('error', function() {
+                console.error('音频加载失败');
+                playPauseBtnCompact.disabled = true;
+                playPauseBtnCompact.style.background = '#ccc';
+                musicTitleCompact.textContent = '加载失败';
+            });
+            
+            // 确保无自动播放视频 (没有视频了，但保留逻辑无害)
+            const bilibiliIframes = document.querySelectorAll('.bilibili-video');
+            bilibiliIframes.forEach(iframe => {
+                const src = iframe.src;
+                if (!src.includes('autoplay=0')) {
+                    if (src.includes('?')) {
+                        iframe.src = src + '&autoplay=0';
+                    } else {
+                        iframe.src = src + '?autoplay=0';
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
