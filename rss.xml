@@ -265,8 +265,16 @@ yourusername.github.io&lt;/code&gt;&lt;/pre&gt;
     <item>
       <title>test</title>
       <link>https://zhr-0731.github.io/post/test.html</link>
-      <description></description>
+      <description/>
       <guid isPermaLink="true">https://zhr-0731.github.io/post/test.html</guid>
+      <pubDate>Sun, 01 Mar 2026 00:00:00 -0000</pubDate>
+      <dc:creator>zhr</dc:creator>
+    </item>
+    <item>
+      <title>test2</title>
+      <link>https://zhr-0731.github.io/post/test2.html</link>
+      <description></description>
+      <guid isPermaLink="true">https://zhr-0731.github.io/post/test2.html</guid>
       <pubDate>Sun, 01 Mar 2026 00:00:00 -0000</pubDate>
       <dc:creator>zhr</dc:creator>
     </item>
