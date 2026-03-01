@@ -5,7 +5,8 @@ on:
     branches:
       - main
     paths:
-      - 'post/**'  # 仅当 post 文件夹变化时触发
+      - 'post/**'
+  workflow_dispatch:
 
 jobs:
   send:
@@ -14,7 +15,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 2  # 需要获取两次提交以比较差异
+          fetch-depth: 2
+
+      - name: Show current directory
+        run: pwd
+
+      - name: List root files
+        run: ls -la
+
+      - name: List scripts folder (if exists)
+        run: ls -la scripts/ || echo "scripts folder not found"
+
+      - name: Recursively search for send_mailerlite.py
+        run: find . -name "send_mailerlite.py" -type f
 
       - name: Set up Python
         uses: actions/setup-python@v4
