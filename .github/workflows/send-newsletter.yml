@@ -1,0 +1,31 @@
+name: Send Newsletter via MailerLite
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'post/**'  # 仅当 post 文件夹变化时触发
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2  # 需要获取两次提交以比较差异
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install requests GitPython
+
+      - name: Run MailerLite script
+        env:
+          MAILERLITE_API_KEY: ${{ secrets.MAILERLITE_API_KEY }}
+          REPO: ${{ github.repository }}
+        run: python scripts/send_mailerlite.py
