@@ -287,66 +287,74 @@ yourusername.github.io&lt;/code&gt;&lt;/pre&gt;
       <dc:creator>zhr</dc:creator>
       <category>教程</category>
       <category>RSS</category>
-      <content:encoded><![CDATA[<figure class="article-image">
-<img alt="RSS订阅图标" src="https://upload.wikimedia.org/wikipedia/commons/4/43/Feed-icon.svg" style="max-width: 200px; background: #59c090; border-radius: 50%; padding: 20px;"/>
-</figure><blockquote>
-<p>「RSS 是互联网的最后一道自由之光。」 —— 无数怀念纯粹信息流的人</p>
-</blockquote>
-<h2>为什么使用 RSS？</h2>
-<p>在算法推荐主宰视野的今天，RSS 依然保持着自己的初心：你选择什么，就看到什么。没有信息茧房，没有广告轰炸，只有你主动订阅的内容。本博客一直提供全文 RSS 输出，现在我把订阅方式整理出来，无论你使用电脑、手机还是命令行，都能第一时间收到更新。</p>
-<h2>📡 本博客 RSS 地址</h2>
-<p>将以下链接复制到任何 RSS 阅读器中即可订阅：</p>
-<pre><code>https://raw.githubusercontent.com/zhr-0731/zhr-0731.github.io/refs/heads/main/rss.xml</code></pre>
-<p>你也可以直接点击下方图片（模拟添加订阅）：</p>
-<figure class="article-image">
-<img alt="RSS地址示意图" src="https://via.placeholder.com/800x300/59c090/ffffff?text=RSS+Feed+URL+-&gt;+https://raw.githubusercontent.com/zhr-0731/zhr-0731.github.io/refs/heads/main/rss.xml"/>
-</figure>
-<h2>💻 桌面端订阅指南</h2>
-<p><strong>Windows / macOS / Linux</strong> 平台均有优秀的原生阅读器：</p>
-<ul>
-<li><strong>Windows:</strong> 推荐 <a href="https://www.quiterss.org/" target="_blank">QuiteRSS</a> (开源、功能全面) 或 <a href="https://feedreader.com/" target="_blank">FeedReader</a>。</li>
-<li><strong>macOS:</strong> 原生简洁的 <a href="https://netnewswire.com/" target="_blank">NetNewsWire</a> (免费开源) 或 <a href="https://reederapp.com/" target="_blank">Reeder</a> (付费但体验极佳)。</li>
-<li><strong>Linux:</strong> <a href="https://news-flash.github.io/" target="_blank">NewsFlash</a> (适配 GNOME) 或 <a href="https://quiterss.org/" target="_blank">QuiteRSS</a> 同样可用。</li>
-<li><strong>浏览器扩展:</strong> <a href="https://addons.mozilla.org/firefox/addon/feedbroreader/" target="_blank">Feedbro</a> (Chrome/Firefox/Edge)，直接在浏览器中阅读。</li>
-</ul>
-<figure class="article-image">
-<img alt="桌面阅读器示意图" src="https://via.placeholder.com/800x400/59c090/ffffff?text=Desktop+RSS+Readers+Examples"/>
-</figure>
-<h2>📱 移动端订阅指南</h2>
-<p><strong>Android 和 iOS</strong> 上的阅读器同样丰富：</p>
-<ul>
-<li><strong>Android:</strong> <a href="https://github.com/spacecowboy/Feeder" target="_blank">Feeder</a> (开源轻量)、<a href="https://f-droid.org/packages/com.nononsenseapps.feeder/" target="_blank">Readrops</a> 或 <a href="https://play.google.com/store/apps/details?id=com.seazon.feedme" target="_blank">FeedMe</a> (功能强大)。</li>
-<li><strong>iOS/iPadOS:</strong> <a href="https://netnewswire.com/" target="_blank">NetNewsWire</a> (免费)、<a href="https://reederapp.com/" target="_blank">Reeder</a> (通用购买) 或 <a href="https://fieryfeeds.com/" target="_blank">Fiery Feeds</a> (高度自定义)。</li>
-</ul>
-<p>操作示例：在 Reeder 中添加订阅，选择「Add Feed」，输入上面的 RSS 地址即可。</p>
-<figure class="article-image">
-<img alt="移动端阅读器示意图" src="https://via.placeholder.com/800x400/59c090/ffffff?text=Mobile+RSS+Apps"/>
-</figure>
-<h2>☁️ 在线 RSS 服务（跨平台同步）</h2>
-<p>如果你需要在多个设备之间保持阅读进度同步，可以使用云服务：</p>
-<ul>
-<li><a href="https://feedly.com/" target="_blank">Feedly</a> – 最流行的聚合器，免费版够用。</li>
-<li><a href="https://www.inoreader.com/" target="_blank">Inoreader</a> – 强大的规则与过滤，免费版支持 150 个源。</li>
-<li><a href="https://theoldreader.com/" target="_blank">The Old Reader</a> – 简洁，类似 Google Reader 风格。</li>
-</ul>
-<p>将 RSS 地址添加到上述服务后，再通过手机 App 登录同一账号，即可实现云端同步。</p>
-<h2>⌨️ 命令行与极客方式</h2>
-<p>如果你经常在终端工作，可以试试 <a href="https://newsboat.org/" target="_blank">Newsboat</a> – 一个终端下的 RSS 阅读器，快速、轻量、可脚本化。配置只需将 RSS 链接加入 urls 文件。</p>
-<pre><code># 在 ~/.newsboat/urls 中添加一行
-https://raw.githubusercontent.com/zhr-0731/zhr-0731.github.io/refs/heads/main/rss.xml</code></pre>
-<h2>🔁 更新频率与内容</h2>
-<p>本博客 RSS 会同步发布所有文章（包括这篇指南），包含完整全文，不截断。大约每月更新 1-4 次，你可以在阅读器中设置检查间隔（例如每 6 小时）。</p>
-<!-- 原视频容器已删除，替换为一个简单的提示块 -->
-<div style="background: #f0f9f4; padding: 20px; border-radius: 8px; margin: 30px 0; border-left: 4px solid var(--ghost-accent-color);">
-<p style="margin:0; font-weight:500;">✨ 小提示：如果你使用 Feedly 或 Inoreader，可以直接搜索「zhr的博客」，有时能自动发现 RSS 地址。不过手动输入上述链接最保险。</p>
-</div>
-<h2>🎯 结语</h2>
-<p>RSS 不会消失，因为它由用户掌控。希望这份指南能帮助你重新夺回信息主动权。如果你在订阅过程中遇到任何问题，欢迎在下方评论留言，或者通过 GitHub 讨论区反馈。</p>
-<p>现在，复制 RSS 链接，挑选一款喜欢的阅读器，开始清爽的阅读之旅吧。</p>
-<!-- 原重庆文章的图片全部替换为 RSS 占位图，下方保留最后一张装饰 -->
-<figure class="article-image">
-<img alt="Enjoy RSS" src="https://via.placeholder.com/800x400/59c090/ffffff?text=Enjoy+RSS+Feeds"/>
-</figure>]]></content:encoded>
+      <content:encoded>&lt;figure class="article-image"&gt;
+&lt;img alt="RSS订阅图标" src="https://upload.wikimedia.org/wikipedia/commons/4/43/Feed-icon.svg" style="max-width: 200px; background: #59c090; border-radius: 50%; padding: 20px;"/&gt;
+&lt;/figure&gt;&lt;blockquote&gt;
+&lt;p&gt;「RSS 是互联网的最后一道自由之光。」 —— 无数怀念纯粹信息流的人&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;为什么使用 RSS？&lt;/h2&gt;
+&lt;p&gt;在算法推荐主宰视野的今天，RSS 依然保持着自己的初心：你选择什么，就看到什么。没有信息茧房，没有广告轰炸，只有你主动订阅的内容。本博客一直提供全文 RSS 输出，现在我把订阅方式整理出来，无论你使用电脑、手机还是命令行，都能第一时间收到更新。&lt;/p&gt;
+&lt;h2&gt;📡 本博客 RSS 地址&lt;/h2&gt;
+&lt;p&gt;将以下链接复制到任何 RSS 阅读器中即可订阅：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;https://raw.githubusercontent.com/zhr-0731/zhr-0731.github.io/refs/heads/main/rss.xml&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;你也可以直接点击下方图片（模拟添加订阅）：&lt;/p&gt;
+&lt;figure class="article-image"&gt;
+&lt;img alt="RSS地址示意图" src="https://via.placeholder.com/800x300/59c090/ffffff?text=RSS+Feed+URL+-&amp;gt;+https://raw.githubusercontent.com/zhr-0731/zhr-0731.github.io/refs/heads/main/rss.xml"/&gt;
+&lt;/figure&gt;
+&lt;h2&gt;💻 桌面端订阅指南&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Windows / macOS / Linux&lt;/strong&gt; 平台均有优秀的原生阅读器：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Windows:&lt;/strong&gt; 推荐 &lt;a href="https://www.quiterss.org/" target="_blank"&gt;QuiteRSS&lt;/a&gt; (开源、功能全面) 或 &lt;a href="https://feedreader.com/" target="_blank"&gt;FeedReader&lt;/a&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;macOS:&lt;/strong&gt; 原生简洁的 &lt;a href="https://netnewswire.com/" target="_blank"&gt;NetNewsWire&lt;/a&gt; (免费开源) 或 &lt;a href="https://reederapp.com/" target="_blank"&gt;Reeder&lt;/a&gt; (付费但体验极佳)。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Linux:&lt;/strong&gt; &lt;a href="https://news-flash.github.io/" target="_blank"&gt;NewsFlash&lt;/a&gt; (适配 GNOME) 或 &lt;a href="https://quiterss.org/" target="_blank"&gt;QuiteRSS&lt;/a&gt; 同样可用。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;浏览器扩展:&lt;/strong&gt; &lt;a href="https://addons.mozilla.org/firefox/addon/feedbroreader/" target="_blank"&gt;Feedbro&lt;/a&gt; (Chrome/Firefox/Edge)，直接在浏览器中阅读。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class="article-image"&gt;
+&lt;img alt="桌面阅读器示意图" src="https://via.placeholder.com/800x400/59c090/ffffff?text=Desktop+RSS+Readers+Examples"/&gt;
+&lt;/figure&gt;
+&lt;h2&gt;📱 移动端订阅指南&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Android 和 iOS&lt;/strong&gt; 上的阅读器同样丰富：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Android:&lt;/strong&gt; &lt;a href="https://github.com/spacecowboy/Feeder" target="_blank"&gt;Feeder&lt;/a&gt; (开源轻量)、&lt;a href="https://f-droid.org/packages/com.nononsenseapps.feeder/" target="_blank"&gt;Readrops&lt;/a&gt; 或 &lt;a href="https://play.google.com/store/apps/details?id=com.seazon.feedme" target="_blank"&gt;FeedMe&lt;/a&gt; (功能强大)。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;iOS/iPadOS:&lt;/strong&gt; &lt;a href="https://netnewswire.com/" target="_blank"&gt;NetNewsWire&lt;/a&gt; (免费)、&lt;a href="https://reederapp.com/" target="_blank"&gt;Reeder&lt;/a&gt; (通用购买) 或 &lt;a href="https://fieryfeeds.com/" target="_blank"&gt;Fiery Feeds&lt;/a&gt; (高度自定义)。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;操作示例：在 Reeder 中添加订阅，选择「Add Feed」，输入上面的 RSS 地址即可。&lt;/p&gt;
+&lt;figure class="article-image"&gt;
+&lt;img alt="移动端阅读器示意图" src="https://via.placeholder.com/800x400/59c090/ffffff?text=Mobile+RSS+Apps"/&gt;
+&lt;/figure&gt;
+&lt;h2&gt;☁️ 在线 RSS 服务（跨平台同步）&lt;/h2&gt;
+&lt;p&gt;如果你需要在多个设备之间保持阅读进度同步，可以使用云服务：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://feedly.com/" target="_blank"&gt;Feedly&lt;/a&gt; – 最流行的聚合器，免费版够用。&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.inoreader.com/" target="_blank"&gt;Inoreader&lt;/a&gt; – 强大的规则与过滤，免费版支持 150 个源。&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://theoldreader.com/" target="_blank"&gt;The Old Reader&lt;/a&gt; – 简洁，类似 Google Reader 风格。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;将 RSS 地址添加到上述服务后，再通过手机 App 登录同一账号，即可实现云端同步。&lt;/p&gt;
+&lt;h2&gt;⌨️ 命令行与极客方式&lt;/h2&gt;
+&lt;p&gt;如果你经常在终端工作，可以试试 &lt;a href="https://newsboat.org/" target="_blank"&gt;Newsboat&lt;/a&gt; – 一个终端下的 RSS 阅读器，快速、轻量、可脚本化。配置只需将 RSS 链接加入 urls 文件。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# 在 ~/.newsboat/urls 中添加一行
+https://raw.githubusercontent.com/zhr-0731/zhr-0731.github.io/refs/heads/main/rss.xml&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;🔁 更新频率与内容&lt;/h2&gt;
+&lt;p&gt;本博客 RSS 会同步发布所有文章（包括这篇指南），包含完整全文，不截断。大约每月更新 1-4 次，你可以在阅读器中设置检查间隔（例如每 6 小时）。&lt;/p&gt;
+&lt;!-- 原视频容器已删除，替换为一个简单的提示块 --&gt;
+&lt;div style="background: #f0f9f4; padding: 20px; border-radius: 8px; margin: 30px 0; border-left: 4px solid var(--ghost-accent-color);"&gt;
+&lt;p style="margin:0; font-weight:500;"&gt;✨ 小提示：如果你使用 Feedly 或 Inoreader，可以直接搜索「zhr的博客」，有时能自动发现 RSS 地址。不过手动输入上述链接最保险。&lt;/p&gt;
+&lt;/div&gt;
+&lt;h2&gt;🎯 结语&lt;/h2&gt;
+&lt;p&gt;RSS 不会消失，因为它由用户掌控。希望这份指南能帮助你重新夺回信息主动权。如果你在订阅过程中遇到任何问题，欢迎在下方评论留言，或者通过 GitHub 讨论区反馈。&lt;/p&gt;
+&lt;p&gt;现在，复制 RSS 链接，挑选一款喜欢的阅读器，开始清爽的阅读之旅吧。&lt;/p&gt;
+&lt;!-- 原重庆文章的图片全部替换为 RSS 占位图，下方保留最后一张装饰 --&gt;
+&lt;figure class="article-image"&gt;
+&lt;img alt="Enjoy RSS" src="https://via.placeholder.com/800x400/59c090/ffffff?text=Enjoy+RSS+Feeds"/&gt;
+&lt;/figure&gt;</content:encoded>
+    </item>
+    <item>
+      <title>test3</title>
+      <link>https://zhr-0731.github.io/post/test3.html</link>
+      <description></description>
+      <guid isPermaLink="true">https://zhr-0731.github.io/post/test3.html</guid>
+      <pubDate>Sun, 01 Mar 2026 00:00:00 -0000</pubDate>
+      <dc:creator>zhr</dc:creator>
     </item>
   </channel>
 </rss>
