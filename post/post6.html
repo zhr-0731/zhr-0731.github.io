@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- 网页图标 -->
+    <link rel="icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png" type="image/png">
+    <link rel="shortcut icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png" type="image/png">
+    <link rel="apple-touch-icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>张家小樵夫 - zhr的博客</title>
+    <meta name="description" content="快要过年了，我央求妈妈带我去乡下姑姑家。帮姑姑砍柴的经历，让我成了“张家小樵夫”，也懂得了劳动创造美好生活的道理。">
+    <style>
+        /* 全局样式 */
+        :root {
+            --ghost-accent-color: #59c090;
+            --text-color: #333;
+            --bg-color: #fff;
+            --light-gray: #f5f5f5;
+            --border-color: #eaeaea;
+            --font-serif: 'Noto Serif SC', serif;
+            --font-sans: 'Noto Sans SC', sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-sans);
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            line-height: 1.6;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s;
+        }
+        
+        a:hover {
+            color: var(--ghost-accent-color);
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 头部导航 */
+        header {
+            background: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .logo-text {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            align-items: center;
+        }
+        
+        nav li {
+            margin-left: 25px;
+        }
+        
+        nav a {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        /* 导航栏中的音乐播放器 */
+        .nav-music-player {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: 0;
+        }
+        
+        .music-controls-compact {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .play-pause-btn-compact {
+            background: var(--ghost-accent-color);
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+        
+        .play-pause-btn-compact:hover {
+            background: #4aad7a;
+            transform: scale(1.05);
+        }
+        
+        .play-pause-btn-compact .play-icon,
+        .play-pause-btn-compact .pause-icon {
+            font-size: 14px;
+        }
+        
+        .play-pause-btn-compact .pause-icon {
+            display: none;
+        }
+        
+        .play-pause-btn-compact.playing .play-icon {
+            display: none;
+        }
+        
+        .play-pause-btn-compact.playing .pause-icon {
+            display: block;
+        }
+        
+        .music-album-compact {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .album-image-compact {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .music-title-compact {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-color);
+            white-space: nowrap;
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text-color);
+        }
+        
+        /* 文章详情 */
+        .article-header {
+            text-align: center;
+            margin: 40px 0 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .article-meta {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+        
+        .article-tag {
+            display: inline-block;
+            background: var(--ghost-accent-color);
+            color: white;
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            border-radius: 12px;
+            margin-right: 10px;
+        }
+        
+        .article-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-family: var(--font-serif);
+            line-height: 1.2;
+        }
+        
+        .article-excerpt {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        .article-image {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+        
+        .article-content {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .article-content h1, 
+        .article-content h2, 
+        .article-content h3 {
+            margin: 40px 0 20px;
+            font-family: var(--font-serif);
+        }
+        
+        .article-content p {
+            margin-bottom: 20px;
+        }
+        
+        .article-content blockquote {
+            border-left: 4px solid var(--ghost-accent-color);
+            padding-left: 20px;
+            margin: 30px 0;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .article-content ul, .article-content ol {
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+        
+        .article-content li {
+            margin-bottom: 10px;
+        }
+        
+        .article-content code {
+            background-color: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .article-content pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        .article-content pre code {
+            background: none;
+            padding: 0;
+        }
+        
+        /* 视频容器样式 - 本文章未使用但保留定义 */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+            margin: 30px 0;
+            overflow: hidden;
+            border-radius: 8px;
+            background-color: #f5f5f5;
+        }
+        
+        .bilibili-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .article-content iframe {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+        
+        /* 导航按钮 */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin: 60px 0;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .navigation-item {
+            max-width: 45%;
+        }
+        
+        .navigation-label {
+            display: block;
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .navigation-title {
+            font-weight: 500;
+        }
+        
+        /* 评论区域 */
+        .comments-section {
+            max-width: 800px;
+            margin: 80px auto 40px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .comments-title {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        /* Giscus 评论容器 */
+        .giscus-container {
+            margin-top: 30px;
+        }
+        
+        /* 页脚 */
+        footer {
+            background: var(--light-gray);
+            padding: 50px 0;
+            margin-top: 80px;
+        }
+        
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .copyright {
+            color: #888;
+        }
+        
+        .footer-nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        .footer-nav li {
+            margin-left: 20px;
+        }
+        
+        .powered-by {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .header-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+                flex-wrap: wrap;
+            }
+            
+            nav li {
+                margin: 5px 15px 5px 0;
+            }
+            
+            .nav-music-player {
+                order: -1;
+                margin-bottom: 10px;
+                width: 100%;
+                justify-content: flex-start;
+            }
+            
+            .article-title {
+                font-size: 2rem;
+            }
+            
+            .navigation {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .navigation-item {
+                max-width: 100%;
+            }
+            
+            .footer-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-nav ul {
+                margin: 20px 0;
+                justify-content: center;
+            }
+            
+            .footer-nav li {
+                margin: 0 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .nav-music-player {
+                margin-bottom: 8px;
+            }
+            
+            .music-controls-compact {
+                gap: 6px;
+            }
+            
+            .music-title-compact {
+                font-size: 0.7rem;
+            }
+            
+            .play-pause-btn-compact {
+                width: 24px;
+                height: 24px;
+            }
+            
+            .music-album-compact {
+                width: 24px;
+                height: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header>
+        <div class="container">
+            <div class="header-inner">
+                <div class="logo">
+                    <img src="https://avatars.githubusercontent.com/u/11725315?v=4" alt="zhr">
+                    <span class="logo-text">zhr的博客</span>
+                </div>
+                
+                <nav>
+                    <ul>
+                        <!-- 导航栏中的音乐播放器 -->
+                        <li class="nav-music-player">
+                            <div class="music-controls-compact">
+                                <button class="play-pause-btn-compact playing" id="playPauseBtnCompact">
+                                    <span class="play-icon">▶</span>
+                                    <span class="pause-icon">❚❚</span>
+                                </button>
+                                
+                                <div class="music-album-compact">
+                                    <img src="https://s41.ax1x.com/2026/01/10/pZ0cJLq.jpg" alt="专辑封面" class="album-image-compact">
+                                </div>
+                                
+                                <div class="music-title-compact" id="musicTitleCompact">金鹰955</div>
+                            </div>
+                        </li>
+                        
+                        <li><a href="https://zhr-0731.github.io/index.html">文章|Article</a></li>
+                        <li><a href="https://zhr-0731.github.io/zhr-s-videos/">视频|Video</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="header-actions">
+                    <button class="search-btn">🔍</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 文章内容 -->
+    <main class="container">
+        <article class="article">
+            <header class="article-header">
+                <div class="article-meta">
+                    作者：<a href="https://bgithub.xyz/zhr-0731" target="_blank">张皓然</a>
+                    分类：
+                    <a class="article-tag" href="#">生活</a>
+                    <a class="article-tag" href="#">随笔</a>
+                    —
+                    <time datetime="2023-01-21">2023年1月21日</time>
+                </div>
+
+                <h1 class="article-title">张家小樵夫</h1>
+
+                <p class="article-excerpt">快要过年了，我央求妈妈带我去乡下姑姑家。帮姑姑砍柴的经历，让我成了“张家小樵夫”，也懂得了劳动创造美好生活的道理。</p>
+                <figure class="article-image">
+                    <img src="https://s41.ax1x.com/2026/03/01/peS0ln0.jpg" alt="文首图：山间砍柴">
+                </figure>
+            </header>
+
+            <!-- 文章正文 -->
+            <div class="article-content">
+                <blockquote>
+                    <p>感谢张家界近林书院博思文艺创作工作室对本文的大力支持</p>
+                </blockquote>
+                
+                <p>快要过年了，终于能尽情地玩耍了。乡下是一个令人向往的快乐园地，于是我央求妈妈带我去一趟乡下姑姑家。</p>
+                
+                <p>妈妈欣然同意了，她很乐意把我送到了姑姑家体验乡村生活。乡村景美天地宽，就在我尽情玩耍时，姑姑却发了愁。我很好奇，问她：“怎么了？姑姑。”她皱着眉头说：“炕腊肉吃木柴不够了。”我听后拍拍胸脯，信心满满地说：“这你就不用担心了，我可以帮你去山上砍点儿！”说完，我便麻利地背上背篓，拿上弯刀向山里进发。</p>
+                
+                <p>进山之路远比我想象的难走得多。山里本来是没有路的，走的人多了，地上便有了一条樵夫进山的必经之路。我走在这条小路上，旁边乱石丛丛，荆棘遍地，上面树木参天，还不时有几声鸟叫从远处传来。我的眼睛在林子里扫来扫去，想想到底该砍哪根，不过我满心希望能多砍点好柴，好把腊肉熏得香香喷喷。</p>
+                
+                <p>突然，我的目光落到了一棵光秃秃的树上。心想这就是上等的好柴。于是，我挥舞着刀，浑身解数把树斩倒了，然后咻咻咻把树枝全砍下来，剁成几节，整齐地放在地上。然后高高兴兴地向前走去。走了不远，我发现路边有许多枯落的树枝，我开心极了，这是上好的干柴。我要一齐把这些柴火打包带走。于是我拉来了一根藤蔓，把这些柴火捆起来，塞入背篓里。</p>
+                
+                <p>我在山里砍柴着了迷。不知过了多久，直到姑姑一声大喊：“张皓然，差不多得了！回来吧！”我这才回过神来。看看天上，夕阳的余晖已在在天边闪烁。我要赶紧回家了，不然赶不上饭点了！</p>
+                
+                <p>我背着柴火出了山，走到姑姑家的院子，隔壁邻居笑着说：“张家出了个小樵夫！”听到这话，我心里美滋滋的。回到家姑姑给火坑里添了新柴，看着旺火，我明白了一个道理：美好的生活，天上不能白白的掉来，要用自己的双手去创造！</p>
+                
+                <!-- 原模板中的重庆图片和视频已全部移除，仅保留文字内容 -->
+            </div>
+        </article>
+        
+        <!-- 导航按钮 -->
+        <div class="navigation">
+            <a class="navigation-item navigation-previous" href="https://zhr-0731.github.io/index.html">
+                <span class="navigation-label">上一篇</span>
+                <h4 class="navigation-title">乡村年味</h4>
+            </a>
+            <a class="navigation-item navigation-next" href="https://zhr-0731.github.io/index.html">
+                <span class="navigation-label">返回首页</span>
+                <h4 class="navigation-title">浏览更多文章</h4>
+            </a>
+        </div>
+        
+        <!-- 评论区域 -->
+        <section class="comments-section">
+            <h3 class="comments-title">评论与讨论</h3>
+            <div class="giscus-container">
+                <!-- Giscus 评论系统 -->
+                <script src="https://giscus.app/client.js"
+        data-repo="zhr-0731/zhr-0731.github.io"
+        data-repo-id="R_kgDOQhEetg"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOQhEets4CzTCY"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                
+                <nav class="footer-nav">
+                    <ul>
+                        <li><a href="https://bgithub.xyz/zhr-0731" target="_blank">GitHub</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="powered-by">
+                    基于 GitHub Pages
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- 音频元素 - 添加autoplay属性 -->
+    <audio id="backgroundMusic" loop autoplay>
+        <source src="https://rscdn.ajmide.com/r_1700/nglive_1700.m3u8" type="application/vnd.apple.mpegurl">
+        您的浏览器不支持音频播放
+    </audio>
+
+    <script>
+        // 音乐播放器功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const backgroundMusic = document.getElementById('backgroundMusic');
+            const playPauseBtnCompact = document.getElementById('playPauseBtnCompact');
+            const musicTitleCompact = document.getElementById('musicTitleCompact');
+            
+            // 设置音频自动播放
+            function setupAutoplay() {
+                // 尝试自动播放
+                const playPromise = backgroundMusic.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        console.log('音乐自动播放成功');
+                        playPauseBtnCompact.classList.add('playing');
+                    }).catch(error => {
+                        console.log('自动播放被阻止，等待用户交互:', error);
+                        // 移除播放状态
+                        playPauseBtnCompact.classList.remove('playing');
+                        // 显示提示（如果需要）
+                        // musicTitleCompact.textContent = '点击播放';
+                    });
+                }
+            }
+            
+            // 页面加载后尝试自动播放
+            setTimeout(() => {
+                setupAutoplay();
+            }, 500);
+            
+            // 播放/暂停按钮点击事件
+            playPauseBtnCompact.addEventListener('click', function() {
+                if (backgroundMusic.paused) {
+                    backgroundMusic.play().then(() => {
+                        this.classList.add('playing');
+                    }).catch(error => {
+                        console.error('播放失败:', error);
+                    });
+                } else {
+                    backgroundMusic.pause();
+                    this.classList.remove('playing');
+                }
+            });
+            
+            // 音频事件监听
+            backgroundMusic.addEventListener('play', function() {
+                playPauseBtnCompact.classList.add('playing');
+            });
+            
+            backgroundMusic.addEventListener('pause', function() {
+                playPauseBtnCompact.classList.remove('playing');
+            });
+            
+            backgroundMusic.addEventListener('ended', function() {
+                playPauseBtnCompact.classList.remove('playing');
+            });
+            
+            backgroundMusic.addEventListener('error', function() {
+                console.error('音频加载失败');
+                playPauseBtnCompact.disabled = true;
+                playPauseBtnCompact.style.background = '#ccc';
+                musicTitleCompact.textContent = '加载失败';
+            });
+            
+            // 确保不会有视频自动播放（本页无视频，但保留兼容）
+            const bilibiliIframes = document.querySelectorAll('.bilibili-video');
+            bilibiliIframes.forEach(iframe => {
+                const src = iframe.src;
+                if (!src.includes('autoplay=0')) {
+                    if (src.includes('?')) {
+                        iframe.src = src + '&autoplay=0';
+                    } else {
+                        iframe.src = src + '?autoplay=0';
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
