@@ -1,22 +1,21 @@
-name: Send Newsletter via MailerLite
+name: Send Newsletter via Buttondown
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'post/**'          # 只有 post 文件夹变化时才触发
-  workflow_dispatch:        # 允许手动触发，方便测试
+      - 'post/**'
+  workflow_dispatch:
 
 jobs:
   send:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 2    # 获取最近两次提交，用于检测新增文件
+          fetch-depth: 2
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -24,11 +23,10 @@ jobs:
           python-version: '3.x'
 
       - name: Install dependencies
-        run: pip install requests
+        run: pip install requests beautifulsoup4 html2text
 
-      - name: Run MailerLite script
+      - name: Run Buttondown script
         env:
-          MAILERLITE_API_KEY: ${{ secrets.MAILERLITE_API_KEY }}
+          BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
           REPO: ${{ github.repository }}
-          TEST_EMAIL: ${{ secrets.TEST_EMAIL }}   # 你自己的邮箱，用于接收测试邮件
-        run: python scripts/send_mailerlite.py
+        run: python scripts/send_buttondown.py
