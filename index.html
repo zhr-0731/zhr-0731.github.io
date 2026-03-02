@@ -612,6 +612,7 @@
             padding: 3px 10px;
             border-radius: 12px;
             margin-bottom: 15px;
+            margin-right: 5px;
         }
         
         .post-title {
@@ -665,6 +666,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
         }
         
         .copyright {
@@ -685,7 +688,189 @@
             font-size: 0.9rem;
         }
         
-        /* 响应式设计 */
+        /* RSS 订阅链接样式 */
+        .rss-subscribe {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--ghost-accent-color);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: background 0.3s, transform 0.2s;
+            white-space: nowrap;
+        }
+        
+        .rss-subscribe:hover {
+            background: #3fa875;
+            color: white;
+            transform: scale(1.02);
+        }
+        
+        .rss-subscribe:active {
+            transform: scale(0.98);
+        }
+        
+        .rss-icon {
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+        
+        /* ---------- 新增 Newsletter 订阅样式 ---------- */
+        .newsletter-section {
+            margin: 60px 0 40px;  /* 与上下内容保持间距 */
+        }
+        
+        .newsletter-card {
+            background: #fff;
+            border-radius: 24px;
+            padding: 48px 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease;
+        }
+        
+        .newsletter-card:hover {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        }
+        
+        .newsletter-title {
+            font-size: 2rem;
+            font-family: var(--font-serif);
+            margin-bottom: 16px;
+            color: var(--text-color);
+            letter-spacing: -0.01em;
+        }
+        
+        .newsletter-description {
+            color: #666;
+            max-width: 520px;
+            margin: 0 auto 32px;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+        
+        .newsletter-form {
+            max-width: 520px;
+            margin: 0 auto;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 12px;
+            align-items: stretch;
+            margin-bottom: 16px;
+        }
+        
+        .newsletter-input {
+            flex: 1;
+            padding: 16px 24px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 60px;
+            font-size: 1rem;
+            transition: all 0.25s;
+            outline: none;
+            font-family: var(--font-sans);
+            background: #fafafa;
+        }
+        
+        .newsletter-input:focus {
+            border-color: var(--ghost-accent-color);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(89, 192, 144, 0.12);
+        }
+        
+        .newsletter-input::placeholder {
+            color: #aaa;
+            font-weight: 300;
+        }
+        
+        .newsletter-button {
+            background: var(--ghost-accent-color);
+            color: white;
+            border: none;
+            border-radius: 60px;
+            padding: 0 36px;
+            font-size: 1.05rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s;
+            white-space: nowrap;
+            letter-spacing: 0.3px;
+            box-shadow: 0 4px 10px rgba(89, 192, 144, 0.2);
+        }
+        
+        .newsletter-button:hover {
+            background: #3fa875;
+            transform: scale(1.02);
+            box-shadow: 0 8px 18px rgba(89, 192, 144, 0.3);
+        }
+        
+        .newsletter-button:active {
+            transform: scale(0.98);
+        }
+        
+        .newsletter-footnote {
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: #888;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        
+        .newsletter-footnote a {
+            color: #888;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            text-decoration-thickness: 1px;
+            transition: color 0.2s;
+        }
+        
+        .newsletter-footnote a:hover {
+            color: var(--ghost-accent-color);
+        }
+        
+        /* 辅助可访问性隐藏 */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+        
+        /* 移动端适配 */
+        @media (max-width: 600px) {
+            .newsletter-card {
+                padding: 36px 24px;
+            }
+            .newsletter-title {
+                font-size: 1.7rem;
+            }
+            .form-row {
+                flex-direction: column;
+                gap: 16px;
+            }
+            .newsletter-button {
+                padding: 16px 24px;
+                width: 100%;
+            }
+            .newsletter-input {
+                padding: 16px 22px;
+            }
+        }
+        
+        /* 响应式设计（原样式保留） */
         @media (max-width: 768px) {
             .header-inner {
                 flex-direction: column;
@@ -737,6 +922,7 @@
             .footer-inner {
                 flex-direction: column;
                 text-align: center;
+                justify-content: center;
             }
             
             .footer-nav ul {
@@ -779,6 +965,10 @@
             .music-album-compact {
                 width: 26px;
                 height: 26px;
+            }
+            
+            .rss-subscribe {
+                margin-top: 10px;
             }
         }
         
@@ -881,10 +1071,6 @@
             </div>
         </div>
         
-        <!-- 灯笼挂件 -->
-        <a href="https://zhr-0731.github.io/Loading.html?q=30293012" class="lantern-link" target="_blank">
-            <img src="https://s41.ax1x.com/2026/01/03/pZUyQOO.png" alt="灯笼" class="lantern">
-        </a>
     </header>
 
     <!-- 音频元素 - 自动播放（已更换为金鹰955电台） -->
@@ -923,11 +1109,11 @@
 
     <!-- 主要内容区 -->
     <main class="main-content container">
-        <!-- 轮播图部分 -->
+        <!-- 轮播图部分 - 现在包含全部8篇文章 -->
         <section class="carousel-section">
             <h2 class="carousel-section-title">精选文章</h2>
             <div class="carousel-container" id="carouselContainer">
-                <!-- 轮播项目1 -->
+                <!-- 轮播项目1：GitHub Pages搭建博客 -->
                 <div class="carousel-slide active" data-index="0">
                     <a href="post/post.html" class="carousel-link">
                         <img class="carousel-image" src="https://images.unsplash.com/photo-1598960087461-556c5a1f864a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200" alt="文章封面1">
@@ -938,7 +1124,7 @@
                     </a>
                 </div>
                 
-                <!-- 轮播项目2 -->
+                <!-- 轮播项目2：走出书本 -->
                 <div class="carousel-slide" data-index="1">
                     <a href="post/post2.html" class="carousel-link">
                         <img class="carousel-image" src="https://s41.ax1x.com/2025/12/06/pZmROmT.jpg" alt="文章封面2">
@@ -949,7 +1135,7 @@
                     </a>
                 </div>
                 
-                <!-- 轮播项目3 -->
+                <!-- 轮播项目3：四季的花 -->
                 <div class="carousel-slide" data-index="2">
                     <a href="post/post3.html" class="carousel-link">
                         <img class="carousel-image" src="https://s41.ax1x.com/2025/12/07/pZnFlYF.md.png" alt="文章封面3">
@@ -960,7 +1146,7 @@
                     </a>
                 </div>
 
-                <!-- 轮播项目4 -->
+                <!-- 轮播项目4：重庆 #1 -->
                 <div class="carousel-slide" data-index="3">
                     <a href="post/post4.html" class="carousel-link">
                         <img class="carousel-image" src="https://s41.ax1x.com/2025/12/14/pZMRq76.jpg" alt="文章封面4">
@@ -971,7 +1157,7 @@
                     </a>
                 </div>
                 
-                <!-- 轮播项目5：去了一趟重庆 #2 -->
+                <!-- 轮播项目5：重庆 #2 -->
                 <div class="carousel-slide" data-index="4">
                     <a href="post/post5.html" class="carousel-link">
                         <img class="carousel-image" src="https://s41.ax1x.com/2025/12/08/pZnTyu9.jpg" alt="文章封面5">
@@ -993,13 +1179,35 @@
                     </a>
                 </div>
                 
+                <!-- 轮播项目7：全平台订阅指南·RSS -->
+                <div class="carousel-slide" data-index="6">
+                    <a href="post/post7.html" class="carousel-link">
+                        <img class="carousel-image" src="https://s41.ax1x.com/2026/03/02/pepKMAP.jpg" alt="RSS订阅封面">
+                        <div class="carousel-caption">
+                            <h3 class="carousel-title">全平台订阅指南 · RSS</h3>
+                            <p class="carousel-excerpt">开放、自由的互联网需要RSS。通过RSS定制你的信息流，本指南介绍如何在全平台订阅本博客。</p>
+                        </div>
+                    </a>
+                </div>
+                
+                <!-- 轮播项目8：全平台订阅指南·newsletter -->
+                <div class="carousel-slide" data-index="7">
+                    <a href="post/post8.html" class="carousel-link">
+                        <img class="carousel-image" src="https://s41.ax1x.com/2026/03/02/pepKu7t.jpg" alt="newsletter订阅封面">
+                        <div class="carousel-caption">
+                            <h3 class="carousel-title">全平台订阅指南 · newsletter</h3>
+                            <p class="carousel-excerpt">通过邮件订阅我的newsletter，每周精选文章直接送到你的收件箱。</p>
+                        </div>
+                    </a>
+                </div>
+                
                 <!-- 轮播控制按钮 -->
                 <div class="carousel-controls">
                     <button class="carousel-btn prev-btn">❮</button>
                     <button class="carousel-btn next-btn">❯</button>
                 </div>
                 
-                <!-- 轮播指示器 -->
+                <!-- 轮播指示器 - 8个 -->
                 <div class="carousel-indicators">
                     <div class="indicator active" data-index="0"></div>
                     <div class="indicator" data-index="1"></div>
@@ -1007,13 +1215,15 @@
                     <div class="indicator" data-index="3"></div>
                     <div class="indicator" data-index="4"></div>
                     <div class="indicator" data-index="5"></div>
+                    <div class="indicator" data-index="6"></div>
+                    <div class="indicator" data-index="7"></div>
                 </div>
             </div>
         </section>
 
-        <!-- 文章列表 -->
+        <!-- 文章列表（包含原有的6篇 + 新增2篇） -->
         <div class="post-feed">
-            <!-- 文章卡片1 -->
+            <!-- 原有6个卡片保持不变 -->
             <article class="post-card">
                 <a href="post/post.html">
                     <div class="post-media">
@@ -1040,7 +1250,6 @@
                 </a>
             </article>
             
-            <!-- 文章卡片2 -->
             <article class="post-card">
                 <a href="post/post2.html">
                     <div class="post-media">
@@ -1068,7 +1277,6 @@
                 </a>
             </article>
             
-            <!-- 文章卡片3 -->
             <article class="post-card">
                 <a href="post/post3.html">
                     <div class="post-media">
@@ -1097,7 +1305,6 @@
                 </a>
             </article>
 
-            <!-- 文章卡片4 -->
             <article class="post-card">
                 <a href="post/post4.html">
                     <div class="post-media">
@@ -1125,7 +1332,6 @@
                 </a>
             </article>
             
-            <!-- 文章卡片5：去了一趟重庆 #2 -->
             <article class="post-card">
                 <a href="post/post5.html">
                     <div class="post-media">
@@ -1153,7 +1359,6 @@
                 </a>
             </article>
 
-            <!-- 文章卡片6：张家小樵夫 -->
             <article class="post-card">
                 <a href="post/post6.html">
                     <div class="post-media">
@@ -1180,10 +1385,85 @@
                     </div>
                 </a>
             </article>
+
+            <!-- 新增卡片：全平台订阅指南 · RSS -->
+            <article class="post-card">
+                <a href="post/post7.html">
+                    <div class="post-media">
+                        <img class="post-image" src="https://s41.ax1x.com/2026/03/02/pepKMAP.jpg" alt="RSS 订阅封面">
+                    </div>
+                    <div class="post-content">
+                        <span class="post-tag">教程</span>
+                        <span class="post-tag">RSS</span>
+                        <h2 class="post-title">全平台订阅指南 · RSS</h2>
+                        <div class="post-excerpt">
+                            开放、自由的互联网需要RSS。通过RSS定制你的信息流，本指南介绍如何在全平台订阅本博客。
+                        </div>
+                    </div>
+                    <div class="post-footer">
+                        <span class="post-more">阅读更多</span>
+                        <div class="post-author">
+                            <img class="author-image" src="https://s41.ax1x.com/2025/12/06/pZmaGuR.png" alt="zhr">
+                        </div>
+                    </div>
+                </a>
+            </article>
+
+            <!-- 新增卡片：全平台订阅指南 · newsletter -->
+            <article class="post-card">
+                <a href="post/post8.html">
+                    <div class="post-media">
+                        <img class="post-image" src="https://s41.ax1x.com/2026/03/02/pepKu7t.jpg" alt="newsletter 订阅封面">
+                    </div>
+                    <div class="post-content">
+                        <span class="post-tag">订阅</span>
+                        <span class="post-tag">指南</span>
+                        <h2 class="post-title">全平台订阅指南 · newsletter</h2>
+                        <div class="post-excerpt">
+                            通过邮件订阅我的newsletter，每周精选文章直接送到你的收件箱。
+                        </div>
+                    </div>
+                    <div class="post-footer">
+                        <span class="post-more">阅读更多</span>
+                        <div class="post-author">
+                            <img class="author-image" src="https://s41.ax1x.com/2025/12/06/pZmaGuR.png" alt="zhr">
+                        </div>
+                    </div>
+                </a>
+            </article>
         </div>
     </main>
 
-    <!-- 页脚 -->
+    <!-- Newsletter 订阅区域 -->
+    <section class="newsletter-section container">
+        <div class="newsletter-card">
+            <h2 class="newsletter-title">订阅我的 newsletter</h2>
+            <p class="newsletter-description">
+                每周精选文章、生活感悟、旅行故事，直接发送到你的邮箱。随时可以退订。
+            </p>
+            <form action="https://buttondown.com/api/emails/embed-subscribe/zhr-0731" 
+                  method="post" 
+                  class="embeddable-buttondown-form newsletter-form">
+                <div class="form-row">
+                    <label for="newsletter-email" class="sr-only">电子邮箱</label>
+                    <input type="email" 
+                           name="email" 
+                           id="newsletter-email" 
+                           class="newsletter-input" 
+                           placeholder="your@email.com" 
+                           required>
+                    <input type="hidden" name="embed" value="1">
+                    <button type="submit" class="newsletter-button">订阅</button>
+                </div>
+                <p class="newsletter-footnote">
+                    <a href="https://buttondown.com" target="_blank">Powered by Buttondown.</a>
+                    尊重你的隐私，不发送垃圾邮件。
+                </p>
+            </form>
+        </div>
+    </section>
+
+    <!-- 页脚 - 增加了 RSS 订阅链接 -->
     <footer>
         <div class="container">
             <div class="footer-inner">
@@ -1196,6 +1476,11 @@
                 <div class="powered-by">
                     基于 GitHub Pages
                 </div>
+
+                <!-- 新增 RSS 订阅链接 -->
+                <a href="https://raw.bgithub.xyz/zhr-0731/zhr-0731.github.io/refs/heads/main/rss.xml" target="_blank" class="rss-subscribe" rel="noopener noreferrer">
+                    <span class="rss-icon">📡</span> RSS 订阅
+                </a>
             </div>
         </div>
     </footer>
@@ -1256,10 +1541,29 @@
                 date: "2023-01-21",
                 link: "post/post6.html",
                 image: "https://s41.ax1x.com/2026/03/01/peS0ln0.jpg"
+            },
+            // 新增两篇文章数据（便于搜索）
+            {
+                id: 7,
+                title: "全平台订阅指南 · RSS",
+                excerpt: "开放、自由的互联网需要RSS。通过RSS定制你的信息流，本指南介绍如何在全平台订阅本博客。",
+                tags: ["教程", "RSS"],
+                date: "2026-03-01",
+                link: "post/post7.html",
+                image: "https://s41.ax1x.com/2026/03/02/pepKMAP.jpg"
+            },
+            {
+                id: 8,
+                title: "全平台订阅指南 · newsletter",
+                excerpt: "通过邮件订阅我的newsletter，每周精选文章直接送到你的收件箱。",
+                tags: ["订阅", "指南"],
+                date: "2026-03-02",
+                link: "post/post8.html",
+                image: "https://s41.ax1x.com/2026/03/02/pepKu7t.jpg"
             }
         ];
         
-        // 轮播功能脚本
+        // 轮播功能脚本 (完全保留，与之前一致)
         document.addEventListener('DOMContentLoaded', function() {
             // 轮播功能
             class Carousel {
@@ -1616,6 +1920,8 @@
             console.log('轮播4链接:', document.querySelector('.carousel-slide[data-index="3"] a')?.href);
             console.log('轮播5链接:', document.querySelector('.carousel-slide[data-index="4"] a')?.href);
             console.log('轮播6链接:', document.querySelector('.carousel-slide[data-index="5"] a')?.href);
+            console.log('轮播7链接:', document.querySelector('.carousel-slide[data-index="6"] a')?.href);
+            console.log('轮播8链接:', document.querySelector('.carousel-slide[data-index="7"] a')?.href);
         });
     </script>
 </body>
