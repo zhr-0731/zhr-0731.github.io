@@ -3,7 +3,6 @@ import os
 import subprocess
 import requests
 from bs4 import BeautifulSoup
-import html2text
 
 print("=== Buttondown 脚本开始执行 ===", flush=True)
 
@@ -44,7 +43,7 @@ def get_new_posts():
         return []
 
 def extract_post_info(post_path):
-    """从 HTML 文件中提取标题、摘要和正文"""
+    """从 HTML 文件中提取标题、摘要和正文 HTML"""
     try:
         with open(post_path, 'r', encoding='utf-8') as f:
             html = f.read()
@@ -60,7 +59,6 @@ def extract_post_info(post_path):
     if title_tag:
         title = title_tag.get_text(strip=True)
     else:
-        # 回退到 <title> 标签
         title_tag = soup.find('title')
         title = title_tag.get_text(strip=True) if title_tag else "无标题"
     print(f"标题: {title}", flush=True)
@@ -70,7 +68,6 @@ def extract_post_info(post_path):
     if meta_desc and meta_desc.get('content'):
         summary = meta_desc['content']
     else:
-        # 取正文前200字符作为摘要
         content_div = soup.find('div', class_='article-content')
         if content_div:
             text = content_div.get_text(strip=True)
@@ -82,9 +79,9 @@ def extract_post_info(post_path):
     # 提取正文 HTML（只保留 article-content 部分）
     content_div = soup.find('div', class_='article-content')
     if content_div:
-        # 移除可能包含的脚本、样式等
-        for script in content_div.find_all(['script', 'style']):
-            script.decompose()
+        # 移除可能包含的脚本、样式，但保留图片
+        for tag in content_div.find_all(['script', 'style']):
+            tag.decompose()
         body_html = str(content_div)
     else:
         body_html = "<p>文章内容无法提取</p>"
@@ -98,27 +95,27 @@ def extract_post_info(post_path):
     return title, summary, body_html, article_url
 
 def send_buttondown_email(title, summary, body_html, article_url):
-    """调用 Buttondown API 创建并发送邮件"""
+    """调用 Buttondown API 创建并发送邮件（直接发送 HTML）"""
     headers = {
         'Authorization': f'Token {api_key}',
         'Content-Type': 'application/json',
     }
 
-    # 构建邮件正文：将 HTML 正文转换为 Markdown（可选），或直接发送 HTML
-    # Buttondown 的 body 字段支持 Markdown，也支持内嵌 HTML。我们选择发送 HTML 以获得更好格式保留。
-    # 但为了兼容性，可以将 HTML 转换为 Markdown（使用 html2text）
-    h = html2text.HTML2Text()
-    h.ignore_links = False
-    body_md = h.handle(body_html)
+    # 构建完整的邮件 HTML，添加阅读全文链接
+    full_html = f"""
+{body_html}
 
-    # 添加阅读全文链接
-    full_body = f"{body_md}\n\n---\n\n[阅读全文]({article_url})"
+<hr>
+<p style="text-align: center;">
+    <a href="{article_url}" style="background-color: #59c090; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">阅读全文</a>
+</p>
+<p style="color: #888; font-size: 0.9em;">如果无法显示图片，请点击阅读全文在浏览器中查看。</p>
+"""
 
     email_data = {
         "subject": f"博客更新：{title}",
-        "body": full_body,
-        "publish": True,          # 立即发送
-        # 可选：指定 newsletter ID，如果不指定则发送给所有订阅者
+        "body": full_html,
+        "publish": True,          # 立即发送给所有订阅者
     }
 
     print("正在创建并发送邮件...", flush=True)
