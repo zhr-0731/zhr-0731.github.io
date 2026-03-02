@@ -351,9 +351,68 @@ https://raw.githubusercontent.com/zhr-0731/zhr-0731.github.io/refs/heads/main/rs
     <item>
       <title>test3</title>
       <link>https://zhr-0731.github.io/post/test3.html</link>
-      <description></description>
+      <description/>
       <guid isPermaLink="true">https://zhr-0731.github.io/post/test3.html</guid>
       <pubDate>Sun, 01 Mar 2026 00:00:00 -0000</pubDate>
+      <dc:creator>zhr</dc:creator>
+    </item>
+    <item>
+      <title>全平台订阅指南 · newsletter</title>
+      <link>https://zhr-0731.github.io/post/post8.html</link>
+      <description>通过邮件订阅我的newsletter，每周精选文章、生活随笔，直接送到你的收件箱。</description>
+      <guid isPermaLink="true">https://zhr-0731.github.io/post/post8.html</guid>
+      <pubDate>Mon, 02 Mar 2026 00:00:00 -0000</pubDate>
+      <dc:creator>zhr</dc:creator>
+      <category>订阅</category>
+      <category>指南</category>
+      <content:encoded><![CDATA[<figure class="article-image">
+<img alt="打开的信封和钢笔" src="https://images.unsplash.com/photo-1513002749550-c59d786f8e6c?w=1200"/>
+</figure><p>感谢你来到我的博客。除了不定期访问网站，你还可以通过邮件订阅 <strong>newsletter</strong>，让每一篇新文章主动找到你。这里没有算法推荐，只有真诚的分享。</p>
+<h2>📬 为什么订阅邮件？</h2>
+<p>邮件是一种古老但依然美好的方式。它不会像社交平台那样淹没在海量信息中，也不会被算法左右。每当我发布新文章、旅行随笔或生活感悟，你会第一时间在收件箱里读到精选内容——就像收到一封老朋友的信。</p>
+<blockquote>
+<p>“每周一封信，把远方的故事带到你身边。”</p>
+</blockquote>
+<h2>🔐 隐私与承诺</h2>
+<p>我使用 <strong>Buttondown</strong> 发送 newsletter，它简洁、安全且尊重隐私。你的邮箱仅用于接收邮件，绝不会被泄露或转售。邮件中附有一键退订链接，任何时候不想继续收到，随时可以退订，不会有任何负担。</p>
+<h2>📮 立即订阅</h2>
+<p>在下方输入你的邮箱，点击订阅按钮，你会收到一封确认邮件（记得检查垃圾箱）。确认后，每周的精选内容就会飞向你的收件箱。</p>
+<!-- 嵌入首页的邮件订阅表单 (完全移植) -->
+<div class="newsletter-section">
+<div class="newsletter-card">
+<h3 class="newsletter-title" style="font-size:1.8rem;">📧 邮件订阅</h3>
+<p class="newsletter-description">
+                            每周精选文章、生活感悟、旅行故事，直接发送到你的邮箱。随时可以退订。
+                        </p>
+<form action="https://buttondown.com/api/emails/embed-subscribe/zhr-0731" class="embeddable-buttondown-form newsletter-form" method="post">
+<div class="form-row">
+<label class="sr-only" for="newsletter-email">电子邮箱</label>
+<input class="newsletter-input" id="newsletter-email" name="email" placeholder="your@email.com" required="" type="email"/>
+<input name="embed" type="hidden" value="1"/>
+<button class="newsletter-button" type="submit">订阅</button>
+</div>
+<p class="newsletter-footnote">
+<a href="https://buttondown.com" target="_blank">Powered by Buttondown.</a>
+                                尊重你的隐私，不发送垃圾邮件。
+                            </p>
+</form>
+</div>
+</div>
+<h2>❓ 常见问题</h2>
+<ul>
+<li><strong>收不到确认邮件怎么办？</strong> 请检查垃圾邮箱，或将 <code>buttondown.com</code> 加入白名单。如果仍然没有，可以给我发邮件：<code>zhr-0731@outlook.com</code>，我会手动处理。</li>
+<li><strong>订阅后多久能收到一次邮件？</strong> 通常每周一次精选，有新文章发布时会及时推送，偶尔会有节日特别篇。</li>
+<li><strong>需要付费吗？</strong> 完全免费，未来也不会收费。</li>
+<li><strong>可以取消订阅吗？</strong> 每封邮件底部都有退订链接，点击即可一键退订。</li>
+</ul>
+<p style="margin-top: 40px;">期待在邮件里与你相遇，分享生活的美好与思考。</p>]]></content:encoded>
+    </item>
+    <item>
+      <title>test4</title>
+      <link>https://zhr-0731.github.io/post/test4.html</link>
+      <description></description>
+      <guid isPermaLink="true">https://zhr-0731.github.io/post/test4.html</guid>
+      <pubDate>Mon, 02 Mar 2026 00:00:00 -0000</pubDate>
       <dc:creator>zhr</dc:creator>
     </item>
   </channel>
