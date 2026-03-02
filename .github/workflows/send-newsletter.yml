@@ -1,14 +1,12 @@
 name: Send Newsletter via MailerLite
 
 on:
-  # 当推送代码到 main 分支，且修改了 post 文件夹下的文件时触发
   push:
     branches:
       - main
     paths:
-      - 'post/**'
-  # 允许手动触发工作流（方便测试）
-  workflow_dispatch:
+      - 'post/**'          # 只有 post 文件夹变化时才触发
+  workflow_dispatch:        # 允许手动触发，方便测试
 
 jobs:
   send:
@@ -18,8 +16,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          # 需要获取最近两次提交以计算差异
-          fetch-depth: 2
+          fetch-depth: 2    # 获取最近两次提交，用于检测新增文件
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -33,5 +30,5 @@ jobs:
         env:
           MAILERLITE_API_KEY: ${{ secrets.MAILERLITE_API_KEY }}
           REPO: ${{ github.repository }}
-          TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
+          TEST_EMAIL: ${{ secrets.TEST_EMAIL }}   # 你自己的邮箱，用于接收测试邮件
         run: python scripts/send_mailerlite.py
