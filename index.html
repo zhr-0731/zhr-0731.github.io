@@ -11,1029 +11,11 @@
     <link rel="shortcut icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png" type="image/png">
     <link rel="apple-touch-icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png">
     
-    <style>
-        /* 全局样式 */
-        :root {
-            --ghost-accent-color: #59c090;
-            --text-color: #333;
-            --bg-color: #fff;
-            --light-gray: #f5f5f5;
-            --border-color: #eaeaea;
-            --font-serif: 'Noto Serif SC', serif;
-            --font-sans: 'Noto Sans SC', sans-serif;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: var(--font-sans);
-            color: var(--text-color);
-            background-color: var(--bg-color);
-            line-height: 1.6;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-        
-        a {
-            text-decoration: none;
-            color: inherit;
-            transition: color 0.3s;
-        }
-        
-        a:hover {
-            color: var(--ghost-accent-color);
-        }
-        
-        img {
-            max-width: 100%;
-            height: auto;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        /* 头部导航 */
-        header {
-            position: sticky;
-            top: 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 100;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .header-inner {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-        
-        .logo img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-        
-        .logo-text {
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-            align-items: center;
-        }
-        
-        nav li {
-            margin-left: 25px;
-        }
-        
-        nav a {
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-        
-        /* 导航栏中的音乐播放器 */
-        .nav-music-player {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-left: 0;
-        }
-        
-        .music-controls-compact {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .play-pause-btn-compact {
-            background: var(--ghost-accent-color);
-            border: none;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            flex-shrink: 0;
-        }
-        
-        .play-pause-btn-compact:hover {
-            background: #4aad7a;
-            transform: scale(1.05);
-        }
-        
-        .play-pause-btn-compact .play-icon,
-        .play-pause-btn-compact .pause-icon {
-            font-size: 14px;
-        }
-        
-        .play-pause-btn-compact .pause-icon {
-            display: none;
-        }
-        
-        .play-pause-btn-compact.playing .play-icon {
-            display: none;
-        }
-        
-        .play-pause-btn-compact.playing .pause-icon {
-            display: block;
-        }
-        
-        .music-album-compact {
-            width: 30px;
-            height: 30px;
-            border-radius: 6px;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-        
-        .album-image-compact {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .music-title-compact {
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: var(--text-color);
-            white-space: nowrap;
-        }
-        
-        .header-actions {
-            display: flex;
-            align-items: center;
-        }
-        
-        .search-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1.2rem;
-            color: var(--text-color);
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: all 0.3s;
-        }
-        
-        .search-btn:hover {
-            background: var(--light-gray);
-        }
-        
-        .search-btn.active {
-            background: var(--ghost-accent-color);
-            color: white;
-        }
-        
-        /* 灯笼挂件样式 */
-        .lantern-link {
-            position: absolute;
-            top: 100%;
-            left: 20px;
-            z-index: 99;
-            cursor: pointer;
-            width: 80px;
-            height: 80px;
-        }
-        
-        .lantern {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-        
-        /* 搜索框样式 */
-        .search-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(5px);
-            z-index: 1000;
-            display: none;
-            flex-direction: column;
-            padding: 20px;
-            transform: translateY(-100%);
-            transition: transform 0.4s ease;
-        }
-        
-        .search-container.active {
-            display: flex;
-            transform: translateY(0);
-        }
-        
-        .search-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .search-title {
-            font-size: 1.5rem;
-            font-family: var(--font-serif);
-            color: var(--text-color);
-        }
-        
-        .close-search {
-            background: none;
-            border: none;
-            font-size: 1.8rem;
-            cursor: pointer;
-            color: #888;
-            transition: color 0.3s;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-        }
-        
-        .close-search:hover {
-            color: var(--text-color);
-            background: var(--light-gray);
-        }
-        
-        .search-input-wrapper {
-            max-width: 800px;
-            margin: 0 auto;
-            width: 100%;
-            position: relative;
-        }
-        
-        .search-input {
-            width: 100%;
-            padding: 20px 25px;
-            font-size: 1.2rem;
-            border: 2px solid var(--border-color);
-            border-radius: 50px;
-            outline: none;
-            transition: all 0.3s;
-            font-family: var(--font-sans);
-        }
-        
-        .search-input:focus {
-            border-color: var(--ghost-accent-color);
-            box-shadow: 0 0 0 3px rgba(89, 192, 144, 0.1);
-        }
-        
-        .search-icon {
-            position: absolute;
-            right: 25px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #888;
-            font-size: 1.3rem;
-        }
-        
-        .search-results {
-            max-width: 800px;
-            margin: 30px auto 0;
-            width: 100%;
-            flex: 1;
-            overflow-y: auto;
-            padding-right: 10px;
-        }
-        
-        .search-result-item {
-            padding: 25px;
-            margin-bottom: 20px;
-            border-radius: 12px;
-            background: white;
-            border: 1px solid var(--border-color);
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-        
-        .search-result-item:hover {
-            border-color: var(--ghost-accent-color);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-            transform: translateY(-3px);
-        }
-        
-        .result-title {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-            font-family: var(--font-serif);
-            color: var(--text-color);
-        }
-        
-        .result-excerpt {
-            color: #666;
-            margin-bottom: 15px;
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-        
-        .result-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .result-tag {
-            display: inline-block;
-            background: var(--ghost-accent-color);
-            color: white;
-            font-size: 0.75rem;
-            padding: 3px 10px;
-            border-radius: 12px;
-        }
-        
-        .result-date {
-            color: #888;
-            font-size: 0.85rem;
-        }
-        
-        .no-results {
-            text-align: center;
-            padding: 60px 20px;
-            color: #888;
-        }
-        
-        .no-results-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            opacity: 0.5;
-        }
-        
-        .no-results-title {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-        }
-        
-        .no-results-text {
-            font-size: 0.95rem;
-        }
-        
-        /* 轮播图样式 */
-        .carousel-section {
-            margin-bottom: 60px;
-        }
-        
-        .carousel-container {
-            position: relative;
-            width: 100%;
-            height: 400px;
-            overflow: hidden;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-        
-        .carousel-slide {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: opacity 1s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .carousel-slide.active {
-            opacity: 1;
-            z-index: 1;
-        }
-        
-        /* 只对非活动幻灯片的链接禁用点击 */
-        .carousel-slide:not(.active) a {
-            pointer-events: none;
-        }
-        
-        .carousel-slide.active a {
-            pointer-events: auto;
-            cursor: pointer;
-        }
-        
-        .carousel-slide a {
-            display: block;
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
-        
-        .carousel-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .carousel-caption {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-            color: white;
-            padding: 30px;
-            transform: translateY(0);
-            transition: transform 0.3s;
-        }
-        
-        .carousel-slide.active:hover .carousel-caption {
-            transform: translateY(-5px);
-        }
-        
-        .carousel-title {
-            font-size: 1.8rem;
-            font-family: var(--font-serif);
-            margin-bottom: 8px;
-            color: white;
-        }
-        
-        .carousel-excerpt {
-            font-size: 1rem;
-            opacity: 0.9;
-            max-width: 600px;
-        }
-        
-        .carousel-controls {
-            position: absolute;
-            top: 50%;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            transform: translateY(-50%);
-            padding: 0 20px;
-            z-index: 10;
-        }
-        
-        .carousel-btn {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
-            border: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: white;
-            font-size: 1.5rem;
-            transition: all 0.3s;
-            z-index: 10;
-        }
-        
-        .carousel-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.1);
-        }
-        
-        .carousel-indicators {
-            position: absolute;
-            bottom: 20px;
-            left: 0;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            z-index: 10;
-        }
-        
-        .indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
-            cursor: pointer;
-            transition: all 0.3s;
-            z-index: 10;
-        }
-        
-        .indicator.active {
-            background: white;
-            transform: scale(1.2);
-        }
-        
-        .carousel-section-title {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            font-family: var(--font-serif);
-            color: var(--text-color);
-            display: flex;
-            align-items: center;
-        }
-        
-        .carousel-section-title::before {
-            content: "";
-            display: inline-block;
-            width: 6px;
-            height: 24px;
-            background: var(--ghost-accent-color);
-            margin-right: 12px;
-            border-radius: 3px;
-        }
-        
-        /* 主要内容区 */
-        .main-content {
-            padding: 60px 0;
-            flex: 1;
-        }
-        
-        .post-feed {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 40px;
-        }
-        
-        .post-card {
-            background: var(--bg-color);
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .post-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-        
-        .post-media {
-            height: 200px;
-            overflow: hidden;
-            background-color: #f0f0f0;
-        }
-        
-        .post-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-        
-        .post-card:hover .post-image {
-            transform: scale(1.05);
-        }
-        
-        .post-content {
-            padding: 25px;
-        }
-        
-        .post-tag {
-            display: inline-block;
-            background: var(--ghost-accent-color);
-            color: white;
-            font-size: 0.75rem;
-            padding: 3px 10px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            margin-right: 5px;
-        }
-        
-        .post-title {
-            font-size: 1.4rem;
-            margin-bottom: 15px;
-            font-family: var(--font-serif);
-            line-height: 1.3;
-        }
-        
-        .post-excerpt {
-            color: #666;
-            margin-bottom: 20px;
-            font-size: 0.95rem;
-        }
-        
-        .post-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid var(--border-color);
-            padding-top: 15px;
-        }
-        
-        .post-more {
-            color: var(--ghost-accent-color);
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-        
-        .post-author {
-            display: flex;
-            align-items: center;
-        }
-        
-        .author-image {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-        
-        /* 页脚 */
-        footer {
-            background: var(--light-gray);
-            padding: 50px 0;
-            margin-top: auto;
-            border-top: 1px solid var(--border-color);
-        }
-        
-        .footer-inner {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        
-        .copyright {
-            color: #888;
-        }
-        
-        .footer-nav ul {
-            display: flex;
-            list-style: none;
-        }
-        
-        .footer-nav li {
-            margin-left: 20px;
-        }
-        
-        .powered-by {
-            color: #888;
-            font-size: 0.9rem;
-        }
-        
-        /* RSS 订阅链接样式 */
-        .rss-subscribe {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--ghost-accent-color);
-            color: white;
-            padding: 8px 18px;
-            border-radius: 40px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: background 0.3s, transform 0.2s;
-            white-space: nowrap;
-        }
-        
-        .rss-subscribe:hover {
-            background: #3fa875;
-            color: white;
-            transform: scale(1.02);
-        }
-        
-        .rss-subscribe:active {
-            transform: scale(0.98);
-        }
-        
-        .rss-icon {
-            font-size: 1.2rem;
-            line-height: 1;
-        }
-        
-        /* ---------- 新增 Newsletter 订阅样式 ---------- */
-        .newsletter-section {
-            margin: 60px 0 40px;  /* 与上下内容保持间距 */
-        }
-        
-        .newsletter-card {
-            background: #fff;
-            border-radius: 24px;
-            padding: 48px 40px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
-            text-align: center;
-            border: 1px solid var(--border-color);
-            transition: transform 0.3s ease;
-        }
-        
-        .newsletter-card:hover {
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-        }
-        
-        .newsletter-title {
-            font-size: 2rem;
-            font-family: var(--font-serif);
-            margin-bottom: 16px;
-            color: var(--text-color);
-            letter-spacing: -0.01em;
-        }
-        
-        .newsletter-description {
-            color: #666;
-            max-width: 520px;
-            margin: 0 auto 32px;
-            font-size: 1.05rem;
-            line-height: 1.6;
-        }
-        
-        .newsletter-form {
-            max-width: 520px;
-            margin: 0 auto;
-        }
-        
-        .form-row {
-            display: flex;
-            gap: 12px;
-            align-items: stretch;
-            margin-bottom: 16px;
-        }
-        
-        .newsletter-input {
-            flex: 1;
-            padding: 16px 24px;
-            border: 1.5px solid var(--border-color);
-            border-radius: 60px;
-            font-size: 1rem;
-            transition: all 0.25s;
-            outline: none;
-            font-family: var(--font-sans);
-            background: #fafafa;
-        }
-        
-        .newsletter-input:focus {
-            border-color: var(--ghost-accent-color);
-            background: #fff;
-            box-shadow: 0 0 0 4px rgba(89, 192, 144, 0.12);
-        }
-        
-        .newsletter-input::placeholder {
-            color: #aaa;
-            font-weight: 300;
-        }
-        
-        .newsletter-button {
-            background: var(--ghost-accent-color);
-            color: white;
-            border: none;
-            border-radius: 60px;
-            padding: 0 36px;
-            font-size: 1.05rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.25s;
-            white-space: nowrap;
-            letter-spacing: 0.3px;
-            box-shadow: 0 4px 10px rgba(89, 192, 144, 0.2);
-        }
-        
-        .newsletter-button:hover {
-            background: #3fa875;
-            transform: scale(1.02);
-            box-shadow: 0 8px 18px rgba(89, 192, 144, 0.3);
-        }
-        
-        .newsletter-button:active {
-            transform: scale(0.98);
-        }
-        
-        .newsletter-footnote {
-            margin-top: 20px;
-            font-size: 0.85rem;
-            color: #888;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-        
-        .newsletter-footnote a {
-            color: #888;
-            text-decoration: underline;
-            text-underline-offset: 3px;
-            text-decoration-thickness: 1px;
-            transition: color 0.2s;
-        }
-        
-        .newsletter-footnote a:hover {
-            color: var(--ghost-accent-color);
-        }
-        
-        /* 辅助可访问性隐藏 */
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border-width: 0;
-        }
-        
-        /* 移动端适配 */
-        @media (max-width: 600px) {
-            .newsletter-card {
-                padding: 36px 24px;
-            }
-            .newsletter-title {
-                font-size: 1.7rem;
-            }
-            .form-row {
-                flex-direction: column;
-                gap: 16px;
-            }
-            .newsletter-button {
-                padding: 16px 24px;
-                width: 100%;
-            }
-            .newsletter-input {
-                padding: 16px 22px;
-            }
-        }
-        
-        /* 响应式设计（原样式保留） */
-        @media (max-width: 768px) {
-            .header-inner {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            nav ul {
-                margin-top: 15px;
-                flex-wrap: wrap;
-            }
-            
-            nav li {
-                margin: 5px 15px 5px 0;
-            }
-            
-            .nav-music-player {
-                order: -1;
-                margin-bottom: 10px;
-                width: 100%;
-                justify-content: flex-start;
-            }
-            
-            .carousel-container {
-                height: 300px;
-            }
-            
-            .carousel-caption {
-                padding: 20px;
-            }
-            
-            .carousel-title {
-                font-size: 1.4rem;
-            }
-            
-            .carousel-excerpt {
-                font-size: 0.9rem;
-            }
-            
-            .carousel-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 1.2rem;
-            }
-            
-            .post-feed {
-                grid-template-columns: 1fr;
-            }
-            
-            .footer-inner {
-                flex-direction: column;
-                text-align: center;
-                justify-content: center;
-            }
-            
-            .footer-nav ul {
-                margin: 20px 0;
-                justify-content: center;
-            }
-            
-            .footer-nav li {
-                margin: 0 10px;
-            }
-            
-            .search-input {
-                padding: 15px 20px;
-                font-size: 1rem;
-            }
-            
-            .search-icon {
-                right: 20px;
-            }
-            
-            .search-result-item {
-                padding: 20px;
-            }
-            
-            .lantern-link {
-                left: 15px;
-                width: 60px;
-                height: 60px;
-            }
-            
-            .music-title-compact {
-                font-size: 0.75rem;
-            }
-            
-            .play-pause-btn-compact {
-                width: 26px;
-                height: 26px;
-            }
-            
-            .music-album-compact {
-                width: 26px;
-                height: 26px;
-            }
-            
-            .rss-subscribe {
-                margin-top: 10px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .carousel-container {
-                height: 250px;
-            }
-            
-            .carousel-caption {
-                padding: 15px;
-            }
-            
-            .carousel-title {
-                font-size: 1.2rem;
-            }
-            
-            .carousel-excerpt {
-                display: none;
-            }
-            
-            .search-input {
-                padding: 12px 18px;
-                font-size: 0.95rem;
-            }
-            
-            .search-title {
-                font-size: 1.3rem;
-            }
-            
-            .result-title {
-                font-size: 1.1rem;
-            }
-            
-            .lantern-link {
-                left: 10px;
-                width: 50px;
-                height: 50px;
-            }
-            
-            .nav-music-player {
-                margin-bottom: 8px;
-            }
-            
-            .music-controls-compact {
-                gap: 6px;
-            }
-            
-            .music-title-compact {
-                font-size: 0.7rem;
-            }
-            
-            .play-pause-btn-compact {
-                width: 24px;
-                height: 24px;
-            }
-            
-            .music-album-compact {
-                width: 24px;
-                height: 24px;
-            }
-        }
-    </style>
+    <!-- 外部CSS - 使用您提供的URL -->
+    <link rel="stylesheet" href="https://zhr-0731.github.io/css/style.css">
 </head>
 <body>
-    <!-- 头部导航 -->
+    <!-- 头部导航 (绝对定位，悬浮在轮播图上) -->
     <header>
         <div class="container">
             <div class="header-inner">
@@ -1065,184 +47,155 @@
                     </ul>
                 </nav>
                 
-                <div class="header-actions">
-                    <button class="search-btn" id="searchToggleBtn">🔍</button>
+                <!-- 搜索表单 -->
+                <div class="header-search">
+                    <input type="text" class="search-input" id="searchQuery" placeholder="搜索文章..." autocomplete="off">
+                    <button class="search-submit" id="searchSubmitBtn">🔍</button>
                 </div>
             </div>
         </div>
-        
     </header>
 
-    <!-- 音频元素 - 自动播放（已更换为金鹰955电台） -->
+    <!-- 音频元素 - 自动播放 -->
     <audio id="backgroundMusic" loop autoplay>
         <source src="http://tvtj.jxwltx.com:8003/hunanws.m3u8" type="application/x-mpegURL">
         您的浏览器不支持音频播放
     </audio>
 
-    <!-- 搜索模态框 -->
-    <div class="search-container" id="searchContainer">
-        <div class="search-header">
-            <h2 class="search-title">搜索文章</h2>
-            <button class="close-search" id="closeSearchBtn">×</button>
+    <!-- 轮播图部分 - 紧贴页面顶部，高度100vh -->
+    <section class="carousel-section">
+        <!-- 新增居中标题 -->
+        <div class="banner-title">
+            <div class="main-title">zhr的博客</div>
+            <div class="sub-title">随便写写</div>
         </div>
         
-        <div class="search-input-wrapper">
-            <input 
-                type="text" 
-                class="search-input" 
-                id="searchInput" 
-                placeholder="输入关键词搜索文章..." 
-                autocomplete="off"
-            >
-            <div class="search-icon">🔍</div>
-        </div>
-        
-        <div class="search-results" id="searchResults">
-            <!-- 搜索结果将动态插入这里 -->
-            <div class="no-results">
-                <div class="no-results-icon">🔍</div>
-                <h3 class="no-results-title">输入关键词搜索文章</h3>
-                <p class="no-results-text">尝试搜索"GitHub"、"博客"、"生活"、"四季"等关键词</p>
+        <div class="carousel-container" id="carouselContainer">
+            <!-- 轮播项目1：GitHub Pages搭建博客 -->
+            <div class="carousel-slide active" data-index="0">
+                <a href="post/post.html" class="carousel-link">
+                    <img class="carousel-image" src="https://images.unsplash.com/photo-1598960087461-556c5a1f864a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200" alt="文章封面1">
+                    <div class="carousel-caption">
+                        <h3 class="carousel-title">使用GitHub Pages搭建个人博客</h3>
+                        <p class="carousel-excerpt">详细讲解如何使用GitHub Pages免费部署个人博客网站，包含HTML、CSS和GitHub配置...</p>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- 轮播项目2：走出书本 -->
+            <div class="carousel-slide" data-index="1">
+                <a href="post/post2.html" class="carousel-link">
+                    <img class="carousel-image" src="https://s41.ax1x.com/2025/12/06/pZmROmT.jpg" alt="文章封面2">
+                    <div class="carousel-caption">
+                        <h3 class="carousel-title">走出书本，对生活更有体会</h3>
+                        <p class="carousel-excerpt">书本中的世界固然是精彩的，但书本外的世界会更丰富。读过书后再走出书本，对生活会有更深的体会。</p>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- 轮播项目3：四季的花 -->
+            <div class="carousel-slide" data-index="2">
+                <a href="post/post3.html" class="carousel-link">
+                    <img class="carousel-image" src="https://s41.ax1x.com/2025/12/07/pZnFlYF.md.png" alt="文章封面3">
+                    <div class="carousel-caption">
+                        <h3 class="carousel-title">四季的花</h3>
+                        <p class="carousel-excerpt">春有百花秋有月，夏有凉风冬有雪。四季更替，花儿也随之绽放，每一季都有独特的花卉装点我们的生活。</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- 轮播项目4：重庆 #1 -->
+            <div class="carousel-slide" data-index="3">
+                <a href="post/post4.html" class="carousel-link">
+                    <img class="carousel-image" src="https://s41.ax1x.com/2025/12/14/pZMRq76.jpg" alt="文章封面4">
+                    <div class="carousel-caption">
+                        <h3 class="carousel-title">去了一趟重庆 #1</h3>
+                        <p class="carousel-excerpt">2月，我终于有了机会，和同学去这个充满惊喜和美食的城市看看。</p>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- 轮播项目5：重庆 #2 -->
+            <div class="carousel-slide" data-index="4">
+                <a href="post/post5.html" class="carousel-link">
+                    <img class="carousel-image" src="https://s41.ax1x.com/2025/12/08/pZnTyu9.jpg" alt="文章封面5">
+                    <div class="carousel-caption">
+                        <h3 class="carousel-title">去了一趟重庆 #2</h3>
+                        <p class="carousel-excerpt">2月，我终于有了机会，和同学去重庆看看。这是一个充满惊喜和美食的城市。</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- 轮播项目6：张家小樵夫 -->
+            <div class="carousel-slide" data-index="5">
+                <a href="post/post6.html" class="carousel-link">
+                    <img class="carousel-image" src="https://s41.ax1x.com/2026/03/01/peS0ln0.jpg" alt="文章封面6">
+                    <div class="carousel-caption">
+                        <h3 class="carousel-title">张家小樵夫</h3>
+                        <p class="carousel-excerpt">快要过年了，我央求妈妈带我去乡下姑姑家。帮姑姑砍柴的经历，让我成了“张家小樵夫”，也懂得了劳动创造美好生活的道理。</p>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- 轮播项目7：全平台订阅指南·RSS -->
+            <div class="carousel-slide" data-index="6">
+                <a href="post/post7.html" class="carousel-link">
+                    <img class="carousel-image" src="https://s41.ax1x.com/2026/03/02/pepKMAP.jpg" alt="RSS订阅封面">
+                    <div class="carousel-caption">
+                        <h3 class="carousel-title">全平台订阅指南 · RSS</h3>
+                        <p class="carousel-excerpt">开放、自由的互联网需要RSS。通过RSS定制你的信息流，本指南介绍如何在全平台订阅本博客。</p>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- 轮播项目8：全平台订阅指南·newsletter -->
+            <div class="carousel-slide" data-index="7">
+                <a href="post/post8.html" class="carousel-link">
+                    <img class="carousel-image" src="https://s41.ax1x.com/2026/03/02/pepKu7t.jpg" alt="newsletter订阅封面">
+                    <div class="carousel-caption">
+                        <h3 class="carousel-title">全平台订阅指南 · newsletter</h3>
+                        <p class="carousel-excerpt">通过邮件订阅我的newsletter，每周精选文章直接送到你的收件箱。</p>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- 轮播控制按钮 -->
+            <div class="carousel-controls">
+                <button class="carousel-btn prev-btn">❮</button>
+                <button class="carousel-btn next-btn">❯</button>
+            </div>
+            
+            <!-- 轮播指示器 - 8个 -->
+            <div class="carousel-indicators">
+                <div class="indicator active" data-index="0"></div>
+                <div class="indicator" data-index="1"></div>
+                <div class="indicator" data-index="2"></div>
+                <div class="indicator" data-index="3"></div>
+                <div class="indicator" data-index="4"></div>
+                <div class="indicator" data-index="5"></div>
+                <div class="indicator" data-index="6"></div>
+                <div class="indicator" data-index="7"></div>
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- 主要内容区 -->
     <main class="main-content container">
-        <!-- 轮播图部分 - 现在包含全部8篇文章 -->
-        <section class="carousel-section">
-            <h2 class="carousel-section-title">精选文章</h2>
-            <div class="carousel-container" id="carouselContainer">
-                <!-- 轮播项目1：GitHub Pages搭建博客 -->
-                <div class="carousel-slide active" data-index="0">
-                    <a href="post/post.html" class="carousel-link">
-                        <img class="carousel-image" src="https://images.unsplash.com/photo-1598960087461-556c5a1f864a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200" alt="文章封面1">
-                        <div class="carousel-caption">
-                            <h3 class="carousel-title">使用GitHub Pages搭建个人博客</h3>
-                            <p class="carousel-excerpt">详细讲解如何使用GitHub Pages免费部署个人博客网站，包含HTML、CSS和GitHub配置...</p>
-                        </div>
-                    </a>
-                </div>
-                
-                <!-- 轮播项目2：走出书本 -->
-                <div class="carousel-slide" data-index="1">
-                    <a href="post/post2.html" class="carousel-link">
-                        <img class="carousel-image" src="https://s41.ax1x.com/2025/12/06/pZmROmT.jpg" alt="文章封面2">
-                        <div class="carousel-caption">
-                            <h3 class="carousel-title">走出书本，对生活更有体会</h3>
-                            <p class="carousel-excerpt">书本中的世界固然是精彩的，但书本外的世界会更丰富。读过书后再走出书本，对生活会有更深的体会。</p>
-                        </div>
-                    </a>
-                </div>
-                
-                <!-- 轮播项目3：四季的花 -->
-                <div class="carousel-slide" data-index="2">
-                    <a href="post/post3.html" class="carousel-link">
-                        <img class="carousel-image" src="https://s41.ax1x.com/2025/12/07/pZnFlYF.md.png" alt="文章封面3">
-                        <div class="carousel-caption">
-                            <h3 class="carousel-title">四季的花</h3>
-                            <p class="carousel-excerpt">春有百花秋有月，夏有凉风冬有雪。四季更替，花儿也随之绽放，每一季都有独特的花卉装点我们的生活。</p>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- 轮播项目4：重庆 #1 -->
-                <div class="carousel-slide" data-index="3">
-                    <a href="post/post4.html" class="carousel-link">
-                        <img class="carousel-image" src="https://s41.ax1x.com/2025/12/14/pZMRq76.jpg" alt="文章封面4">
-                        <div class="carousel-caption">
-                            <h3 class="carousel-title">去了一趟重庆 #1</h3>
-                            <p class="carousel-excerpt">2月，我终于有了机会，和同学去这个充满惊喜和美食的城市看看。</p>
-                        </div>
-                    </a>
-                </div>
-                
-                <!-- 轮播项目5：重庆 #2 -->
-                <div class="carousel-slide" data-index="4">
-                    <a href="post/post5.html" class="carousel-link">
-                        <img class="carousel-image" src="https://s41.ax1x.com/2025/12/08/pZnTyu9.jpg" alt="文章封面5">
-                        <div class="carousel-caption">
-                            <h3 class="carousel-title">去了一趟重庆 #2</h3>
-                            <p class="carousel-excerpt">2月，我终于有了机会，和同学去重庆看看。这是一个充满惊喜和美食的城市。</p>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- 轮播项目6：张家小樵夫 -->
-                <div class="carousel-slide" data-index="5">
-                    <a href="post/post6.html" class="carousel-link">
-                        <img class="carousel-image" src="https://s41.ax1x.com/2026/03/01/peS0ln0.jpg" alt="文章封面6">
-                        <div class="carousel-caption">
-                            <h3 class="carousel-title">张家小樵夫</h3>
-                            <p class="carousel-excerpt">快要过年了，我央求妈妈带我去乡下姑姑家。帮姑姑砍柴的经历，让我成了“张家小樵夫”，也懂得了劳动创造美好生活的道理。</p>
-                        </div>
-                    </a>
-                </div>
-                
-                <!-- 轮播项目7：全平台订阅指南·RSS -->
-                <div class="carousel-slide" data-index="6">
-                    <a href="post/post7.html" class="carousel-link">
-                        <img class="carousel-image" src="https://s41.ax1x.com/2026/03/02/pepKMAP.jpg" alt="RSS订阅封面">
-                        <div class="carousel-caption">
-                            <h3 class="carousel-title">全平台订阅指南 · RSS</h3>
-                            <p class="carousel-excerpt">开放、自由的互联网需要RSS。通过RSS定制你的信息流，本指南介绍如何在全平台订阅本博客。</p>
-                        </div>
-                    </a>
-                </div>
-                
-                <!-- 轮播项目8：全平台订阅指南·newsletter -->
-                <div class="carousel-slide" data-index="7">
-                    <a href="post/post8.html" class="carousel-link">
-                        <img class="carousel-image" src="https://s41.ax1x.com/2026/03/02/pepKu7t.jpg" alt="newsletter订阅封面">
-                        <div class="carousel-caption">
-                            <h3 class="carousel-title">全平台订阅指南 · newsletter</h3>
-                            <p class="carousel-excerpt">通过邮件订阅我的newsletter，每周精选文章直接送到你的收件箱。</p>
-                        </div>
-                    </a>
-                </div>
-                
-                <!-- 轮播控制按钮 -->
-                <div class="carousel-controls">
-                    <button class="carousel-btn prev-btn">❮</button>
-                    <button class="carousel-btn next-btn">❯</button>
-                </div>
-                
-                <!-- 轮播指示器 - 8个 -->
-                <div class="carousel-indicators">
-                    <div class="indicator active" data-index="0"></div>
-                    <div class="indicator" data-index="1"></div>
-                    <div class="indicator" data-index="2"></div>
-                    <div class="indicator" data-index="3"></div>
-                    <div class="indicator" data-index="4"></div>
-                    <div class="indicator" data-index="5"></div>
-                    <div class="indicator" data-index="6"></div>
-                    <div class="indicator" data-index="7"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 文章列表（包含原有的6篇 + 新增2篇） -->
+        <!-- 文章列表（包含完整的8篇文章） -->
         <div class="post-feed">
-            <!-- 原有6个卡片保持不变 -->
+            <!-- 卡片1 -->
             <article class="post-card">
                 <a href="post/post.html">
                     <div class="post-media">
                         <img class="post-image" src="https://images.unsplash.com/photo-1598960087461-556c5a1f864a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=960" alt="文章封面1">
                     </div>
-                    
                     <div class="post-content">
                         <span class="post-tag">技术</span>
-                        
                         <h2 class="post-title">使用GitHub Pages搭建个人博客</h2>
-                        
-                        <div class="post-excerpt">
-                            详细讲解如何使用GitHub Pages免费部署个人博客网站，包含HTML、CSS和GitHub配置...
-                        </div>
+                        <div class="post-excerpt">详细讲解如何使用GitHub Pages免费部署个人博客网站，包含HTML、CSS和GitHub配置...</div>
                     </div>
-                    
                     <div class="post-footer">
                         <span class="post-more">阅读更多</span>
-                        
                         <div class="post-author">
                             <img class="author-image" src="https://s41.ax1x.com/2025/12/06/pZmaGuR.png" alt="zhr">
                         </div>
@@ -1250,26 +203,20 @@
                 </a>
             </article>
             
+            <!-- 卡片2 -->
             <article class="post-card">
                 <a href="post/post2.html">
                     <div class="post-media">
                         <img class="post-image" src="https://s41.ax1x.com/2025/12/06/pZmROmT.jpg" alt="文章封面2">
                     </div>
-                    
                     <div class="post-content">
                         <span class="post-tag">生活</span>
                         <span class="post-tag">感悟</span>
-                        
                         <h2 class="post-title">走出书本，对生活更有体会</h2>
-                        
-                        <div class="post-excerpt">
-                            书本中的世界固然是精彩的，但书本外的世界会更丰富。读过书后再走出书本，对生活会有更深的体会。
-                        </div>
+                        <div class="post-excerpt">书本中的世界固然是精彩的，但书本外的世界会更丰富。读过书后再走出书本，对生活会有更深的体会。</div>
                     </div>
-                    
                     <div class="post-footer">
                         <span class="post-more">阅读更多</span>
-                        
                         <div class="post-author">
                             <img class="author-image" src="https://s41.ax1x.com/2025/12/06/pZmaGuR.png" alt="zhr">
                         </div>
@@ -1277,27 +224,21 @@
                 </a>
             </article>
             
+            <!-- 卡片3 -->
             <article class="post-card">
                 <a href="post/post3.html">
                     <div class="post-media">
                         <img class="post-image" src="https://s41.ax1x.com/2025/12/07/pZnFlYF.md.png" alt="文章封面3">
                     </div>
-                    
                     <div class="post-content">
                         <span class="post-tag">自然</span>
                         <span class="post-tag">生活</span>
                         <span class="post-tag">随笔</span>
-                        
                         <h2 class="post-title">四季的花</h2>
-                        
-                        <div class="post-excerpt">
-                            春有百花秋有月，夏有凉风冬有雪。四季更替，花儿也随之绽放，每一季都有独特的花卉装点我们的生活。
-                        </div>
+                        <div class="post-excerpt">春有百花秋有月，夏有凉风冬有雪。四季更替，花儿也随之绽放，每一季都有独特的花卉装点我们的生活。</div>
                     </div>
-                    
                     <div class="post-footer">
                         <span class="post-more">阅读更多</span>
-                        
                         <div class="post-author">
                             <img class="author-image" src="https://s41.ax1x.com/2025/12/06/pZmaGuR.png" alt="zhr">
                         </div>
@@ -1305,26 +246,20 @@
                 </a>
             </article>
 
+            <!-- 卡片4 -->
             <article class="post-card">
                 <a href="post/post4.html">
                     <div class="post-media">
                         <img class="post-image" src="https://s41.ax1x.com/2025/12/14/pZMRq76.jpg" alt="文章封面4">
                     </div>
-                    
                     <div class="post-content">
                         <span class="post-tag">旅行</span>
                         <span class="post-tag">城市</span>
-                        
                         <h2 class="post-title">去了一趟重庆 #1</h2>
-                        
-                        <div class="post-excerpt">
-                            2月，我终于有了机会，和同学去这个充满惊喜和美食的城市看看。
-                        </div>
+                        <div class="post-excerpt">2月，我终于有了机会，和同学去这个充满惊喜和美食的城市看看。</div>
                     </div>
-                    
                     <div class="post-footer">
                         <span class="post-more">阅读更多</span>
-                        
                         <div class="post-author">
                             <img class="author-image" src="https://s41.ax1x.com/2025/12/06/pZmaGuR.png" alt="zhr">
                         </div>
@@ -1332,26 +267,20 @@
                 </a>
             </article>
             
+            <!-- 卡片5 -->
             <article class="post-card">
                 <a href="post/post5.html">
                     <div class="post-media">
                         <img class="post-image" src="https://s41.ax1x.com/2025/12/08/pZnTyu9.jpg" alt="文章封面5">
                     </div>
-                    
                     <div class="post-content">
                         <span class="post-tag">旅行</span>
                         <span class="post-tag">城市</span>
-                        
                         <h2 class="post-title">去了一趟重庆 #2</h2>
-                        
-                        <div class="post-excerpt">
-                            2月，我终于有了机会，和同学去重庆看看。这是一个充满惊喜和美食的城市。
-                        </div>
+                        <div class="post-excerpt">2月，我终于有了机会，和同学去重庆看看。这是一个充满惊喜和美食的城市。</div>
                     </div>
-                    
                     <div class="post-footer">
                         <span class="post-more">阅读更多</span>
-                        
                         <div class="post-author">
                             <img class="author-image" src="https://s41.ax1x.com/2025/12/06/pZmaGuR.png" alt="zhr">
                         </div>
@@ -1359,26 +288,20 @@
                 </a>
             </article>
 
+            <!-- 卡片6 -->
             <article class="post-card">
                 <a href="post/post6.html">
                     <div class="post-media">
                         <img class="post-image" src="https://s41.ax1x.com/2026/03/01/peS0ln0.jpg" alt="文章封面6">
                     </div>
-                    
                     <div class="post-content">
                         <span class="post-tag">生活</span>
                         <span class="post-tag">随笔</span>
-                        
                         <h2 class="post-title">张家小樵夫</h2>
-                        
-                        <div class="post-excerpt">
-                            快要过年了，我央求妈妈带我去乡下姑姑家。帮姑姑砍柴的经历，让我成了“张家小樵夫”，也懂得了劳动创造美好生活的道理。
-                        </div>
+                        <div class="post-excerpt">快要过年了，我央求妈妈带我去乡下姑姑家。帮姑姑砍柴的经历，让我成了“张家小樵夫”，也懂得了劳动创造美好生活的道理。</div>
                     </div>
-                    
                     <div class="post-footer">
                         <span class="post-more">阅读更多</span>
-                        
                         <div class="post-author">
                             <img class="author-image" src="https://s41.ax1x.com/2025/12/06/pZmaGuR.png" alt="zhr">
                         </div>
@@ -1386,19 +309,17 @@
                 </a>
             </article>
 
-            <!-- 新增卡片：全平台订阅指南 · RSS -->
+            <!-- 卡片7 -->
             <article class="post-card">
                 <a href="post/post7.html">
                     <div class="post-media">
-                        <img class="post-image" src="https://s41.ax1x.com/2026/03/02/pepKMAP.jpg" alt="RSS 订阅封面">
+                        <img class="post-image" src="https://s41.ax1x.com/2026/03/02/pepKMAP.jpg" alt="RSS订阅封面">
                     </div>
                     <div class="post-content">
                         <span class="post-tag">教程</span>
                         <span class="post-tag">RSS</span>
                         <h2 class="post-title">全平台订阅指南 · RSS</h2>
-                        <div class="post-excerpt">
-                            开放、自由的互联网需要RSS。通过RSS定制你的信息流，本指南介绍如何在全平台订阅本博客。
-                        </div>
+                        <div class="post-excerpt">开放、自由的互联网需要RSS。通过RSS定制你的信息流，本指南介绍如何在全平台订阅本博客。</div>
                     </div>
                     <div class="post-footer">
                         <span class="post-more">阅读更多</span>
@@ -1409,19 +330,17 @@
                 </a>
             </article>
 
-            <!-- 新增卡片：全平台订阅指南 · newsletter -->
+            <!-- 卡片8 -->
             <article class="post-card">
                 <a href="post/post8.html">
                     <div class="post-media">
-                        <img class="post-image" src="https://s41.ax1x.com/2026/03/02/pepKu7t.jpg" alt="newsletter 订阅封面">
+                        <img class="post-image" src="https://s41.ax1x.com/2026/03/02/pepKu7t.jpg" alt="newsletter订阅封面">
                     </div>
                     <div class="post-content">
                         <span class="post-tag">订阅</span>
                         <span class="post-tag">指南</span>
                         <h2 class="post-title">全平台订阅指南 · newsletter</h2>
-                        <div class="post-excerpt">
-                            通过邮件订阅我的newsletter，每周精选文章直接送到你的收件箱。
-                        </div>
+                        <div class="post-excerpt">通过邮件订阅我的newsletter，每周精选文章直接送到你的收件箱。</div>
                     </div>
                     <div class="post-footer">
                         <span class="post-more">阅读更多</span>
@@ -1463,7 +382,7 @@
         </div>
     </section>
 
-    <!-- 页脚 - 增加了 RSS 订阅链接 -->
+    <!-- 页脚 -->
     <footer>
         <div class="container">
             <div class="footer-inner">
@@ -1477,7 +396,7 @@
                     基于 GitHub Pages
                 </div>
 
-                <!-- 新增 RSS 订阅链接 -->
+                <!-- RSS 订阅链接 -->
                 <a href="https://zhr-0731.github.io/rss.xml" target="_blank" class="rss-subscribe" rel="noopener noreferrer">
                     <span class="rss-icon">📡</span> RSS 订阅
                 </a>
@@ -1486,86 +405,8 @@
     </footer>
 
     <script>
-        // 文章数据（用于搜索功能）
-        const articles = [
-            {
-                id: 1,
-                title: "使用GitHub Pages搭建个人博客",
-                excerpt: "详细讲解如何使用GitHub Pages免费部署个人博客网站，包含HTML、CSS和GitHub配置...",
-                tags: ["技术"],
-                date: "2023-10-15",
-                link: "post/post.html",
-                image: "https://images.unsplash.com/photo-1598960087461-556c5a1f864a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=960"
-            },
-            {
-                id: 2,
-                title: "走出书本，对生活更有体会",
-                excerpt: "书本中的世界固然是精彩的，但书本外的世界会更丰富。读过书后再走出书本，对生活会有更深的体会。",
-                tags: ["生活", "感悟"],
-                date: "2023-10-10",
-                link: "post/post2.html",
-                image: "https://s41.ax1x.com/2025/12/06/pZmROmT.jpg"
-            },
-            {
-                id: 3,
-                title: "四季的花",
-                excerpt: "春有百花秋有月，夏有凉风冬有雪。四季更替，花儿也随之绽放，每一季都有独特的花卉装点我们的生活。",
-                tags: ["自然", "生活", "随笔"],
-                date: "2023-10-05",
-                link: "post/post3.html",
-                image: "https://s41.ax1x.com/2025/12/07/pZnFlYF.md.png"
-            },
-            {
-                id: 4,
-                title: "去了一趟重庆 #1",
-                excerpt: "2月，我终于有了机会，和同学去这个充满惊喜和美食的城市看看。",
-                tags: ["旅行", "城市"],
-                date: "2025-12-14",
-                link: "post/post4.html",
-                image: "https://s41.ax1x.com/2025/12/14/pZMRq76.jpg"
-            },
-            {
-                id: 5,
-                title: "去了一趟重庆 #2",
-                excerpt: "2月，我终于有了机会，和同学去重庆看看。这是一个充满惊喜和美食的城市。",
-                tags: ["旅行", "城市"],
-                date: "2025-12-08",
-                link: "post/post5.html",
-                image: "https://s41.ax1x.com/2025/12/08/pZnTyu9.jpg"
-            },
-            {
-                id: 6,
-                title: "张家小樵夫",
-                excerpt: "快要过年了，我央求妈妈带我去乡下姑姑家。帮姑姑砍柴的经历，让我成了“张家小樵夫”，也懂得了劳动创造美好生活的道理。",
-                tags: ["生活", "随笔"],
-                date: "2023-01-21",
-                link: "post/post6.html",
-                image: "https://s41.ax1x.com/2026/03/01/peS0ln0.jpg"
-            },
-            // 新增两篇文章数据（便于搜索）
-            {
-                id: 7,
-                title: "全平台订阅指南 · RSS",
-                excerpt: "开放、自由的互联网需要RSS。通过RSS定制你的信息流，本指南介绍如何在全平台订阅本博客。",
-                tags: ["教程", "RSS"],
-                date: "2026-03-01",
-                link: "post/post7.html",
-                image: "https://s41.ax1x.com/2026/03/02/pepKMAP.jpg"
-            },
-            {
-                id: 8,
-                title: "全平台订阅指南 · newsletter",
-                excerpt: "通过邮件订阅我的newsletter，每周精选文章直接送到你的收件箱。",
-                tags: ["订阅", "指南"],
-                date: "2026-03-02",
-                link: "post/post8.html",
-                image: "https://s41.ax1x.com/2026/03/02/pepKu7t.jpg"
-            }
-        ];
-        
-        // 轮播功能脚本 (完全保留，与之前一致)
+        // 轮播功能脚本 (完全保留原轮播逻辑)
         document.addEventListener('DOMContentLoaded', function() {
-            // 轮播功能
             class Carousel {
                 constructor(containerId) {
                     this.container = document.getElementById(containerId);
@@ -1577,304 +418,73 @@
                     this.currentIndex = 0;
                     this.totalSlides = this.slides.length;
                     this.autoSlideInterval = null;
-                    this.autoSlideDuration = 5000; // 5秒
+                    this.autoSlideDuration = 5000;
                     
                     this.init();
                 }
                 
                 init() {
-                    // 绑定事件
                     this.prevBtn.addEventListener('click', () => this.prevSlide());
                     this.nextBtn.addEventListener('click', () => this.nextSlide());
                     
-                    // 绑定指示器事件
                     this.indicators.forEach((indicator, index) => {
                         indicator.addEventListener('click', () => this.goToSlide(index));
                     });
                     
-                    // 绑定键盘事件
                     document.addEventListener('keydown', (e) => {
                         if (e.key === 'ArrowLeft') this.prevSlide();
                         if (e.key === 'ArrowRight') this.nextSlide();
                     });
                     
-                    // 鼠标悬停暂停轮播
-                    this.container.addEventListener('mouseenter', () => {
-                        this.stopAutoSlide();
-                    });
+                    this.container.addEventListener('mouseenter', () => this.stopAutoSlide());
+                    this.container.addEventListener('mouseleave', () => this.startAutoSlide());
                     
-                    this.container.addEventListener('mouseleave', () => {
-                        this.startAutoSlide();
-                    });
-                    
-                    // 开始自动轮播
                     this.startAutoSlide();
-                    
-                    console.log('轮播初始化完成，共' + this.totalSlides + '个幻灯片');
                 }
                 
                 updateSlide() {
-                    // 更新幻灯片显示
                     this.slides.forEach((slide, index) => {
-                        if (index === this.currentIndex) {
-                            slide.classList.add('active');
-                        } else {
-                            slide.classList.remove('active');
-                        }
+                        slide.classList.toggle('active', index === this.currentIndex);
                     });
-                    
-                    // 更新指示器
                     this.indicators.forEach((indicator, index) => {
-                        if (index === this.currentIndex) {
-                            indicator.classList.add('active');
-                        } else {
-                            indicator.classList.remove('active');
-                        }
+                        indicator.classList.toggle('active', index === this.currentIndex);
                     });
-                    
-                    console.log('切换到幻灯片:', this.currentIndex);
                 }
                 
-                nextSlide() {
-                    this.currentIndex = (this.currentIndex + 1) % this.totalSlides;
-                    this.updateSlide();
-                    this.resetAutoSlide();
-                }
-                
-                prevSlide() {
-                    this.currentIndex = (this.currentIndex - 1 + this.totalSlides) % this.totalSlides;
-                    this.updateSlide();
-                    this.resetAutoSlide();
-                }
-                
-                goToSlide(index) {
-                    if (index >= 0 && index < this.totalSlides) {
-                        this.currentIndex = index;
-                        this.updateSlide();
-                        this.resetAutoSlide();
-                    }
-                }
-                
-                startAutoSlide() {
-                    if (this.autoSlideInterval) {
-                        clearInterval(this.autoSlideInterval);
-                    }
-                    
-                    this.autoSlideInterval = setInterval(() => {
-                        this.nextSlide();
-                    }, this.autoSlideDuration);
-                    
-                    console.log('自动轮播已启动');
-                }
-                
-                stopAutoSlide() {
-                    if (this.autoSlideInterval) {
-                        clearInterval(this.autoSlideInterval);
-                        this.autoSlideInterval = null;
-                        console.log('自动轮播已暂停');
-                    }
-                }
-                
-                resetAutoSlide() {
-                    this.stopAutoSlide();
-                    this.startAutoSlide();
-                }
+                nextSlide() { this.currentIndex = (this.currentIndex + 1) % this.totalSlides; this.updateSlide(); this.resetAutoSlide(); }
+                prevSlide() { this.currentIndex = (this.currentIndex - 1 + this.totalSlides) % this.totalSlides; this.updateSlide(); this.resetAutoSlide(); }
+                goToSlide(index) { if (index >= 0 && index < this.totalSlides) { this.currentIndex = index; this.updateSlide(); this.resetAutoSlide(); } }
+                startAutoSlide() { this.stopAutoSlide(); this.autoSlideInterval = setInterval(() => this.nextSlide(), this.autoSlideDuration); }
+                stopAutoSlide() { if (this.autoSlideInterval) { clearInterval(this.autoSlideInterval); this.autoSlideInterval = null; } }
+                resetAutoSlide() { this.stopAutoSlide(); this.startAutoSlide(); }
             }
             
-            // 初始化轮播
-            const carousel = new Carousel('carouselContainer');
+            new Carousel('carouselContainer');
             
-            // 文章卡片悬停效果增强
-            const postCards = document.querySelectorAll('.post-card');
-            postCards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-8px)';
-                    this.style.boxShadow = '0 15px 30px rgba(0, 0, 0, 0.12)';
-                });
-                
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
-                    this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.05)';
-                });
-            });
-            
-            // 搜索功能
-            const searchToggleBtn = document.getElementById('searchToggleBtn');
-            const searchContainer = document.getElementById('searchContainer');
-            const closeSearchBtn = document.getElementById('closeSearchBtn');
-            const searchInput = document.getElementById('searchInput');
-            const searchResults = document.getElementById('searchResults');
-            
-            // 高亮关键词函数
-            function highlightText(text, keyword) {
-                if (!keyword.trim()) return text;
-                
-                const regex = new RegExp(`(${keyword})`, 'gi');
-                return text.replace(regex, '<mark class="highlight">$1</mark>');
-            }
-            
-            // 搜索文章函数
-            function searchArticles(keyword) {
-                if (!keyword.trim()) {
-                    // 显示初始状态
-                    searchResults.innerHTML = `
-                        <div class="no-results">
-                            <div class="no-results-icon">🔍</div>
-                            <h3 class="no-results-title">输入关键词搜索文章</h3>
-                            <p class="no-results-text">尝试搜索"GitHub"、"博客"、"生活"、"四季"、"重庆"等关键词</p>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                const lowerKeyword = keyword.toLowerCase();
-                const results = articles.filter(article => {
-                    return (
-                        article.title.toLowerCase().includes(lowerKeyword) ||
-                        article.excerpt.toLowerCase().includes(lowerKeyword) ||
-                        article.tags.some(tag => tag.toLowerCase().includes(lowerKeyword))
-                    );
-                });
-                
-                if (results.length === 0) {
-                    searchResults.innerHTML = `
-                        <div class="no-results">
-                            <div class="no-results-icon">🔎</div>
-                            <h3 class="no-results-title">未找到相关文章</h3>
-                            <p class="no-results-text">尝试使用其他关键词搜索</p>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                // 显示搜索结果
-                let resultsHTML = '';
-                results.forEach(article => {
-                    const highlightedTitle = highlightText(article.title, keyword);
-                    const highlightedExcerpt = highlightText(article.excerpt, keyword);
-                    
-                    resultsHTML += `
-                        <div class="search-result-item" onclick="window.location.href='${article.link}'">
-                            <h3 class="result-title">${highlightedTitle}</h3>
-                            <p class="result-excerpt">${highlightedExcerpt}</p>
-                            <div class="result-meta">
-                                <div class="result-tags">
-                                    ${article.tags.map(tag => `<span class="result-tag">${tag}</span>`).join(' ')}
-                                </div>
-                                <div class="result-date">${article.date}</div>
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                searchResults.innerHTML = resultsHTML;
-            }
-            
-            // 搜索框事件监听
-            searchInput.addEventListener('input', function() {
-                searchArticles(this.value);
-            });
-            
-            // 显示搜索模态框
-            searchToggleBtn.addEventListener('click', function() {
-                searchContainer.classList.add('active');
-                searchToggleBtn.classList.add('active');
-                // 聚焦搜索框
-                setTimeout(() => {
-                    searchInput.focus();
-                }, 100);
-            });
-            
-            // 关闭搜索模态框
-            closeSearchBtn.addEventListener('click', function() {
-                searchContainer.classList.remove('active');
-                searchToggleBtn.classList.remove('active');
-                // 清空搜索框
-                searchInput.value = '';
-                searchArticles('');
-            });
-            
-            // ESC键关闭搜索
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && searchContainer.classList.contains('active')) {
-                    searchContainer.classList.remove('active');
-                    searchToggleBtn.classList.remove('active');
-                    searchInput.value = '';
-                    searchArticles('');
-                }
-                
-                // Ctrl+K 打开搜索（Mac上是Cmd+K）
-                if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-                    e.preventDefault();
-                    searchContainer.classList.add('active');
-                    searchToggleBtn.classList.add('active');
-                    setTimeout(() => {
-                        searchInput.focus();
-                    }, 100);
-                }
-            });
-            
-            // 点击模态框背景关闭搜索
-            searchContainer.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    searchContainer.classList.remove('active');
-                    searchToggleBtn.classList.remove('active');
-                    searchInput.value = '';
-                    searchArticles('');
-                }
-            });
-            
-            // 添加高亮样式
-            const style = document.createElement('style');
-            style.textContent = `
-                .highlight {
-                    background-color: rgba(89, 192, 144, 0.2);
-                    padding: 0 2px;
-                    border-radius: 2px;
-                    font-weight: 500;
-                }
-            `;
-            document.head.appendChild(style);
-            
-            // 音乐播放器功能
+            // 音乐播放器功能 (完全保留)
             const backgroundMusic = document.getElementById('backgroundMusic');
             const playPauseBtnCompact = document.getElementById('playPauseBtnCompact');
             
-            // 设置音乐自动播放
             function setupAutoplay() {
-                // 尝试自动播放
                 const playPromise = backgroundMusic.play();
-                
                 if (playPromise !== undefined) {
                     playPromise.then(() => {
-                        console.log('金鹰955电台自动播放成功');
                         playPauseBtnCompact.classList.add('playing');
-                        // 更新音乐标题显示
                         document.getElementById('musicTitleCompact').textContent = '金鹰955直播中';
-                    }).catch(error => {
-                        console.log('自动播放被阻止，等待用户交互:', error);
-                        // 移除播放状态
+                    }).catch(() => {
                         playPauseBtnCompact.classList.remove('playing');
-                        // 显示提示
                         document.getElementById('musicTitleCompact').textContent = '点击播放金鹰955';
                     });
                 }
             }
+            setTimeout(setupAutoplay, 500);
             
-            // 页面加载后尝试自动播放
-            setTimeout(() => {
-                setupAutoplay();
-            }, 500);
-            
-            // 播放/暂停按钮点击事件
             playPauseBtnCompact.addEventListener('click', function() {
                 if (backgroundMusic.paused) {
                     backgroundMusic.play().then(() => {
                         this.classList.add('playing');
                         document.getElementById('musicTitleCompact').textContent = '金鹰955直播中';
-                    }).catch(error => {
-                        console.error('播放失败:', error);
-                        // 如果m3u8播放失败，尝试备用方案
+                    }).catch(() => {
                         document.getElementById('musicTitleCompact').textContent = '播放失败，点击重试';
                     });
                 } else {
@@ -1884,44 +494,43 @@
                 }
             });
             
-            // 音频事件监听
             backgroundMusic.addEventListener('play', function() {
                 playPauseBtnCompact.classList.add('playing');
                 document.getElementById('musicTitleCompact').textContent = '金鹰955直播中';
             });
-            
             backgroundMusic.addEventListener('pause', function() {
                 playPauseBtnCompact.classList.remove('playing');
                 document.getElementById('musicTitleCompact').textContent = '金鹰955已暂停';
             });
-            
             backgroundMusic.addEventListener('ended', function() {
                 playPauseBtnCompact.classList.remove('playing');
                 document.getElementById('musicTitleCompact').textContent = '播放结束，点击重播';
             });
-            
             backgroundMusic.addEventListener('error', function() {
-                console.error('音频加载失败');
                 playPauseBtnCompact.disabled = true;
                 document.getElementById('musicTitleCompact').textContent = '音频加载失败';
-                
-                // 尝试使用备用音频源（如果主源失败）
-                console.log('尝试备用音频源...');
                 backgroundMusic.innerHTML = '<source src="https://bgithub.xyz/zhr-0731/Music-file/raw/refs/heads/main/Reach%20Me%20-%20Track%20in%20Time%20(%E7%BA%AF%E9%92%A2%E7%90%B4).mp3" type="audio/mpeg">';
                 backgroundMusic.load();
                 document.getElementById('musicTitleCompact').textContent = '切换到备用音频';
             });
-            
-            // 调试：检查轮播图链接
-            console.log('轮播图链接检查:');
-            console.log('轮播1链接:', document.querySelector('.carousel-slide[data-index="0"] a')?.href);
-            console.log('轮播2链接:', document.querySelector('.carousel-slide[data-index="1"] a')?.href);
-            console.log('轮播3链接:', document.querySelector('.carousel-slide[data-index="2"] a')?.href);
-            console.log('轮播4链接:', document.querySelector('.carousel-slide[data-index="3"] a')?.href);
-            console.log('轮播5链接:', document.querySelector('.carousel-slide[data-index="4"] a')?.href);
-            console.log('轮播6链接:', document.querySelector('.carousel-slide[data-index="5"] a')?.href);
-            console.log('轮播7链接:', document.querySelector('.carousel-slide[data-index="6"] a')?.href);
-            console.log('轮播8链接:', document.querySelector('.carousel-slide[data-index="7"] a')?.href);
+
+            // 搜索跳转逻辑
+            const searchInput = document.getElementById('searchQuery');
+            const searchBtn = document.getElementById('searchSubmitBtn');
+
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    window.location.href = 'https://zhr-0731.github.io/search.html?q=' + encodeURIComponent(query);
+                }
+            }
+
+            searchBtn.addEventListener('click', performSearch);
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
         });
     </script>
 </body>
