@@ -1,4 +1,4 @@
-/* 全局样式 (完全保留原样) */
+/* 全局样式 */
 :root {
     --ghost-accent-color: #59c090;
     --text-color: #333;
@@ -46,7 +46,7 @@ img {
     padding: 0 20px;
 }
 
-/* 头部导航 (原样式，稍后覆盖) */
+/* 头部导航 */
 header {
     position: sticky;
     top: 0;
@@ -216,7 +216,7 @@ nav a {
     background: rgba(255,255,255,0.2);
 }
 
-/* 轮播图样式 (原样式) */
+/* 轮播图样式 */
 .carousel-section {
     margin-bottom: 60px;
 }
@@ -786,7 +786,7 @@ footer {
 /* ===== 新增覆盖样式：Hux风格 + 轮播图顶部拓宽 + 增加高度 ===== */
 /* 导航栏绝对定位，脱离文档流，让轮播图从顶部开始 */
 header {
-    position: absolute !important; /* 改为绝对定位，不再占用高度 */
+    position: absolute !important;
     top: 0;
     left: 0;
     width: 100%;
@@ -835,15 +835,15 @@ nav ul li a,
     background: var(--ghost-accent-color) !important;
 }
 
-/* 轮播图全宽大高度，紧贴顶部，且增加高度到60vh */
+/* 轮播图全宽大高度，紧贴顶部 */
 .carousel-section {
     width: 100vw;
     margin-left: calc(-50vw + 50%);
     margin-top: 0 !important;
     margin-bottom: 0;
     position: relative;
-    height: 100vh;                /* 从42vh增加到60vh，更“宽” */
-    min-height: 380px;            /* 适当增加最小高度 */
+    height: 100vh;
+    min-height: 380px;
     overflow: hidden;
 }
 
@@ -901,7 +901,7 @@ nav ul li a,
 /* 移动端适配补充 */
 @media (max-width: 768px) {
     .carousel-section {
-        height: 50vh;              /* 移动端适当降低 */
+        height: 50vh;
         min-height: 300px;
     }
     .banner-title .main-title {
