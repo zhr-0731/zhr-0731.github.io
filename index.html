@@ -470,10 +470,10 @@
                 if (playPromise !== undefined) {
                     playPromise.then(() => {
                         playPauseBtnCompact.classList.add('playing');
-                        document.getElementById('musicTitleCompact').textContent = '金鹰955直播中';
+                        document.getElementById('musicTitleCompact').textContent = '金鹰955';
                     }).catch(() => {
                         playPauseBtnCompact.classList.remove('playing');
-                        document.getElementById('musicTitleCompact').textContent = '点击播放金鹰955';
+                        document.getElementById('musicTitleCompact').textContent = '金鹰955';
                     });
                 }
             }
@@ -483,24 +483,24 @@
                 if (backgroundMusic.paused) {
                     backgroundMusic.play().then(() => {
                         this.classList.add('playing');
-                        document.getElementById('musicTitleCompact').textContent = '金鹰955直播中';
+                        document.getElementById('musicTitleCompact').textContent = '金鹰955';
                     }).catch(() => {
                         document.getElementById('musicTitleCompact').textContent = '播放失败，点击重试';
                     });
                 } else {
                     backgroundMusic.pause();
                     this.classList.remove('playing');
-                    document.getElementById('musicTitleCompact').textContent = '金鹰955已暂停';
+                    document.getElementById('musicTitleCompact').textContent = '金鹰955';
                 }
             });
             
             backgroundMusic.addEventListener('play', function() {
                 playPauseBtnCompact.classList.add('playing');
-                document.getElementById('musicTitleCompact').textContent = '金鹰955直播中';
+                document.getElementById('musicTitleCompact').textContent = '金鹰955';
             });
             backgroundMusic.addEventListener('pause', function() {
                 playPauseBtnCompact.classList.remove('playing');
-                document.getElementById('musicTitleCompact').textContent = '金鹰955已暂停';
+                document.getElementById('musicTitleCompact').textContent = '金鹰955';
             });
             backgroundMusic.addEventListener('ended', function() {
                 playPauseBtnCompact.classList.remove('playing');
