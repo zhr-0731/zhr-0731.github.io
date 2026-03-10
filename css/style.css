@@ -914,3 +914,117 @@ nav ul li a,
         min-height: 250px;
     }
 }
+
+
+/* ===== 黑暗模式适配 ===== */
+@media (prefers-color-scheme: dark) {
+    /* 重置根变量（覆盖亮色模式） */
+    :root {
+        --bg-color: #1a1a1a;
+        --text-color: #e0e0e0;
+        --light-gray: #2a2a2a;
+        --border-color: #444;
+    }
+
+    body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+    }
+
+    /* 头部导航（保持透明悬浮，但内部文字在暗色背景下依然白色） */
+    header {
+        background: transparent !important; /* 覆盖原有的半透明白色 */
+    }
+
+    /* 文章卡片 */
+    .post-card {
+        background: #242424;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    .post-card:hover {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    .post-excerpt {
+        color: #aaa;
+    }
+
+    .post-footer {
+        border-top-color: #333;
+    }
+
+    /* 页脚 */
+    footer {
+        background: #1f1f1f;
+        border-top-color: #333;
+    }
+
+    .footer-nav a,
+    .powered-by {
+        color: #bbb;
+    }
+
+    /* RSS 订阅按钮（主色调保持不变，稍微调亮以适应深色背景） */
+    .rss-subscribe {
+        background: #3fa875; /* 稍微暗一点的绿，避免过亮 */
+    }
+    .rss-subscribe:hover {
+        background: #4fb585;
+    }
+
+    /* Newsletter 卡片 */
+    .newsletter-card {
+        background: #242424;
+        border-color: #333;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    }
+
+    .newsletter-title {
+        color: #fff;
+    }
+
+    .newsletter-description {
+        color: #aaa;
+    }
+
+    .newsletter-input {
+        background: #333;
+        border-color: #555;
+        color: #eee;
+    }
+    .newsletter-input:focus {
+        background: #3a3a3a;
+        border-color: var(--ghost-accent-color);
+    }
+
+    .newsletter-footnote,
+    .newsletter-footnote a {
+        color: #888;
+    }
+
+    /* 搜索模态框（如果还存在，但当前版本已移除，可保留以防万一） */
+    .search-container {
+        background: rgba(26, 26, 26, 0.98);
+    }
+    .search-input {
+        background: #333;
+        border-color: #555;
+        color: white;
+    }
+    .search-result-item {
+        background: #242424;
+        border-color: #333;
+    }
+    .result-title {
+        color: #fff;
+    }
+    .result-excerpt {
+        color: #aaa;
+    }
+    .result-date {
+        color: #888;
+    }
+
+    /* 音乐播放器（在导航栏内已半透明，无需额外调整） */
+    /* 轮播图文字原本白色，不受影响，无需改动 */
+}
