@@ -918,113 +918,109 @@ nav ul li a,
 
 /* ===== 黑暗模式适配 ===== */
 @media (prefers-color-scheme: dark) {
-    /* 重置根变量（覆盖亮色模式） */
     :root {
-        --bg-color: #1a1a1a;
-        --text-color: #e0e0e0;
-        --light-gray: #2a2a2a;
-        --border-color: #444;
+        --bg-color: #1a1a1a !important;
+        --text-color: #e0e0e0 !important;
+        --light-gray: #2a2a2a !important;
+        --border-color: #444 !important;
     }
 
     body {
-        background-color: var(--bg-color);
-        color: var(--text-color);
+        background-color: var(--bg-color) !important;
+        color: var(--text-color) !important;
     }
 
-    /* 头部导航（保持透明悬浮，但内部文字在暗色背景下依然白色） */
+    /* 头部导航（保持透明悬浮） */
     header {
-        background: transparent !important; /* 覆盖原有的半透明白色 */
+        background: transparent !important;
     }
 
     /* 文章卡片 */
     .post-card {
-        background: #242424;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        background: #242424 !important;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3) !important;
     }
     .post-card:hover {
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
     }
 
     .post-excerpt {
-        color: #aaa;
+        color: #aaa !important;
     }
 
     .post-footer {
-        border-top-color: #333;
+        border-top-color: #333 !important;
     }
 
     /* 页脚 */
     footer {
-        background: #1f1f1f;
-        border-top-color: #333;
+        background: #1f1f1f !important;
+        border-top-color: #333 !important;
     }
 
     .footer-nav a,
     .powered-by {
-        color: #bbb;
+        color: #bbb !important;
     }
 
-    /* RSS 订阅按钮（主色调保持不变，稍微调亮以适应深色背景） */
+    /* RSS 订阅按钮 */
     .rss-subscribe {
-        background: #3fa875; /* 稍微暗一点的绿，避免过亮 */
+        background: #3fa875 !important;
     }
     .rss-subscribe:hover {
-        background: #4fb585;
+        background: #4fb585 !important;
     }
 
     /* Newsletter 卡片 */
     .newsletter-card {
-        background: #242424;
-        border-color: #333;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        background: #242424 !important;
+        border-color: #333 !important;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3) !important;
     }
 
     .newsletter-title {
-        color: #fff;
+        color: #fff !important;
     }
 
     .newsletter-description {
-        color: #aaa;
+        color: #aaa !important;
     }
 
     .newsletter-input {
-        background: #333;
-        border-color: #555;
-        color: #eee;
+        background: #333 !important;
+        border-color: #555 !important;
+        color: #eee !important;
     }
     .newsletter-input:focus {
-        background: #3a3a3a;
-        border-color: var(--ghost-accent-color);
+        background: #3a3a3a !important;
+        border-color: var(--ghost-accent-color) !important;
     }
 
     .newsletter-footnote,
     .newsletter-footnote a {
-        color: #888;
+        color: #888 !important;
     }
 
-    /* 搜索模态框（如果还存在，但当前版本已移除，可保留以防万一） */
+    /* 搜索模态框（如存在） */
     .search-container {
-        background: rgba(26, 26, 26, 0.98);
+        background: rgba(26, 26, 26, 0.98) !important;
     }
     .search-input {
-        background: #333;
-        border-color: #555;
-        color: white;
+        background: #333 !important;
+        border-color: #555 !important;
+        color: white !important;
     }
     .search-result-item {
-        background: #242424;
-        border-color: #333;
+        background: #242424 !important;
+        border-color: #333 !important;
     }
     .result-title {
-        color: #fff;
+        color: #fff !important;
     }
     .result-excerpt {
-        color: #aaa;
+        color: #aaa !important;
     }
     .result-date {
-        color: #888;
+        color: #888 !important;
     }
-
-    /* 音乐播放器（在导航栏内已半透明，无需额外调整） */
-    /* 轮播图文字原本白色，不受影响，无需改动 */
 }
