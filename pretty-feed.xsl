@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="1.0" 
+<xsl:stylesheet version="1.0"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:dc="http://purl.org/dc/elements/1.1/"
     xmlns:content="http://purl.org/rss/1.0/modules/content/"
@@ -14,148 +14,172 @@
     <title><xsl:value-of select="rss/channel/title"/> · 订阅源</title>
     <style>
         <![CDATA[
-        /* ===== 全局重置 & 基础 ===== */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
-            background: #f4f6f9;
-            padding: 30px 20px;
-            color: #1e293b;
-            line-height: 1.6;
-        }
-        .container { max-width: 920px; margin: 0 auto; }
+        /* ===================================================
+           完全基于你的博客主页样式（精简版）
+           保留：颜色变量、字体、卡片、暗色模式、响应式
+           =================================================== */
 
-        /* ===== 博客头部 ===== */
+        /* ---- 变量（与你主页完全一致） ---- */
+        :root {
+            --ghost-accent-color: #59c090;
+            --text-color: #333;
+            --bg-color: #fff;
+            --light-gray: #f5f5f5;
+            --border-color: #eaeaea;
+            --font-serif: 'Noto Serif SC', 'Georgia', serif;
+            --font-sans: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        /* ---- 全局重置 ---- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: var(--font-sans);
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s;
+        }
+        a:hover {
+            color: var(--ghost-accent-color);
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+        }
+
+        /* ---- 站点头部（简化版，类似你的 header 风格） ---- */
         .site-header {
-            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-            border-radius: 28px;
-            padding: 40px 38px;
-            margin-bottom: 32px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.04);
-            border: 1px solid rgba(255,255,255,0.6);
+            background: var(--bg-color);
+            padding: 30px 30px 25px;
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
-            gap: 24px;
+            gap: 20px;
             flex-wrap: wrap;
         }
         .site-avatar {
-            width: 80px;
-            height: 80px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid #fff;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border: 2px solid var(--ghost-accent-color);
             flex-shrink: 0;
         }
         .site-info h1 {
-            font-size: 2.2rem;
+            font-size: 2rem;
+            font-family: var(--font-serif);
             font-weight: 700;
-            letter-spacing: -0.02em;
-            background: linear-gradient(135deg, #0f172a, #334155);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--text-color);
         }
         .site-info p {
-            color: #475569;
-            font-size: 1.05rem;
-            margin-top: 4px;
+            color: #666;
+            font-size: 1rem;
+            margin-top: 2px;
         }
         .site-info .rss-link {
             display: inline-block;
             margin-top: 8px;
-            font-size: 0.8rem;
-            background: #e2e8f0;
-            padding: 4px 16px;
-            border-radius: 30px;
-            color: #334155;
-            text-decoration: none;
-            -webkit-text-fill-color: #334155;
-            background: #e2e8f0;
+            background: var(--ghost-accent-color);
+            color: #fff;
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: background 0.3s;
         }
-        .site-info .rss-link:hover { background: #cbd5e1; }
+        .site-info .rss-link:hover {
+            background: #3fa875;
+            color: #fff;
+        }
 
-        /* ===== 文章卡片 ===== */
+        /* ---- 文章卡片（完全复用你主页的 .post-card 风格） ---- */
         .post-item {
-            background: #ffffff;
-            border-radius: 24px;
-            padding: 32px 34px;
-            margin-bottom: 28px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.02);
-            border: 1px solid #edf2f7;
-            transition: all 0.25s ease;
+            background: var(--bg-color);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 30px;
+            padding: 25px 28px;
+            border: 1px solid var(--border-color);
         }
         .post-item:hover {
-            box-shadow: 0 12px 40px rgba(0,0,0,0.07);
-            border-color: #d1d9e6;
-            transform: translateY(-2px);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
+
         .post-title {
-            font-size: 1.7rem;
-            font-weight: 600;
+            font-size: 1.5rem;
+            font-family: var(--font-serif);
             line-height: 1.3;
             margin-bottom: 8px;
         }
         .post-title a {
-            color: #0f172a;
-            text-decoration: none;
-            transition: color 0.15s;
+            color: var(--text-color);
         }
         .post-title a:hover {
-            color: #2563eb;
-            text-decoration: underline;
+            color: var(--ghost-accent-color);
         }
+
         .post-meta {
             display: flex;
             flex-wrap: wrap;
-            align-items: center;
-            gap: 10px 18px;
+            gap: 12px 20px;
             font-size: 0.85rem;
-            color: #64748b;
+            color: #888;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
             margin-bottom: 14px;
-            padding-bottom: 14px;
-            border-bottom: 1px dashed #e9edf2;
         }
-        .post-meta .date {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .post-meta .date::before { content: "📅"; margin-right: 4px; }
+        .post-meta .date::before { content: "📅 "; }
         .post-meta .author::before { content: "✍️ "; }
         .post-meta .categories {
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
         }
-        .post-meta .category-tag {
-            background: #dbeafe;
-            color: #1d4ed8;
-            padding: 2px 14px;
-            border-radius: 30px;
-            font-size: 0.72rem;
-            font-weight: 500;
-            letter-spacing: 0.3px;
-        }
-        .post-summary {
-            background: #f8fafc;
-            padding: 14px 20px;
-            border-radius: 14px;
-            border-left: 5px solid #3b82f6;
-            color: #334155;
-            margin-bottom: 18px;
-            font-size: 0.98rem;
+        .category-tag {
+            display: inline-block;
+            background: var(--ghost-accent-color);
+            color: #fff;
+            font-size: 0.7rem;
+            padding: 2px 12px;
+            border-radius: 12px;
+            margin-right: 4px;
         }
 
-        /* ===== 文章正文（渲染 content:encoded） ===== */
+        .post-summary {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+            padding: 12px 16px;
+            background: var(--light-gray);
+            border-radius: 6px;
+            border-left: 4px solid var(--ghost-accent-color);
+        }
+
+        /* ---- 文章正文（渲染 content:encoded） ---- */
         .post-content {
             font-size: 1rem;
-            color: #1e293b;
+            color: var(--text-color);
             line-height: 1.8;
             word-wrap: break-word;
             overflow: hidden;
         }
-        /* 封面图 */
         .post-content figure.article-image {
             margin: 0 0 20px 0;
             text-align: center;
@@ -163,26 +187,25 @@
         .post-content figure.article-image img {
             max-width: 100%;
             height: auto;
-            border-radius: 16px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             display: block;
             margin: 0 auto;
         }
-        /* 正文图片（非封面） */
         .post-content img:not(.article-image img) {
             max-width: 100%;
             height: auto;
-            border-radius: 12px;
+            border-radius: 6px;
             margin: 16px 0;
             display: block;
         }
-        /* 视频容器 (B站iframe) */
+        /* 视频容器 */
         .post-content .video-container {
             position: relative;
             padding-bottom: 56.25%;
             height: 0;
             overflow: hidden;
-            border-radius: 16px;
+            border-radius: 8px;
             margin: 24px 0;
             background: #000;
         }
@@ -198,105 +221,177 @@
         .post-content pre {
             background: #1e293b;
             color: #e2e8f0;
-            padding: 18px 22px;
-            border-radius: 14px;
+            padding: 16px 20px;
+            border-radius: 8px;
             overflow-x: auto;
             font-size: 0.9rem;
             line-height: 1.6;
             margin: 18px 0;
-            font-family: "JetBrains Mono", "Fira Code", monospace;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
         }
         .post-content pre code {
             background: transparent;
             padding: 0;
             color: inherit;
-            font-size: inherit;
         }
         .post-content code {
-            background: #eef2f6;
-            padding: 2px 10px;
-            border-radius: 6px;
+            background: var(--light-gray);
+            padding: 2px 8px;
+            border-radius: 4px;
             font-size: 0.9em;
-            color: #0f172a;
-            font-family: "JetBrains Mono", monospace;
+            color: var(--text-color);
+            font-family: 'JetBrains Mono', monospace;
         }
         /* 引用块 */
         .post-content blockquote {
-            border-left: 5px solid #3b82f6;
-            background: #f1f5f9;
-            padding: 16px 24px;
+            border-left: 4px solid var(--ghost-accent-color);
+            background: var(--light-gray);
+            padding: 14px 20px;
             margin: 18px 0;
-            border-radius: 0 12px 12px 0;
-            color: #334155;
+            border-radius: 0 6px 6px 0;
+            color: #555;
         }
         .post-content blockquote p { margin: 0; }
-        /* 标题层级 */
+        /* 标题 */
         .post-content h2 {
             font-size: 1.5rem;
-            margin: 28px 0 12px 0;
+            margin: 28px 0 12px;
             font-weight: 600;
-            border-bottom: 2px solid #e9edf2;
+            border-bottom: 2px solid var(--border-color);
             padding-bottom: 6px;
         }
         .post-content h3 {
             font-size: 1.25rem;
-            margin: 22px 0 10px 0;
+            margin: 22px 0 10px;
             font-weight: 600;
         }
-        /* 列表 & 段落 */
         .post-content ul, .post-content ol {
             padding-left: 28px;
             margin: 12px 0;
         }
         .post-content li { margin-bottom: 4px; }
-        .post-content p { margin: 0 0 14px 0; }
+        .post-content p { margin: 0 0 14px; }
         .post-content a {
-            color: #2563eb;
-            text-decoration: none;
+            color: var(--ghost-accent-color);
             border-bottom: 1px solid transparent;
             transition: border 0.2s;
         }
-        .post-content a:hover { border-bottom-color: #2563eb; }
-        /* 水平分割线 */
+        .post-content a:hover {
+            border-bottom-color: var(--ghost-accent-color);
+        }
         .post-content hr {
             border: 0;
-            border-top: 2px dashed #dce2ec;
+            border-top: 2px dashed var(--border-color);
             margin: 28px 0;
         }
 
-        /* ===== 页脚 ===== */
+        /* ---- 页脚（与你主页一致） ---- */
         .site-footer {
-            text-align: center;
+            background: var(--light-gray);
+            padding: 30px 20px;
             margin-top: 40px;
-            padding: 20px;
-            color: #94a3b8;
-            font-size: 0.85rem;
-            border-top: 1px solid #e2e8f0;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: #888;
+            font-size: 0.9rem;
         }
         .site-footer a {
-            color: #475569;
-            text-decoration: none;
+            color: var(--ghost-accent-color);
         }
         .site-footer a:hover {
-            color: #0f172a;
             text-decoration: underline;
         }
 
-        /* ===== 响应式 ===== */
-        @media (max-width: 640px) {
-            body { padding: 16px 10px; }
+        /* ---- 响应式（与你主页的断点一致） ---- */
+        @media (max-width: 768px) {
+            body { padding: 20px 12px; }
             .site-header {
-                padding: 24px 18px;
                 flex-direction: column;
                 text-align: center;
+                padding: 20px;
             }
-            .site-avatar { width: 64px; height: 64px; }
             .site-info h1 { font-size: 1.6rem; }
-            .post-item { padding: 20px 16px; }
-            .post-title { font-size: 1.3rem; }
+            .post-item { padding: 18px 16px; }
+            .post-title { font-size: 1.2rem; }
+        }
+        @media (max-width: 480px) {
             .post-meta { font-size: 0.75rem; gap: 6px 12px; }
-            .post-summary { font-size: 0.9rem; padding: 12px 14px; }
+            .post-summary { font-size: 0.9rem; }
             .post-content { font-size: 0.95rem; }
+        }
+
+        /* ---- 暗色模式（完全复刻你的适配） ---- */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #1a1a1a;
+                --text-color: #e0e0e0;
+                --light-gray: #2a2a2a;
+                --border-color: #444;
+            }
+            body {
+                background-color: var(--bg-color);
+                color: var(--text-color);
+            }
+            .site-header {
+                background: var(--bg-color);
+                border-bottom-color: var(--border-color);
+            }
+            .site-info h1 {
+                color: #fff;
+            }
+            .site-info p {
+                color: #aaa;
+            }
+            .post-item {
+                background: #242424;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+                border-color: var(--border-color);
+            }
+            .post-item:hover {
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            }
+            .post-title a {
+                color: #fff;
+            }
+            .post-title a:hover {
+                color: var(--ghost-accent-color);
+            }
+            .post-meta {
+                border-bottom-color: #333;
+                color: #aaa;
+            }
+            .post-summary {
+                background: #2a2a2a;
+                color: #ccc;
+            }
+            .post-content {
+                color: #e0e0e0;
+            }
+            .post-content code {
+                background: #333;
+                color: #eee;
+            }
+            .post-content blockquote {
+                background: #2a2a2a;
+                color: #ccc;
+            }
+            .post-content h2 {
+                border-bottom-color: #444;
+            }
+            .post-content a {
+                color: var(--ghost-accent-color);
+            }
+            .site-footer {
+                background: #1f1f1f;
+                border-top-color: #333;
+                color: #888;
+            }
+            .site-footer a {
+                color: var(--ghost-accent-color);
+            }
+            .category-tag {
+                background: #3fa875;
+            }
         }
         ]]>
     </style>
@@ -304,7 +399,7 @@
 <body>
 <div class="container">
 
-    <!-- ===== 站点头部 ===== -->
+    <!-- ===== 站点头部（与你的主页头部风格统一） ===== -->
     <header class="site-header">
         <xsl:if test="rss/channel/image/url">
             <img class="site-avatar" src="{rss/channel/image/url}" alt="博客头像"/>
@@ -316,15 +411,12 @@
         </div>
     </header>
 
-    <!-- ===== 遍历文章 ===== -->
+    <!-- ===== 遍历文章（卡片样式） ===== -->
     <xsl:for-each select="rss/channel/item">
         <article class="post-item">
-            <!-- 标题 -->
             <h2 class="post-title">
                 <a href="{link}"><xsl:value-of select="title"/></a>
             </h2>
-
-            <!-- 元数据 -->
             <div class="post-meta">
                 <span class="date"><xsl:value-of select="pubDate"/></span>
                 <xsl:if test="dc:creator">
@@ -336,13 +428,9 @@
                     </xsl:for-each>
                 </span>
             </div>
-
-            <!-- 摘要 -->
             <xsl:if test="description">
                 <div class="post-summary"><xsl:value-of select="description"/></div>
             </xsl:if>
-
-            <!-- 完整正文（渲染 HTML） -->
             <div class="post-content">
                 <xsl:value-of select="content:encoded" disable-output-escaping="yes"/>
             </div>
