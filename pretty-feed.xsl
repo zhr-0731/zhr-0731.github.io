@@ -12,6 +12,13 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title><xsl:value-of select="rss/channel/title"/> · 订阅源</title>
+
+    <!-- 设置 Favicon（使用 RSS 中的 image/url） -->
+    <xsl:if test="rss/channel/image/url">
+        <link rel="icon" href="{rss/channel/image/url}" type="image/png"/>
+        <link rel="apple-touch-icon" href="{rss/channel/image/url}"/>
+    </xsl:if>
+
     <style>
         <![CDATA[
         /* ===================================================
@@ -90,21 +97,7 @@
             font-size: 1rem;
             margin-top: 2px;
         }
-        .site-info .rss-link {
-            display: inline-block;
-            margin-top: 8px;
-            background: var(--ghost-accent-color);
-            color: #fff;
-            padding: 6px 18px;
-            border-radius: 40px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: background 0.3s;
-        }
-        .site-info .rss-link:hover {
-            background: #3fa875;
-            color: #fff;
-        }
+        /* 注意：这里去掉了 .rss-link 样式，因为不再使用 */
 
         /* ---- 文章卡片（完全复用你主页的 .post-card 风格） ---- */
         .post-item {
@@ -399,7 +392,7 @@
 <body>
 <div class="container">
 
-    <!-- ===== 站点头部（与你的主页头部风格统一） ===== -->
+    <!-- ===== 站点头部（显示头像，但无 RSS 订阅按钮） ===== -->
     <header class="site-header">
         <xsl:if test="rss/channel/image/url">
             <img class="site-avatar" src="{rss/channel/image/url}" alt="博客头像"/>
@@ -407,7 +400,7 @@
         <div class="site-info">
             <h1><xsl:value-of select="rss/channel/title"/></h1>
             <p><xsl:value-of select="rss/channel/description"/></p>
-            <a class="rss-link" href="https://raw.githubusercontent.com/zhr-0731/zhr-0731.github.io/refs/heads/main/rss.xml" target="_blank">📡 订阅原始 RSS</a>
+            <!-- 已移除 “订阅原始 RSS” 按钮 -->
         </div>
     </header>
 
