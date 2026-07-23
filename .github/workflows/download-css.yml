@@ -7,7 +7,7 @@ jobs:
   download:
     runs-on: ubuntu-latest
     permissions:
-      contents: write        # 明确赋予写权限
+      contents: write       # 确保有写入权限
 
     steps:
       - name: Checkout repository
@@ -23,29 +23,12 @@ jobs:
           curl -L -o css/prism-tomorrow.min.css "https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism-tomorrow.min.css"
           curl -L -o css/main.css "https://cdn.jsdelivr.net/ghost/sodo-search@~1.8/umd/main.css"
 
-      - name: List downloaded files (for debugging)
-        run: ls -la css/
-
-      - name: Check if any file has changed
-        id: check
-        run: |
-          if git diff --quiet -- css/; then
-            echo "changed=false" >> $GITHUB_OUTPUT
-          else
-            echo "changed=true" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Commit and push if changed
-        if: steps.check.outputs.changed == 'true'
+      - name: Force add and commit
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add css/
-          git commit -m "Download latest CSS assets (screen, cards, prism, sodo-search)"
+          git add -f css/                      # 强制添加（绕过 .gitignore，但你没有）
+          git commit -m "Download latest CSS assets" || echo "Nothing new to commit"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: No changes to commit
-        if: steps.check.outputs.changed == 'false'
-        run: echo "No changes detected in css/ folder."
