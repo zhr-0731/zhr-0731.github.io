@@ -5,14 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>zhr的博客 - 随便写写</title>
     <meta name="description" content="zhr的个人博客">
-    
+
     <!-- 网页图标 -->
     <link rel="icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png" type="image/png">
     <link rel="shortcut icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png" type="image/png">
     <link rel="apple-touch-icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png">
-    
-    <!-- 外部CSS - 使用您提供的URL -->
+
+    <!-- ====== 新增样式（Ghost 主题、卡片、代码高亮） ====== -->
+    <link rel="stylesheet" href="https://zhr-0731.github.io/css/html/screen.css">
+    <link rel="stylesheet" href="https://zhr-0731.github.io/css/html/cards.min.css">
+    <link rel="stylesheet" href="https://zhr-0731.github.io/css/html/prism-tomorrow.min.css">
+
+    <!-- 原自定义样式（保留，放在最后以覆盖） -->
     <link rel="stylesheet" href="https://zhr-0731.github.io/css/style.css">
+
+    <!-- ====== 新增内联样式：卡片网格布局 ====== -->
+    <style>
+        /* 强制 post-feed 使用网格，一行 4 个卡片 */
+        .post-feed {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-top: 30px;
+        }
+
+        /* 保持卡片高度一致 */
+        .post-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .post-card a {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .post-card .post-content {
+            flex: 1;
+        }
+
+        /* 响应式：中等屏幕显示 2 列 */
+        @media (max-width: 1024px) {
+            .post-feed {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* 小屏幕显示 1 列 */
+        @media (max-width: 640px) {
+            .post-feed {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- 头部导航 (绝对定位，悬浮在轮播图上) -->
@@ -23,7 +70,7 @@
                     <img src="https://s41.ax1x.com/2025/12/06/pZmaGuR.png" alt="zhr">
                     <span class="logo-text">zhr的博客</span>
                 </div>
-                
+
                 <nav>
                     <ul>
                         <!-- 导航栏中的音乐播放器 -->
@@ -33,20 +80,20 @@
                                     <span class="play-icon">▶</span>
                                     <span class="pause-icon">❚❚</span>
                                 </button>
-                                
+
                                 <div class="music-album-compact">
                                     <img src="https://s41.ax1x.com/2026/01/10/pZ0cJLq.jpg" alt="专辑封面" class="album-image-compact">
                                 </div>
-                                
+
                                 <div class="music-title-compact" id="musicTitleCompact">金鹰955</div>
                             </div>
                         </li>
-                        
+
                         <li><a href="index.html">文章|Article</a></li>
                         <li><a href="https://zhr-0731.github.io/zhr-s-videos">视频|Video</a></li>
                     </ul>
                 </nav>
-                
+
                 <!-- 搜索表单 -->
                 <div class="header-search">
                     <input type="text" class="search-input" id="searchQuery" placeholder="搜索文章..." autocomplete="off">
@@ -69,7 +116,7 @@
             <div class="main-title">zhr的博客</div>
             <div class="sub-title">随便写写</div>
         </div>
-        
+
         <div class="carousel-container" id="carouselContainer">
             <!-- 轮播项目1：GitHub Pages搭建博客 -->
             <div class="carousel-slide active" data-index="0">
@@ -81,7 +128,7 @@
                     </div>
                 </a>
             </div>
-            
+
             <!-- 轮播项目2：走出书本 -->
             <div class="carousel-slide" data-index="1">
                 <a href="post/post2.html" class="carousel-link">
@@ -92,7 +139,7 @@
                     </div>
                 </a>
             </div>
-            
+
             <!-- 轮播项目3：四季的花 -->
             <div class="carousel-slide" data-index="2">
                 <a href="post/post3.html" class="carousel-link">
@@ -114,7 +161,7 @@
                     </div>
                 </a>
             </div>
-            
+
             <!-- 轮播项目5：重庆 #2 -->
             <div class="carousel-slide" data-index="4">
                 <a href="post/post5.html" class="carousel-link">
@@ -136,7 +183,7 @@
                     </div>
                 </a>
             </div>
-            
+
             <!-- 轮播项目7：全平台订阅指南·RSS -->
             <div class="carousel-slide" data-index="6">
                 <a href="post/post7.html" class="carousel-link">
@@ -147,7 +194,7 @@
                     </div>
                 </a>
             </div>
-            
+
             <!-- 轮播项目8：全平台订阅指南·newsletter -->
             <div class="carousel-slide" data-index="7">
                 <a href="post/post8.html" class="carousel-link">
@@ -158,13 +205,13 @@
                     </div>
                 </a>
             </div>
-            
+
             <!-- 轮播控制按钮 -->
             <div class="carousel-controls">
                 <button class="carousel-btn prev-btn">❮</button>
                 <button class="carousel-btn next-btn">❯</button>
             </div>
-            
+
             <!-- 轮播指示器 - 8个 -->
             <div class="carousel-indicators">
                 <div class="indicator active" data-index="0"></div>
@@ -202,7 +249,7 @@
                     </div>
                 </a>
             </article>
-            
+
             <!-- 卡片2 -->
             <article class="post-card">
                 <a href="post/post2.html">
@@ -223,7 +270,7 @@
                     </div>
                 </a>
             </article>
-            
+
             <!-- 卡片3 -->
             <article class="post-card">
                 <a href="post/post3.html">
@@ -266,7 +313,7 @@
                     </div>
                 </a>
             </article>
-            
+
             <!-- 卡片5 -->
             <article class="post-card">
                 <a href="post/post5.html">
@@ -391,7 +438,7 @@
                         <li><a href="https://bgithub.xyz/zhr-0731" target="_blank">GitHub</a></li>
                     </ul>
                 </nav>
-                
+
                 <div class="powered-by">
                     基于 GitHub Pages
                 </div>
@@ -414,34 +461,34 @@
                     this.indicators = this.container.querySelectorAll('.indicator');
                     this.prevBtn = this.container.querySelector('.prev-btn');
                     this.nextBtn = this.container.querySelector('.next-btn');
-                    
+
                     this.currentIndex = 0;
                     this.totalSlides = this.slides.length;
                     this.autoSlideInterval = null;
                     this.autoSlideDuration = 5000;
-                    
+
                     this.init();
                 }
-                
+
                 init() {
                     this.prevBtn.addEventListener('click', () => this.prevSlide());
                     this.nextBtn.addEventListener('click', () => this.nextSlide());
-                    
+
                     this.indicators.forEach((indicator, index) => {
                         indicator.addEventListener('click', () => this.goToSlide(index));
                     });
-                    
+
                     document.addEventListener('keydown', (e) => {
                         if (e.key === 'ArrowLeft') this.prevSlide();
                         if (e.key === 'ArrowRight') this.nextSlide();
                     });
-                    
+
                     this.container.addEventListener('mouseenter', () => this.stopAutoSlide());
                     this.container.addEventListener('mouseleave', () => this.startAutoSlide());
-                    
+
                     this.startAutoSlide();
                 }
-                
+
                 updateSlide() {
                     this.slides.forEach((slide, index) => {
                         slide.classList.toggle('active', index === this.currentIndex);
@@ -450,7 +497,7 @@
                         indicator.classList.toggle('active', index === this.currentIndex);
                     });
                 }
-                
+
                 nextSlide() { this.currentIndex = (this.currentIndex + 1) % this.totalSlides; this.updateSlide(); this.resetAutoSlide(); }
                 prevSlide() { this.currentIndex = (this.currentIndex - 1 + this.totalSlides) % this.totalSlides; this.updateSlide(); this.resetAutoSlide(); }
                 goToSlide(index) { if (index >= 0 && index < this.totalSlides) { this.currentIndex = index; this.updateSlide(); this.resetAutoSlide(); } }
@@ -458,13 +505,13 @@
                 stopAutoSlide() { if (this.autoSlideInterval) { clearInterval(this.autoSlideInterval); this.autoSlideInterval = null; } }
                 resetAutoSlide() { this.stopAutoSlide(); this.startAutoSlide(); }
             }
-            
+
             new Carousel('carouselContainer');
-            
+
             // 音乐播放器功能 (完全保留)
             const backgroundMusic = document.getElementById('backgroundMusic');
             const playPauseBtnCompact = document.getElementById('playPauseBtnCompact');
-            
+
             function setupAutoplay() {
                 const playPromise = backgroundMusic.play();
                 if (playPromise !== undefined) {
@@ -478,7 +525,7 @@
                 }
             }
             setTimeout(setupAutoplay, 500);
-            
+
             playPauseBtnCompact.addEventListener('click', function() {
                 if (backgroundMusic.paused) {
                     backgroundMusic.play().then(() => {
@@ -493,7 +540,7 @@
                     document.getElementById('musicTitleCompact').textContent = '金鹰955';
                 }
             });
-            
+
             backgroundMusic.addEventListener('play', function() {
                 playPauseBtnCompact.classList.add('playing');
                 document.getElementById('musicTitleCompact').textContent = '金鹰955';
