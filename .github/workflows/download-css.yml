@@ -1,7 +1,7 @@
-name: Download CSS assets
+name: Download and commit CSS assets
 
 on:
-  workflow_dispatch:        # 仅手动触发，避免自动运行
+  workflow_dispatch:        # 手动触发，安全可控
 
 jobs:
   download:
@@ -13,17 +13,27 @@ jobs:
       - name: Create css/html directory
         run: mkdir -p css/html
 
-      - name: Download screen.css (Ghost main style)
-        run: curl -L -o css/html/screen.css "https://www.domon.cn/assets/built/screen.css?v=9649418e97"
+      - name: Download CSS files
+        run: |
+          curl -L -o css/html/screen.css "https://www.domon.cn/assets/built/screen.css?v=9649418e97"
+          curl -L -o css/html/cards.min.css "https://www.domon.cn/public/cards.min.css?v=9649418e97"
+          curl -L -o css/html/prism-tomorrow.min.css "https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism-tomorrow.min.css"
+          curl -L -o css/html/main.css "https://cdn.jsdelivr.net/ghost/sodo-search@~1.8/umd/main.css"
 
-      - name: Download cards.min.css (Ghost cards)
-        run: curl -L -o css/html/cards.min.css "https://www.domon.cn/public/cards.min.css?v=9649418e97"
+      - name: Check if css/html has changes
+        id: check_changes
+        run: |
+          if git diff --quiet -- css/html; then
+            echo "changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "changes=true" >> $GITHUB_OUTPUT
+          fi
 
-      - name: Download prism-tomorrow.min.css (code highlight)
-        run: curl -L -o css/html/prism-tomorrow.min.css "https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism-tomorrow.min.css"
-
-      - name: Download sodo-search main.css (search component)
-        run: curl -L -o css/html/main.css "https://cdn.jsdelivr.net/ghost/sodo-search@~1.8/umd/main.css"
-
-      - name: List downloaded files (optional)
-        run: ls -l css/html
+      - name: Commit and push if changed
+        if: steps.check_changes.outputs.changes == 'true'
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add css/html/
+          git commit -m "Update CSS assets (screen, cards, prism, sodo-search)"
+          git push
