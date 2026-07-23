@@ -1,39 +1,51 @@
 name: Download and commit CSS assets
 
 on:
-  workflow_dispatch:        # 手动触发，安全可控
+  workflow_dispatch:        # 手动触发
 
 jobs:
   download:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write        # 明确赋予写权限
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Create css/html directory
-        run: mkdir -p css/html
+      - name: Create css directory
+        run: mkdir -p css
 
       - name: Download CSS files
         run: |
-          curl -L -o css/html/screen.css "https://www.domon.cn/assets/built/screen.css?v=9649418e97"
-          curl -L -o css/html/cards.min.css "https://www.domon.cn/public/cards.min.css?v=9649418e97"
-          curl -L -o css/html/prism-tomorrow.min.css "https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism-tomorrow.min.css"
-          curl -L -o css/html/main.css "https://cdn.jsdelivr.net/ghost/sodo-search@~1.8/umd/main.css"
+          curl -L -o css/screen.css "https://www.domon.cn/assets/built/screen.css?v=9649418e97"
+          curl -L -o css/cards.min.css "https://www.domon.cn/public/cards.min.css?v=9649418e97"
+          curl -L -o css/prism-tomorrow.min.css "https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism-tomorrow.min.css"
+          curl -L -o css/main.css "https://cdn.jsdelivr.net/ghost/sodo-search@~1.8/umd/main.css"
 
-      - name: Check if css/html has changes
-        id: check_changes
+      - name: List downloaded files (for debugging)
+        run: ls -la css/
+
+      - name: Check if any file has changed
+        id: check
         run: |
-          if git diff --quiet -- css/html; then
-            echo "changes=false" >> $GITHUB_OUTPUT
+          if git diff --quiet -- css/; then
+            echo "changed=false" >> $GITHUB_OUTPUT
           else
-            echo "changes=true" >> $GITHUB_OUTPUT
+            echo "changed=true" >> $GITHUB_OUTPUT
           fi
 
       - name: Commit and push if changed
-        if: steps.check_changes.outputs.changes == 'true'
+        if: steps.check.outputs.changed == 'true'
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add css/html/
-          git commit -m "Update CSS assets (screen, cards, prism, sodo-search)"
+          git add css/
+          git commit -m "Download latest CSS assets (screen, cards, prism, sodo-search)"
           git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: No changes to commit
+        if: steps.check.outputs.changed == 'false'
+        run: echo "No changes detected in css/ folder."
