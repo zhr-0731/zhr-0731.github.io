@@ -1024,3 +1024,96 @@ nav ul li a,
         color: #888 !important;
     }
 }
+
+
+/* ===== 卡片沉浸光感样式（覆盖 Ghost 默认卡片） ===== */
+
+.post-card {
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.10) 0%,
+        rgba(255, 255, 255, 0.04) 100%
+    ) !important;
+    backdrop-filter: blur(24px) saturate(140%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(140%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-radius: 20px !important;
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.05) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    overflow: hidden !important;
+    /* 确保内容在玻璃层之上 */
+    color: rgba(255, 255, 255, 0.92) !important;
+}
+
+/* 悬浮效果 */
+.post-card:hover {
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.14) 0%,
+        rgba(255, 255, 255, 0.06) 100%
+    ) !important;
+    border-color: rgba(255, 255, 255, 0.22) !important;
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.20),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.06) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* 点击效果 */
+.post-card:active {
+    transform: translateY(0) scale(0.97) !important;
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.06) 0%,
+        rgba(255, 255, 255, 0.02) 100%
+    ) !important;
+    box-shadow:
+        0 4px 16px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+}
+
+/* ---------- 卡片内部文字颜色调整（确保可读性） ---------- */
+.post-card .post-title {
+    color: rgba(255, 255, 255, 0.95) !important;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.post-card .post-excerpt {
+    color: rgba(255, 255, 255, 0.75) !important;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.15);
+}
+
+.post-card .post-tag {
+    color: rgba(255, 255, 255, 0.85) !important;
+    background: rgba(255, 255, 255, 0.12) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.post-card .post-more {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.post-card .author-image {
+    border: 2px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* ---------- 图片容器微调 ---------- */
+.post-card .post-media {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+/* ---------- 卡片内部背景微调（确保玻璃层下内容清晰） ---------- */
+.post-card .post-content {
+    background: transparent !important;
+}
+
+/* 如果卡片内还有其他文字元素，可继续补充 */
+.post-card .post-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
