@@ -17,26 +17,26 @@
     <link rel="stylesheet" href="https://zhr-0731.github.io/css/html/prism-tomorrow.min.css">
     <link rel="stylesheet" href="https://zhr-0731.github.io/css/style.css">
 
-    <!-- ====== 内联样式：透明容器 + 沉浸光感卡片 ====== -->
+    <!-- ====== 内联样式：彻底透明化 + 沉浸光感卡片 ====== -->
     <style>
-        /* ---------- 强制所有父容器透明，让壁纸透出 ---------- */
+        /* ---------- 强制所有中间层透明（清除挡板） ---------- */
+        html, body,
+        .gh-site,
+        .site-content,
+        .gh-outer,
+        .site-main,
         .main-content,
         .container,
         .post-feed,
+        .post-feed *,
         .post-card,
         .post-card * {
             background: transparent !important;
+            background-color: transparent !important;
+            background-image: none !important;
+            /* 但保留卡片自身的背景（将在 .post-card 中重新定义） */
         }
-
-        /* ---------- 网格布局 ---------- */
-        .post-feed {
-            display: grid !important;
-            grid-template-columns: repeat(4, 1fr) !important;
-            gap: 24px !important;
-            margin-top: 30px !important;
-        }
-
-        /* ---------- 沉浸光感卡片 ---------- */
+        /* 恢复卡片自身的背景（因为上面清除了） */
         .post-card {
             background: rgba(255, 255, 255, 0.08) !important;
             backdrop-filter: blur(20px) saturate(150%) !important;
@@ -51,33 +51,31 @@
             flex-direction: column !important;
             height: 100% !important;
         }
-
         .post-card:hover {
             background: rgba(255, 255, 255, 0.14) !important;
             border-color: rgba(255, 255, 255, 0.25) !important;
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.06) !important;
             transform: translateY(-2px) !important;
         }
-
         .post-card:active {
             transform: translateY(0) scale(0.97) !important;
             background: rgba(255, 255, 255, 0.04) !important;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
         }
 
-        .post-card a {
-            display: flex !important;
-            flex-direction: column !important;
-            height: 100% !important;
-            text-decoration: none !important;
-            color: inherit !important;
+        /* ---------- 网格布局 ---------- */
+        .post-feed {
+            display: grid !important;
+            grid-template-columns: repeat(4, 1fr) !important;
+            gap: 24px !important;
+            margin-top: 30px !important;
         }
 
+        /* ---------- 卡片内部文字 ---------- */
         .post-card .post-content {
             flex: 1 !important;
             padding: 16px 20px !important;
         }
-
         .post-card .post-title {
             color: rgba(255, 255, 255, 0.95) !important;
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
@@ -86,14 +84,12 @@
             line-height: 1.4 !important;
             margin-bottom: 8px !important;
         }
-
         .post-card .post-excerpt {
             color: rgba(255, 255, 255, 0.75) !important;
             text-shadow: 0 1px 6px rgba(0, 0, 0, 0.15) !important;
             font-size: 0.9rem !important;
             line-height: 1.5 !important;
         }
-
         .post-card .post-tag {
             color: rgba(255, 255, 255, 0.85) !important;
             background: rgba(255, 255, 255, 0.12) !important;
@@ -106,12 +102,10 @@
             display: inline-block !important;
             margin-right: 4px !important;
         }
-
         .post-card .post-more {
             color: rgba(255, 255, 255, 0.7) !important;
             font-size: 0.85rem !important;
         }
-
         .post-card .author-image {
             border: 2px solid rgba(255, 255, 255, 0.2) !important;
             border-radius: 50% !important;
@@ -119,13 +113,11 @@
             height: 32px !important;
             object-fit: cover !important;
         }
-
         .post-card .post-media {
             border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
             overflow: hidden !important;
             border-radius: 20px 20px 0 0 !important;
         }
-
         .post-card .post-media img {
             width: 100% !important;
             height: 200px !important;
@@ -133,17 +125,22 @@
             display: block !important;
             transition: transform 0.3s ease !important;
         }
-
         .post-card:hover .post-media img {
             transform: scale(1.03) !important;
         }
-
         .post-card .post-footer {
             border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
             padding: 12px 20px !important;
             display: flex !important;
             justify-content: space-between !important;
             align-items: center !important;
+        }
+        .post-card a {
+            display: flex !important;
+            flex-direction: column !important;
+            height: 100% !important;
+            text-decoration: none !important;
+            color: inherit !important;
         }
 
         @media (max-width: 1024px) {
@@ -165,7 +162,7 @@
 </head>
 
 <body>
-    <!-- 头部导航 -->
+    <!-- ====== 头部导航 ====== -->
     <header>
         <div class="container">
             <div class="header-inner">
@@ -212,7 +209,7 @@
             <div class="sub-title">随便写写</div>
         </div>
         <div class="carousel-container" id="carouselContainer">
-            <!-- 轮播1 -->
+            <!-- 轮播项 1～8（完整保留） -->
             <div class="carousel-slide active" data-index="0">
                 <a href="post/post.html" class="carousel-link">
                     <img class="carousel-image" src="https://images.unsplash.com/photo-1598960087461-556c5a1f864a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200" alt="文章封面1">
@@ -222,7 +219,6 @@
                     </div>
                 </a>
             </div>
-            <!-- 轮播2 -->
             <div class="carousel-slide" data-index="1">
                 <a href="post/post2.html" class="carousel-link">
                     <img class="carousel-image" src="https://s41.ax1x.com/2025/12/06/pZmROmT.jpg" alt="文章封面2">
@@ -232,7 +228,6 @@
                     </div>
                 </a>
             </div>
-            <!-- 轮播3 -->
             <div class="carousel-slide" data-index="2">
                 <a href="post/post3.html" class="carousel-link">
                     <img class="carousel-image" src="https://s41.ax1x.com/2025/12/07/pZnFlYF.md.png" alt="文章封面3">
@@ -242,7 +237,6 @@
                     </div>
                 </a>
             </div>
-            <!-- 轮播4 -->
             <div class="carousel-slide" data-index="3">
                 <a href="post/post4.html" class="carousel-link">
                     <img class="carousel-image" src="https://s41.ax1x.com/2025/12/14/pZMRq76.jpg" alt="文章封面4">
@@ -252,7 +246,6 @@
                     </div>
                 </a>
             </div>
-            <!-- 轮播5 -->
             <div class="carousel-slide" data-index="4">
                 <a href="post/post5.html" class="carousel-link">
                     <img class="carousel-image" src="https://s41.ax1x.com/2025/12/08/pZnTyu9.jpg" alt="文章封面5">
@@ -262,7 +255,6 @@
                     </div>
                 </a>
             </div>
-            <!-- 轮播6 -->
             <div class="carousel-slide" data-index="5">
                 <a href="post/post6.html" class="carousel-link">
                     <img class="carousel-image" src="https://s41.ax1x.com/2026/03/01/peS0ln0.jpg" alt="文章封面6">
@@ -272,7 +264,6 @@
                     </div>
                 </a>
             </div>
-            <!-- 轮播7 -->
             <div class="carousel-slide" data-index="6">
                 <a href="post/post7.html" class="carousel-link">
                     <img class="carousel-image" src="https://s41.ax1x.com/2026/03/02/pepKMAP.jpg" alt="RSS订阅封面">
@@ -282,7 +273,6 @@
                     </div>
                 </a>
             </div>
-            <!-- 轮播8 -->
             <div class="carousel-slide" data-index="7">
                 <a href="post/post8.html" class="carousel-link">
                     <img class="carousel-image" src="https://s41.ax1x.com/2026/03/02/pepKu7t.jpg" alt="newsletter订阅封面">
@@ -314,7 +304,7 @@
     <!-- 文章列表 -->
     <main class="main-content container">
         <div class="post-feed">
-            <!-- 卡片1 -->
+            <!-- 卡片1～8（完整保留） -->
             <article class="post-card">
                 <a href="post/post.html">
                     <div class="post-media">
@@ -333,7 +323,6 @@
                     </div>
                 </a>
             </article>
-            <!-- 卡片2 -->
             <article class="post-card">
                 <a href="post/post2.html">
                     <div class="post-media">
@@ -353,7 +342,6 @@
                     </div>
                 </a>
             </article>
-            <!-- 卡片3 -->
             <article class="post-card">
                 <a href="post/post3.html">
                     <div class="post-media">
@@ -374,7 +362,6 @@
                     </div>
                 </a>
             </article>
-            <!-- 卡片4 -->
             <article class="post-card">
                 <a href="post/post4.html">
                     <div class="post-media">
@@ -394,7 +381,6 @@
                     </div>
                 </a>
             </article>
-            <!-- 卡片5 -->
             <article class="post-card">
                 <a href="post/post5.html">
                     <div class="post-media">
@@ -414,7 +400,6 @@
                     </div>
                 </a>
             </article>
-            <!-- 卡片6 -->
             <article class="post-card">
                 <a href="post/post6.html">
                     <div class="post-media">
@@ -434,7 +419,6 @@
                     </div>
                 </a>
             </article>
-            <!-- 卡片7 -->
             <article class="post-card">
                 <a href="post/post7.html">
                     <div class="post-media">
@@ -454,7 +438,6 @@
                     </div>
                 </a>
             </article>
-            <!-- 卡片8 -->
             <article class="post-card">
                 <a href="post/post8.html">
                     <div class="post-media">
