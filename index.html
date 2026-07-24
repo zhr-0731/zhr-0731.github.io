@@ -11,11 +11,254 @@
     <link rel="shortcut icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png" type="image/png">
     <link rel="apple-touch-icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png">
 
-    <!-- ====== 唯一外部依赖：代码高亮 ====== -->
+    <!-- 代码高亮 -->
     <link rel="stylesheet" href="https://zhr-0731.github.io/css/html/prism-tomorrow.min.css">
 
-    <!-- ====== 主样式表 ====== -->
-    <link rel="stylesheet" href="https://zhr-0731.github.io/css/style.css">
+    <!-- 主样式表（只保留布局样式，背景由 JS 动态注入） -->
+    <style>
+        /* ---------- 重置 & 基础 ---------- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body {
+            min-height: 100vh;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            color: #fff;
+            background: #0a0a0f; /* fallback */
+        }
+        /* 背景由 JS 注入 style 标签，此处不设置 background-image */
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* ---------- 导航 ---------- */
+        header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(10,10,15,0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            padding: 12px 0;
+        }
+        .header-inner {
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; gap: 12px;
+        }
+        .logo { display: flex; align-items: center; gap: 8px; }
+        .logo img { height: 36px; border-radius: 50%; }
+        .logo-text { font-weight: 600; font-size: 1.2rem; color: rgba(255,255,255,0.95); }
+        nav ul { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        nav ul li a { color: rgba(255,255,255,0.7); font-size: 0.9rem; transition: color 0.2s; }
+        nav ul li a:hover { color: #fff; }
+        .music-controls-compact {
+            display: flex; align-items: center; gap: 6px;
+            background: rgba(255,255,255,0.06);
+            padding: 4px 10px 4px 6px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .play-pause-btn-compact {
+            background: none; border: none; color: #fff; cursor: pointer;
+            font-size: 0.9rem; width: 28px; height: 28px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; background: rgba(255,255,255,0.06);
+        }
+        .play-pause-btn-compact .pause-icon { display: none; }
+        .play-pause-btn-compact.playing .play-icon { display: none; }
+        .play-pause-btn-compact.playing .pause-icon { display: inline; }
+        .music-album-compact img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
+        .music-title-compact { font-size: 0.75rem; color: rgba(255,255,255,0.8); white-space: nowrap; }
+        .header-search {
+            display: flex; align-items: center; gap: 6px;
+            background: rgba(255,255,255,0.06);
+            padding: 4px 8px 4px 12px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .header-search input {
+            background: transparent; border: none; color: #fff;
+            padding: 4px 0; font-size: 0.85rem; outline: none; width: 120px;
+        }
+        .header-search input::placeholder { color: rgba(255,255,255,0.4); }
+        .header-search button {
+            background: none; border: none; color: rgba(255,255,255,0.6);
+            cursor: pointer; font-size: 1rem;
+        }
+
+        /* ---------- 轮播（Ghost 风格） ---------- */
+        .carousel-section {
+            position: relative; height: 100vh; overflow: hidden;
+        }
+        .carousel-container {
+            position: relative; width: 100%; height: 100%;
+        }
+        .carousel-slide {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; transition: opacity 0.8s ease;
+        }
+        .carousel-slide.active { opacity: 1; }
+        .carousel-link { display: block; width: 100%; height: 100%; position: relative; }
+        .carousel-image { width: 100%; height: 100%; object-fit: cover; }
+        .carousel-caption {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            padding: 40px 60px 50px;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+            color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        .carousel-title { font-size: 2.2rem; font-weight: 600; margin-bottom: 6px; }
+        .carousel-excerpt { font-size: 1.05rem; opacity: 0.85; max-width: 70%; line-height: 1.6; }
+        .carousel-controls {
+            position: absolute; top: 50%; width: 100%; transform: translateY(-50%);
+            display: flex; justify-content: space-between; padding: 0 20px; z-index: 20;
+            pointer-events: none;
+        }
+        .carousel-btn {
+            pointer-events: auto;
+            background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.15); color: #fff;
+            width: 44px; height: 44px; border-radius: 50%; font-size: 1.3rem;
+            cursor: pointer; transition: background 0.2s;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .carousel-btn:hover { background: rgba(0,0,0,0.6); }
+        .carousel-indicators {
+            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 10px; z-index: 20;
+        }
+        .indicator {
+            width: 10px; height: 10px; border-radius: 50%;
+            background: rgba(255,255,255,0.35); cursor: pointer;
+            transition: background 0.2s, transform 0.2s; border: none; padding: 0;
+        }
+        .indicator.active { background: #fff; transform: scale(1.25); }
+
+        /* ---------- 卡片网格 ---------- */
+        .main-content { padding: 60px 0 40px; background: transparent !important; }
+        .post-feed {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+            background: transparent !important;
+        }
+        .card-wrapper {
+            background: transparent !important;
+            transition: transform 0.3s ease;
+        }
+        .card-wrapper:hover { transform: translateY(-4px); }
+        .post-card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(20px) saturate(150%);
+            -webkit-backdrop-filter: blur(20px) saturate(150%);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 20px; overflow: hidden;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            display: flex; flex-direction: column; height: 100%;
+        }
+        .post-card:hover {
+            transform: translateY(-6px);
+            background: rgba(255,255,255,0.12);
+            border-color: rgba(255,255,255,0.2);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+        }
+        .post-card a { display: flex; flex-direction: column; height: 100%; color: inherit; }
+        .post-media { overflow: hidden; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .post-media img {
+            width: 100%; height: 200px; object-fit: cover;
+            transition: transform 0.3s ease; display: block;
+        }
+        .post-card:hover .post-media img { transform: scale(1.03); }
+        .post-content { padding: 16px 20px 12px; flex: 1; }
+        .post-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(4px);
+            padding: 2px 12px; border-radius: 30px;
+            font-size: 0.7rem; color: rgba(255,255,255,0.8);
+            border: 1px solid rgba(255,255,255,0.06);
+            margin-right: 4px; margin-bottom: 6px;
+        }
+        .post-title {
+            font-size: 1.1rem; font-weight: 600; line-height: 1.4;
+            margin: 6px 0 8px; color: rgba(255,255,255,0.95);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .post-excerpt {
+            font-size: 0.9rem; color: rgba(255,255,255,0.7);
+            line-height: 1.5; text-shadow: 0 1px 6px rgba(0,0,0,0.15);
+        }
+        .post-footer {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 20px 16px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        .post-more { font-size: 0.85rem; color: rgba(255,255,255,0.5); transition: color 0.2s; }
+        .post-card:hover .post-more { color: #fff; }
+        .post-author img {
+            width: 32px; height: 32px; border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.15); object-fit: cover;
+        }
+
+        /* ---------- Newsletter ---------- */
+        .newsletter-section { padding: 60px 0; }
+        .newsletter-card {
+            max-width: 640px; margin: 0 auto;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px; padding: 40px 36px; text-align: center;
+        }
+        .newsletter-title { font-size: 1.8rem; font-weight: 600; margin-bottom: 12px; }
+        .newsletter-description { color: rgba(255,255,255,0.7); margin-bottom: 24px; line-height: 1.6; }
+        .newsletter-form .form-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+        .newsletter-input {
+            flex: 1; min-width: 200px;
+            padding: 14px 18px; border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.06);
+            color: #fff; font-size: 1rem; outline: none;
+            backdrop-filter: blur(4px);
+        }
+        .newsletter-input::placeholder { color: rgba(255,255,255,0.4); }
+        .newsletter-input:focus { border-color: rgba(255,255,255,0.3); }
+        .newsletter-button {
+            padding: 14px 32px; border-radius: 30px; border: none;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(4px);
+            color: #fff; font-weight: 600; cursor: pointer;
+            transition: background 0.2s; font-size: 1rem;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .newsletter-button:hover { background: rgba(255,255,255,0.25); }
+        .newsletter-footnote { margin-top: 16px; font-size: 0.8rem; color: rgba(255,255,255,0.4); }
+        .newsletter-footnote a { color: rgba(255,255,255,0.6); text-decoration: underline; }
+
+        /* ---------- 页脚 ---------- */
+        footer { padding: 30px 0; border-top: 1px solid rgba(255,255,255,0.06); text-align: center; }
+        .footer-inner { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+        .footer-nav ul { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+        .footer-nav a { color: rgba(255,255,255,0.6); font-size: 0.9rem; transition: color 0.2s; }
+        .footer-nav a:hover { color: #fff; }
+        .powered-by, .rss-subscribe { color: rgba(255,255,255,0.4); font-size: 0.8rem; }
+        .rss-subscribe { display: inline-flex; align-items: center; gap: 6px; }
+
+        /* ---------- 响应式 ---------- */
+        @media (max-width: 1024px) {
+            .post-feed { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+            .carousel-title { font-size: 1.8rem; }
+            .carousel-excerpt { font-size: 0.95rem; max-width: 100%; }
+        }
+        @media (max-width: 640px) {
+            .post-feed { grid-template-columns: 1fr; gap: 16px; }
+            .header-inner { flex-direction: column; align-items: stretch; gap: 8px; }
+            nav ul { justify-content: center; }
+            .header-search { width: 100%; }
+            .header-search input { flex: 1; width: auto; }
+            .carousel-caption { padding: 20px 24px 30px; }
+            .carousel-title { font-size: 1.4rem; }
+            .carousel-excerpt { font-size: 0.85rem; }
+            .carousel-btn { width: 36px; height: 36px; font-size: 1rem; }
+            .newsletter-card { padding: 28px 20px; }
+            .newsletter-title { font-size: 1.4rem; }
+        }
+    </style>
 </head>
 <body>
     <!-- 导航栏 -->
@@ -60,12 +303,7 @@
 
     <!-- 轮播图 -->
     <section class="carousel-section">
-        <div class="banner-title">
-            <div class="main-title">zhr的博客</div>
-            <div class="sub-title">随便写写</div>
-        </div>
         <div class="carousel-container" id="carouselContainer">
-            <!-- 轮播项 1～8 -->
             <div class="carousel-slide active" data-index="0">
                 <a href="post/post.html" class="carousel-link">
                     <img class="carousel-image" src="https://images.unsplash.com/photo-1598960087461-556c5a1f864a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200" alt="文章封面1">
@@ -138,12 +376,10 @@
                     </div>
                 </a>
             </div>
-            <!-- 控制按钮 -->
             <div class="carousel-controls">
                 <button class="carousel-btn prev-btn">❮</button>
                 <button class="carousel-btn next-btn">❯</button>
             </div>
-            <!-- 指示器 -->
             <div class="carousel-indicators">
                 <div class="indicator active" data-index="0"></div>
                 <div class="indicator" data-index="1"></div>
@@ -157,10 +393,10 @@
         </div>
     </section>
 
-    <!-- 文章列表（每个卡片独立包裹） -->
+    <!-- 文章列表 -->
     <main class="main-content container">
         <div class="post-feed">
-            <!-- 卡片1 容器 -->
+            <!-- 卡片1 -->
             <div class="card-wrapper">
                 <article class="post-card">
                     <a href="post/post.html">
@@ -181,8 +417,7 @@
                     </a>
                 </article>
             </div>
-
-            <!-- 卡片2 容器 -->
+            <!-- 卡片2 -->
             <div class="card-wrapper">
                 <article class="post-card">
                     <a href="post/post2.html">
@@ -204,8 +439,7 @@
                     </a>
                 </article>
             </div>
-
-            <!-- 卡片3 容器 -->
+            <!-- 卡片3 -->
             <div class="card-wrapper">
                 <article class="post-card">
                     <a href="post/post3.html">
@@ -228,8 +462,7 @@
                     </a>
                 </article>
             </div>
-
-            <!-- 卡片4 容器 -->
+            <!-- 卡片4 -->
             <div class="card-wrapper">
                 <article class="post-card">
                     <a href="post/post4.html">
@@ -251,8 +484,7 @@
                     </a>
                 </article>
             </div>
-
-            <!-- 卡片5 容器 -->
+            <!-- 卡片5 -->
             <div class="card-wrapper">
                 <article class="post-card">
                     <a href="post/post5.html">
@@ -274,8 +506,7 @@
                     </a>
                 </article>
             </div>
-
-            <!-- 卡片6 容器 -->
+            <!-- 卡片6 -->
             <div class="card-wrapper">
                 <article class="post-card">
                     <a href="post/post6.html">
@@ -297,8 +528,7 @@
                     </a>
                 </article>
             </div>
-
-            <!-- 卡片7 容器 -->
+            <!-- 卡片7 -->
             <div class="card-wrapper">
                 <article class="post-card">
                     <a href="post/post7.html">
@@ -320,8 +550,7 @@
                     </a>
                 </article>
             </div>
-
-            <!-- 卡片8 容器 -->
+            <!-- 卡片8 -->
             <div class="card-wrapper">
                 <article class="post-card">
                     <a href="post/post8.html">
@@ -383,9 +612,143 @@
         </div>
     </footer>
 
-    <!-- ====== JavaScript ====== -->
-    <script src="/js/weather-background.js"></script>
+    <!-- ============================================================ -->
+    <!-- 所有 JavaScript 内联，确保背景强制生效                      -->
+    <!-- ============================================================ -->
+    <script>
+        // ===== 1. 天气背景（内联，强制注入 style 标签） =====
+        (function() {
+            'use strict';
 
+            // 天气 → 必应壁纸日期映射
+            const WEATHER_BING_DATES = {
+                '晴': '2026-07-10',
+                '多云': '2026-06-21',
+                '阴': '2026-06-22',
+                '小雨': '2026-06-22',
+                '中雨': '2026-06-22',
+                '大雨': '2026-06-22',
+                '雷阵雨': '2026-05-04',
+                '小雪': '2025-12-20',
+                '中雪': '2025-12-20',
+                '大雪': '2025-12-20',
+                '雨夹雪': '2026-06-23',
+                '雾': '2023-12-07',
+                '霾': '2026-06-23',
+                '沙尘': '2026-05-14',
+                'default': '2026-06-13'
+            };
+
+            const FALLBACK = 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1920&q=80';
+
+            // 获取春节日期（仅用于可能扩展，本脚本只用固定日期）
+            function getChineseNewYear(year) {
+                const dates = {
+                    2024: new Date(2024, 1, 10),
+                    2025: new Date(2025, 0, 29),
+                    2026: new Date(2026, 1, 17),
+                    2027: new Date(2027, 1, 6),
+                    2028: new Date(2028, 0, 26),
+                    2029: new Date(2029, 1, 13),
+                    2030: new Date(2030, 1, 3)
+                };
+                return dates[year] || null;
+            }
+
+            // 强制设置背景（通过注入 style 标签）
+            function setBackground(imageUrl) {
+                const url = imageUrl || FALLBACK;
+                // 移除旧的背景 style
+                const oldStyle = document.getElementById('dynamic-bg-style');
+                if (oldStyle) oldStyle.remove();
+
+                // 创建新的 style 标签
+                const style = document.createElement('style');
+                style.id = 'dynamic-bg-style';
+                style.textContent = `
+                    body {
+                        background-image: url(${url}) !important;
+                        background-size: cover !important;
+                        background-position: center !important;
+                        background-attachment: fixed !important;
+                        background-color: #0a0a0f !important;
+                    }
+                `;
+                document.head.appendChild(style);
+                console.log('[天气背景] 已注入背景图片:', url);
+            }
+
+            // 获取壁纸
+            function fetchBingWallpaper(date) {
+                const url = `https://uapis.cn/api/v1/image/bing-daily?date=${date}&format=json&resolution=4k`;
+                console.log('[天气背景] 请求壁纸 API:', url);
+                return fetch(url)
+                    .then(res => {
+                        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                        return res.json();
+                    })
+                    .then(data => {
+                        console.log('[天气背景] 壁纸 API 返回:', data);
+                        return data.image_url_4k || data.image_url || null;
+                    })
+                    .catch(err => {
+                        console.warn('[天气背景] 壁纸请求失败，使用备用', err);
+                        return null;
+                    });
+            }
+
+            // 主流程
+            function fetchWeatherAndApply() {
+                const weatherApi = 'https://uapis.cn/api/v1/misc/weather?extended=false&lang=zh';
+                console.log('[天气背景] 请求天气 API:', weatherApi);
+                fetch(weatherApi)
+                    .then(res => {
+                        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                        return res.json();
+                    })
+                    .then(weatherData => {
+                        console.log('[天气背景] 天气 API 返回:', weatherData);
+                        const weather = weatherData.weather || 'default';
+                        console.log('[天气背景] 识别天气:', weather);
+                        const date = WEATHER_BING_DATES[weather] || WEATHER_BING_DATES['default'];
+                        console.log('[天气背景] 对应壁纸日期:', date);
+                        return fetchBingWallpaper(date);
+                    })
+                    .then(imgUrl => {
+                        setBackground(imgUrl);
+                    })
+                    .catch(err => {
+                        console.warn('[天气背景] 整体失败，使用备用壁纸', err);
+                        setBackground(null);
+                    });
+            }
+
+            // 页面加载后执行
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', fetchWeatherAndApply);
+            } else {
+                fetchWeatherAndApply();
+            }
+
+            // 每小时刷新一次
+            setInterval(fetchWeatherAndApply, 3600000);
+
+            // 暴露开关功能（如果导航栏有按钮，可以控制）
+            window.__weatherEnabled = true;
+            window.toggleWeatherBackground = function() {
+                window.__weatherEnabled = !window.__weatherEnabled;
+                if (window.__weatherEnabled) {
+                    fetchWeatherAndApply();
+                } else {
+                    const style = document.getElementById('dynamic-bg-style');
+                    if (style) style.remove();
+                    console.log('[天气背景] 已关闭');
+                }
+            };
+        })();
+    </script>
+
+    <!-- 轮播、音乐、搜索 -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // ----- 轮播 -----
@@ -514,6 +877,77 @@
         });
     </script>
 
-    <script src="/js/theme-switcher.js"></script>
+    <!-- 主题切换（春节/公祭日）—— 内联 -->
+    <script>
+        (function() {
+            'use strict';
+            // 主题切换逻辑（与之前相同）
+            const SPRING_IMG = 'https://s41.ax1x.com/2026/07/24/pmgT1ne.jpg';
+            const MEMORIAL_IMG = 'https://s41.ax1x.com/2026/07/24/pmgT5B4.png';
+            const DEFAULT_IMG = 'https://images.unsplash.com/photo-1598960087461-556c5a1f864a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200';
+
+            function getChineseNewYear(year) {
+                const dates = {
+                    2024: new Date(2024, 1, 10), 2025: new Date(2025, 0, 29),
+                    2026: new Date(2026, 1, 17), 2027: new Date(2027, 1, 6),
+                    2028: new Date(2028, 0, 26), 2029: new Date(2029, 1, 13),
+                    2030: new Date(2030, 1, 3)
+                };
+                return dates[year] || null;
+            }
+
+            function getTheme() {
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = now.getMonth() + 1;
+                const day = now.getDate();
+                if (month === 12 && day === 13) return 'memorial';
+                const cny = getChineseNewYear(year);
+                if (cny) {
+                    const start = new Date(cny);
+                    start.setDate(start.getDate() - 1);
+                    const end = new Date(cny);
+                    end.setDate(end.getDate() + 6);
+                    if (now >= start && now <= end) return 'spring';
+                }
+                return 'default';
+            }
+
+            function applyTheme() {
+                const theme = getTheme();
+                const slide1 = document.querySelector('.carousel-slide[data-index="0"]');
+                if (!slide1) return;
+                const img = slide1.querySelector('.carousel-image');
+                const title = slide1.querySelector('.carousel-title');
+                const excerpt = slide1.querySelector('.carousel-excerpt');
+
+                if (theme === 'spring') {
+                    if (img) img.src = SPRING_IMG;
+                    if (title) title.textContent = '🧨 新春快乐';
+                    if (excerpt) excerpt.textContent = '辞旧迎新，愿新的一年平安顺遂，幸福安康。';
+                } else if (theme === 'memorial') {
+                    if (img) img.src = MEMORIAL_IMG;
+                    if (title) title.textContent = '🕯️ 国家公祭日';
+                    if (excerpt) excerpt.textContent = '1937年12月13日，南京大屠杀。铭记历史，珍爱和平。';
+                } else {
+                    // 恢复默认（如果之前被改过）
+                    if (img && !img.src.includes('unsplash')) {
+                        img.src = DEFAULT_IMG;
+                    }
+                    // 如果标题被改过，恢复原始（但原始数据不好恢复，保持原样）
+                    // 这里不自动恢复，以免覆盖用户自定义
+                }
+                console.log('[主题切换] 当前主题:', theme);
+            }
+
+            // 等待DOM加载完成
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', applyTheme);
+            } else {
+                applyTheme();
+            }
+        })();
+    </script>
+
 </body>
 </html>
