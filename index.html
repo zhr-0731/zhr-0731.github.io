@@ -14,7 +14,7 @@
     <!-- ====== 唯一外部依赖：代码高亮 ====== -->
     <link rel="stylesheet" href="https://zhr-0731.github.io/css/html/prism-tomorrow.min.css">
 
-    <!-- ====== 主样式表（包含所有自定义样式） ====== -->
+    <!-- ====== 主样式表 ====== -->
     <link rel="stylesheet" href="https://zhr-0731.github.io/css/style.css">
 </head>
 <body>
@@ -157,162 +157,192 @@
         </div>
     </section>
 
-    <!-- 文章列表 -->
+    <!-- 文章列表（每个卡片独立包裹） -->
     <main class="main-content container">
         <div class="post-feed">
-            <!-- 卡片1～8 -->
-            <article class="post-card">
-                <a href="post/post.html">
-                    <div class="post-media">
-                        <img class="post-image" src="https://images.unsplash.com/photo-1598960087461-556c5a1f864a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=960" alt="文章封面1">
-                    </div>
-                    <div class="post-content">
-                        <span class="post-tag">技术</span>
-                        <h2 class="post-title">使用GitHub Pages搭建个人博客</h2>
-                        <div class="post-excerpt">详细讲解如何使用GitHub Pages免费部署个人博客网站，包含HTML、CSS和GitHub配置...</div>
-                    </div>
-                    <div class="post-footer">
-                        <span class="post-more">阅读更多</span>
-                        <div class="post-author">
-                            <img class="author-image" src="https://s41.ax1x.com/2025/12/06/pZmaGuR.png" alt="zhr">
+            <!-- 卡片1 容器 -->
+            <div class="card-wrapper">
+                <article class="post-card">
+                    <a href="post/post.html">
+                        <div class="post-media">
+                            <img class="post-image" src="https://images.unsplash.com/photo-1598960087461-556c5a1f864a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=960" alt="文章封面1">
                         </div>
-                    </div>
-                </a>
-            </article>
-            <article class="post-card">
-                <a href="post/post2.html">
-                    <div class="post-media">
-                        <img class="post-image" src="https://s41.ax1x.com/2025/12/06/pZmROmT.jpg" alt="文章封面2">
-                    </div>
-                    <div class="post-content">
-                        <span class="post-tag">生活</span>
-                        <span class="post-tag">感悟</span>
-                        <h2 class="post-title">走出书本，对生活更有体会</h2>
-                        <div class="post-excerpt">书本中的世界固然是精彩的，但书本外的世界会更丰富。读过书后再走出书本，对生活会有更深的体会。</div>
-                    </div>
-                    <div class="post-footer">
-                        <span class="post-more">阅读更多</span>
-                        <div class="post-author">
-                            <img class="author-image" src="https://s41.ax1x.com/2025/12/06/pZmaGuR.png" alt="zhr">
+                        <div class="post-content">
+                            <span class="post-tag">技术</span>
+                            <h2 class="post-title">使用GitHub Pages搭建个人博客</h2>
+                            <div class="post-excerpt">详细讲解如何使用GitHub Pages免费部署个人博客网站，包含HTML、CSS和GitHub配置...</div>
                         </div>
-                    </div>
-                </a>
-            </article>
-            <article class="post-card">
-                <a href="post/post3.html">
-                    <div class="post-media">
-                        <img class="post-image" src="https://s41.ax1x.com/2025/12/07/pZnFlYF.md.png" alt="文章封面3">
-                    </div>
-                    <div class="post-content">
-                        <span class="post-tag">自然</span>
-                        <span class="post-tag">生活</span>
-                        <span class="post-tag">随笔</span>
-                        <h2 class="post-title">四季的花</h2>
-                        <div class="post-excerpt">春有百花秋有月，夏有凉风冬有雪。四季更替，花儿也随之绽放，每一季都有独特的花卉装点我们的生活。</div>
-                    </div>
-                    <div class="post-footer">
-                        <span class="post-more">阅读更多</span>
-                        <div class="post-author">
-                            <img class="author-image" src="https://s41.ax1x.com/2025/12/06/pZmaGuR.png" alt="zhr">
+                        <div class="post-footer">
+                            <span class="post-more">阅读更多</span>
+                            <div class="post-author">
+                                <img class="author-image" src="https://s41.ax1x.com/2025/12/06/pZmaGuR.png" alt="zhr">
+                            </div>
                         </div>
-                    </div>
-                </a>
-            </article>
-            <article class="post-card">
-                <a href="post/post4.html">
-                    <div class="post-media">
-                        <img class="post-image" src="https://s41.ax1x.com/2025/12/14/pZMRq76.jpg" alt="文章封面4">
-                    </div>
-                    <div class="post-content">
-                        <span class="post-tag">旅行</span>
-                        <span class="post-tag">城市</span>
-                        <h2 class="post-title">去了一趟重庆 #1</h2>
-                        <div class="post-excerpt">2月，我终于有了机会，和同学去这个充满惊喜和美食的城市看看。</div>
-                    </div>
-                    <div class="post-footer">
-                        <span class="post-more">阅读更多</span>
-                        <div class="post-author">
-                            <img class="author-image" src="https://s41.ax1x.com/2025/12/06/pZmaGuR.png" alt="zhr">
+                    </a>
+                </article>
+            </div>
+
+            <!-- 卡片2 容器 -->
+            <div class="card-wrapper">
+                <article class="post-card">
+                    <a href="post/post2.html">
+                        <div class="post-media">
+                            <img class="post-image" src="https://s41.ax1x.com/2025/12/06/pZmROmT.jpg" alt="文章封面2">
                         </div>
-                    </div>
-                </a>
-            </article>
-            <article class="post-card">
-                <a href="post/post5.html">
-                    <div class="post-media">
-                        <img class="post-image" src="https://s41.ax1x.com/2025/12/08/pZnTyu9.jpg" alt="文章封面5">
-                    </div>
-                    <div class="post-content">
-                        <span class="post-tag">旅行</span>
-                        <span class="post-tag">城市</span>
-                        <h2 class="post-title">去了一趟重庆 #2</h2>
-                        <div class="post-excerpt">2月，我终于有了机会，和同学去重庆看看。这是一个充满惊喜和美食的城市。</div>
-                    </div>
-                    <div class="post-footer">
-                        <span class="post-more">阅读更多</span>
-                        <div class="post-author">
-                            <img class="author-image" src="https://s41.ax1x.com/2025/12/06/pZmaGuR.png" alt="zhr">
+                        <div class="post-content">
+                            <span class="post-tag">生活</span>
+                            <span class="post-tag">感悟</span>
+                            <h2 class="post-title">走出书本，对生活更有体会</h2>
+                            <div class="post-excerpt">书本中的世界固然是精彩的，但书本外的世界会更丰富。读过书后再走出书本，对生活会有更深的体会。</div>
                         </div>
-                    </div>
-                </a>
-            </article>
-            <article class="post-card">
-                <a href="post/post6.html">
-                    <div class="post-media">
-                        <img class="post-image" src="https://s41.ax1x.com/2026/03/01/peS0ln0.jpg" alt="文章封面6">
-                    </div>
-                    <div class="post-content">
-                        <span class="post-tag">生活</span>
-                        <span class="post-tag">随笔</span>
-                        <h2 class="post-title">张家小樵夫</h2>
-                        <div class="post-excerpt">快要过年了，我央求妈妈带我去乡下姑姑家。帮姑姑砍柴的经历，让我成了“张家小樵夫”，也懂得了劳动创造美好生活的道理。</div>
-                    </div>
-                    <div class="post-footer">
-                        <span class="post-more">阅读更多</span>
-                        <div class="post-author">
-                            <img class="author-image" src="https://s41.ax1x.com/2025/12/06/pZmaGuR.png" alt="zhr">
+                        <div class="post-footer">
+                            <span class="post-more">阅读更多</span>
+                            <div class="post-author">
+                                <img class="author-image" src="https://s41.ax1x.com/2025/12/06/pZmaGuR.png" alt="zhr">
+                            </div>
                         </div>
-                    </div>
-                </a>
-            </article>
-            <article class="post-card">
-                <a href="post/post7.html">
-                    <div class="post-media">
-                        <img class="post-image" src="https://s41.ax1x.com/2026/03/02/pepKMAP.jpg" alt="RSS订阅封面">
-                    </div>
-                    <div class="post-content">
-                        <span class="post-tag">教程</span>
-                        <span class="post-tag">RSS</span>
-                        <h2 class="post-title">全平台订阅指南 · RSS</h2>
-                        <div class="post-excerpt">开放、自由的互联网需要RSS。通过RSS定制你的信息流，本指南介绍如何在全平台订阅本博客。</div>
-                    </div>
-                    <div class="post-footer">
-                        <span class="post-more">阅读更多</span>
-                        <div class="post-author">
-                            <img class="author-image" src="https://s41.ax1x.com/2025/12/06/pZmaGuR.png" alt="zhr">
+                    </a>
+                </article>
+            </div>
+
+            <!-- 卡片3 容器 -->
+            <div class="card-wrapper">
+                <article class="post-card">
+                    <a href="post/post3.html">
+                        <div class="post-media">
+                            <img class="post-image" src="https://s41.ax1x.com/2025/12/07/pZnFlYF.md.png" alt="文章封面3">
                         </div>
-                    </div>
-                </a>
-            </article>
-            <article class="post-card">
-                <a href="post/post8.html">
-                    <div class="post-media">
-                        <img class="post-image" src="https://s41.ax1x.com/2026/03/02/pepKu7t.jpg" alt="newsletter订阅封面">
-                    </div>
-                    <div class="post-content">
-                        <span class="post-tag">订阅</span>
-                        <span class="post-tag">指南</span>
-                        <h2 class="post-title">全平台订阅指南 · newsletter</h2>
-                        <div class="post-excerpt">通过邮件订阅我的newsletter，每周精选文章直接送到你的收件箱。</div>
-                    </div>
-                    <div class="post-footer">
-                        <span class="post-more">阅读更多</span>
-                        <div class="post-author">
-                            <img class="author-image" src="https://s41.ax1x.com/2025/12/06/pZmaGuR.png" alt="zhr">
+                        <div class="post-content">
+                            <span class="post-tag">自然</span>
+                            <span class="post-tag">生活</span>
+                            <span class="post-tag">随笔</span>
+                            <h2 class="post-title">四季的花</h2>
+                            <div class="post-excerpt">春有百花秋有月，夏有凉风冬有雪。四季更替，花儿也随之绽放，每一季都有独特的花卉装点我们的生活。</div>
                         </div>
-                    </div>
-                </a>
-            </article>
+                        <div class="post-footer">
+                            <span class="post-more">阅读更多</span>
+                            <div class="post-author">
+                                <img class="author-image" src="https://s41.ax1x.com/2025/12/06/pZmaGuR.png" alt="zhr">
+                            </div>
+                        </div>
+                    </a>
+                </article>
+            </div>
+
+            <!-- 卡片4 容器 -->
+            <div class="card-wrapper">
+                <article class="post-card">
+                    <a href="post/post4.html">
+                        <div class="post-media">
+                            <img class="post-image" src="https://s41.ax1x.com/2025/12/14/pZMRq76.jpg" alt="文章封面4">
+                        </div>
+                        <div class="post-content">
+                            <span class="post-tag">旅行</span>
+                            <span class="post-tag">城市</span>
+                            <h2 class="post-title">去了一趟重庆 #1</h2>
+                            <div class="post-excerpt">2月，我终于有了机会，和同学去这个充满惊喜和美食的城市看看。</div>
+                        </div>
+                        <div class="post-footer">
+                            <span class="post-more">阅读更多</span>
+                            <div class="post-author">
+                                <img class="author-image" src="https://s41.ax1x.com/2025/12/06/pZmaGuR.png" alt="zhr">
+                            </div>
+                        </div>
+                    </a>
+                </article>
+            </div>
+
+            <!-- 卡片5 容器 -->
+            <div class="card-wrapper">
+                <article class="post-card">
+                    <a href="post/post5.html">
+                        <div class="post-media">
+                            <img class="post-image" src="https://s41.ax1x.com/2025/12/08/pZnTyu9.jpg" alt="文章封面5">
+                        </div>
+                        <div class="post-content">
+                            <span class="post-tag">旅行</span>
+                            <span class="post-tag">城市</span>
+                            <h2 class="post-title">去了一趟重庆 #2</h2>
+                            <div class="post-excerpt">2月，我终于有了机会，和同学去重庆看看。这是一个充满惊喜和美食的城市。</div>
+                        </div>
+                        <div class="post-footer">
+                            <span class="post-more">阅读更多</span>
+                            <div class="post-author">
+                                <img class="author-image" src="https://s41.ax1x.com/2025/12/06/pZmaGuR.png" alt="zhr">
+                            </div>
+                        </div>
+                    </a>
+                </article>
+            </div>
+
+            <!-- 卡片6 容器 -->
+            <div class="card-wrapper">
+                <article class="post-card">
+                    <a href="post/post6.html">
+                        <div class="post-media">
+                            <img class="post-image" src="https://s41.ax1x.com/2026/03/01/peS0ln0.jpg" alt="文章封面6">
+                        </div>
+                        <div class="post-content">
+                            <span class="post-tag">生活</span>
+                            <span class="post-tag">随笔</span>
+                            <h2 class="post-title">张家小樵夫</h2>
+                            <div class="post-excerpt">快要过年了，我央求妈妈带我去乡下姑姑家。帮姑姑砍柴的经历，让我成了“张家小樵夫”，也懂得了劳动创造美好生活的道理。</div>
+                        </div>
+                        <div class="post-footer">
+                            <span class="post-more">阅读更多</span>
+                            <div class="post-author">
+                                <img class="author-image" src="https://s41.ax1x.com/2025/12/06/pZmaGuR.png" alt="zhr">
+                            </div>
+                        </div>
+                    </a>
+                </article>
+            </div>
+
+            <!-- 卡片7 容器 -->
+            <div class="card-wrapper">
+                <article class="post-card">
+                    <a href="post/post7.html">
+                        <div class="post-media">
+                            <img class="post-image" src="https://s41.ax1x.com/2026/03/02/pepKMAP.jpg" alt="RSS订阅封面">
+                        </div>
+                        <div class="post-content">
+                            <span class="post-tag">教程</span>
+                            <span class="post-tag">RSS</span>
+                            <h2 class="post-title">全平台订阅指南 · RSS</h2>
+                            <div class="post-excerpt">开放、自由的互联网需要RSS。通过RSS定制你的信息流，本指南介绍如何在全平台订阅本博客。</div>
+                        </div>
+                        <div class="post-footer">
+                            <span class="post-more">阅读更多</span>
+                            <div class="post-author">
+                                <img class="author-image" src="https://s41.ax1x.com/2025/12/06/pZmaGuR.png" alt="zhr">
+                            </div>
+                        </div>
+                    </a>
+                </article>
+            </div>
+
+            <!-- 卡片8 容器 -->
+            <div class="card-wrapper">
+                <article class="post-card">
+                    <a href="post/post8.html">
+                        <div class="post-media">
+                            <img class="post-image" src="https://s41.ax1x.com/2026/03/02/pepKu7t.jpg" alt="newsletter订阅封面">
+                        </div>
+                        <div class="post-content">
+                            <span class="post-tag">订阅</span>
+                            <span class="post-tag">指南</span>
+                            <h2 class="post-title">全平台订阅指南 · newsletter</h2>
+                            <div class="post-excerpt">通过邮件订阅我的newsletter，每周精选文章直接送到你的收件箱。</div>
+                        </div>
+                        <div class="post-footer">
+                            <span class="post-more">阅读更多</span>
+                            <div class="post-author">
+                                <img class="author-image" src="https://s41.ax1x.com/2025/12/06/pZmaGuR.png" alt="zhr">
+                            </div>
+                        </div>
+                    </a>
+                </article>
+            </div>
         </div>
     </main>
 
@@ -355,14 +385,135 @@
 
     <!-- ====== JavaScript ====== -->
     <script src="/js/weather-background.js"></script>
+
     <script>
-        // 轮播、音乐、搜索（与之前完全相同，此处省略）
         document.addEventListener('DOMContentLoaded', function() {
-            // ... 轮播代码 ...
-            // ... 音乐代码 ...
-            // ... 搜索代码 ...
+            // ----- 轮播 -----
+            class Carousel {
+                constructor(containerId) {
+                    this.container = document.getElementById(containerId);
+                    this.slides = this.container.querySelectorAll('.carousel-slide');
+                    this.indicators = this.container.querySelectorAll('.indicator');
+                    this.prevBtn = this.container.querySelector('.prev-btn');
+                    this.nextBtn = this.container.querySelector('.next-btn');
+                    this.currentIndex = 0;
+                    this.totalSlides = this.slides.length;
+                    this.autoSlideInterval = null;
+                    this.autoSlideDuration = 5000;
+                    this.init();
+                }
+                init() {
+                    this.prevBtn.addEventListener('click', () => this.prevSlide());
+                    this.nextBtn.addEventListener('click', () => this.nextSlide());
+                    this.indicators.forEach((indicator, index) => {
+                        indicator.addEventListener('click', () => this.goToSlide(index));
+                    });
+                    document.addEventListener('keydown', (e) => {
+                        if (e.key === 'ArrowLeft') this.prevSlide();
+                        if (e.key === 'ArrowRight') this.nextSlide();
+                    });
+                    this.container.addEventListener('mouseenter', () => this.stopAutoSlide());
+                    this.container.addEventListener('mouseleave', () => this.startAutoSlide());
+                    this.startAutoSlide();
+                }
+                updateSlide() {
+                    this.slides.forEach((slide, index) => {
+                        slide.classList.toggle('active', index === this.currentIndex);
+                    });
+                    this.indicators.forEach((indicator, index) => {
+                        indicator.classList.toggle('active', index === this.currentIndex);
+                    });
+                }
+                nextSlide() { this.currentIndex = (this.currentIndex + 1) % this.totalSlides;
+                    this.updateSlide();
+                    this.resetAutoSlide(); }
+                prevSlide() { this.currentIndex = (this.currentIndex - 1 + this.totalSlides) % this.totalSlides;
+                    this.updateSlide();
+                    this.resetAutoSlide(); }
+                goToSlide(index) { if (index >= 0 && index < this.totalSlides) { this.currentIndex = index;
+                        this.updateSlide();
+                        this.resetAutoSlide(); } }
+                startAutoSlide() { this.stopAutoSlide();
+                    this.autoSlideInterval = setInterval(() => this.nextSlide(), this.autoSlideDuration); }
+                stopAutoSlide() { if (this.autoSlideInterval) { clearInterval(this.autoSlideInterval);
+                        this.autoSlideInterval = null; } }
+                resetAutoSlide() { this.stopAutoSlide();
+                    this.startAutoSlide(); }
+            }
+            new Carousel('carouselContainer');
+
+            // ----- 音乐 -----
+            const backgroundMusic = document.getElementById('backgroundMusic');
+            const playPauseBtnCompact = document.getElementById('playPauseBtnCompact');
+
+            function setupAutoplay() {
+                const playPromise = backgroundMusic.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        playPauseBtnCompact.classList.add('playing');
+                        document.getElementById('musicTitleCompact').textContent = '金鹰955';
+                    }).catch(() => {
+                        playPauseBtnCompact.classList.remove('playing');
+                        document.getElementById('musicTitleCompact').textContent = '金鹰955';
+                    });
+                }
+            }
+            setTimeout(setupAutoplay, 500);
+
+            playPauseBtnCompact.addEventListener('click', function() {
+                if (backgroundMusic.paused) {
+                    backgroundMusic.play().then(() => {
+                        this.classList.add('playing');
+                        document.getElementById('musicTitleCompact').textContent = '金鹰955';
+                    }).catch(() => {
+                        document.getElementById('musicTitleCompact').textContent = '播放失败，点击重试';
+                    });
+                } else {
+                    backgroundMusic.pause();
+                    this.classList.remove('playing');
+                    document.getElementById('musicTitleCompact').textContent = '金鹰955';
+                }
+            });
+
+            backgroundMusic.addEventListener('play', function() {
+                playPauseBtnCompact.classList.add('playing');
+                document.getElementById('musicTitleCompact').textContent = '金鹰955';
+            });
+            backgroundMusic.addEventListener('pause', function() {
+                playPauseBtnCompact.classList.remove('playing');
+                document.getElementById('musicTitleCompact').textContent = '金鹰955';
+            });
+            backgroundMusic.addEventListener('ended', function() {
+                playPauseBtnCompact.classList.remove('playing');
+                document.getElementById('musicTitleCompact').textContent = '播放结束，点击重播';
+            });
+            backgroundMusic.addEventListener('error', function() {
+                playPauseBtnCompact.disabled = true;
+                document.getElementById('musicTitleCompact').textContent = '音频加载失败';
+                backgroundMusic.innerHTML = '<source src="https://bgithub.xyz/zhr-0731/Music-file/raw/refs/heads/main/Reach%20Me%20-%20Track%20in%20Time%20(%E7%BA%AF%E9%92%A2%E7%90%B4).mp3" type="audio/mpeg">';
+                backgroundMusic.load();
+                document.getElementById('musicTitleCompact').textContent = '切换到备用音频';
+            });
+
+            // ----- 搜索 -----
+            const searchInput = document.getElementById('searchQuery');
+            const searchBtn = document.getElementById('searchSubmitBtn');
+
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    window.location.href = 'https://zhr-0731.github.io/search.html?q=' + encodeURIComponent(query);
+                }
+            }
+            searchBtn.addEventListener('click', performSearch);
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
         });
     </script>
+
     <script src="/js/theme-switcher.js"></script>
 </body>
 </html>
