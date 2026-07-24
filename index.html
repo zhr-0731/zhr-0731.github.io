@@ -17,8 +17,17 @@
     <link rel="stylesheet" href="https://zhr-0731.github.io/css/html/prism-tomorrow.min.css">
     <link rel="stylesheet" href="https://zhr-0731.github.io/css/style.css">
 
-    <!-- ====== 内联样式：网格布局 + 沉浸光感卡片 ====== -->
+    <!-- ====== 内联样式：透明容器 + 沉浸光感卡片 ====== -->
     <style>
+        /* ---------- 强制所有父容器透明，让壁纸透出 ---------- */
+        .main-content,
+        .container,
+        .post-feed,
+        .post-card,
+        .post-card * {
+            background: transparent !important;
+        }
+
         /* ---------- 网格布局 ---------- */
         .post-feed {
             display: grid !important;
@@ -27,21 +36,14 @@
             margin-top: 30px !important;
         }
 
-        /* ---------- 沉浸光感卡片样式 ---------- */
+        /* ---------- 沉浸光感卡片 ---------- */
         .post-card {
-            background: linear-gradient(
-                180deg,
-                rgba(255, 255, 255, 0.10) 0%,
-                rgba(255, 255, 255, 0.04) 100%
-            ) !important;
-            backdrop-filter: blur(24px) saturate(140%) !important;
-            -webkit-backdrop-filter: blur(24px) saturate(140%) !important;
-            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            background: rgba(255, 255, 255, 0.08) !important;
+            backdrop-filter: blur(20px) saturate(150%) !important;
+            -webkit-backdrop-filter: blur(20px) saturate(150%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
             border-radius: 20px !important;
-            box-shadow:
-                0 8px 32px rgba(0, 0, 0, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.25),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.05) !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 -1px 0 rgba(0, 0, 0, 0.05) !important;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
             overflow: hidden !important;
             color: rgba(255, 255, 255, 0.92) !important;
@@ -51,29 +53,16 @@
         }
 
         .post-card:hover {
-            background: linear-gradient(
-                180deg,
-                rgba(255, 255, 255, 0.14) 0%,
-                rgba(255, 255, 255, 0.06) 100%
-            ) !important;
-            border-color: rgba(255, 255, 255, 0.22) !important;
-            box-shadow:
-                0 12px 40px rgba(0, 0, 0, 0.20),
-                inset 0 1px 0 rgba(255, 255, 255, 0.35),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.06) !important;
+            background: rgba(255, 255, 255, 0.14) !important;
+            border-color: rgba(255, 255, 255, 0.25) !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.06) !important;
             transform: translateY(-2px) !important;
         }
 
         .post-card:active {
             transform: translateY(0) scale(0.97) !important;
-            background: linear-gradient(
-                180deg,
-                rgba(255, 255, 255, 0.06) 0%,
-                rgba(255, 255, 255, 0.02) 100%
-            ) !important;
-            box-shadow:
-                0 4px 16px rgba(0, 0, 0, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+            background: rgba(255, 255, 255, 0.04) !important;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
         }
 
         .post-card a {
@@ -89,7 +78,6 @@
             padding: 16px 20px !important;
         }
 
-        /* ---------- 卡片内部文字 ---------- */
         .post-card .post-title {
             color: rgba(255, 255, 255, 0.95) !important;
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
@@ -158,14 +146,12 @@
             align-items: center !important;
         }
 
-        /* ---------- 响应式 ---------- */
         @media (max-width: 1024px) {
             .post-feed {
                 grid-template-columns: repeat(2, 1fr) !important;
                 gap: 20px !important;
             }
         }
-
         @media (max-width: 640px) {
             .post-feed {
                 grid-template-columns: 1fr !important;
@@ -187,7 +173,6 @@
                     <img src="https://s41.ax1x.com/2025/12/06/pZmaGuR.png" alt="zhr">
                     <span class="logo-text">zhr的博客</span>
                 </div>
-
                 <nav>
                     <ul>
                         <li class="nav-music-player">
@@ -206,7 +191,6 @@
                         <li><a href="https://zhr-0731.github.io/zhr-s-videos">视频|Video</a></li>
                     </ul>
                 </nav>
-
                 <div class="header-search">
                     <input type="text" class="search-input" id="searchQuery" placeholder="搜索文章..." autocomplete="off">
                     <button class="search-submit" id="searchSubmitBtn">🔍</button>
@@ -227,9 +211,8 @@
             <div class="main-title">zhr的博客</div>
             <div class="sub-title">随便写写</div>
         </div>
-
         <div class="carousel-container" id="carouselContainer">
-            <!-- 轮播项目1 -->
+            <!-- 轮播1 -->
             <div class="carousel-slide active" data-index="0">
                 <a href="post/post.html" class="carousel-link">
                     <img class="carousel-image" src="https://images.unsplash.com/photo-1598960087461-556c5a1f864a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200" alt="文章封面1">
@@ -239,8 +222,7 @@
                     </div>
                 </a>
             </div>
-
-            <!-- 轮播项目2 -->
+            <!-- 轮播2 -->
             <div class="carousel-slide" data-index="1">
                 <a href="post/post2.html" class="carousel-link">
                     <img class="carousel-image" src="https://s41.ax1x.com/2025/12/06/pZmROmT.jpg" alt="文章封面2">
@@ -250,8 +232,7 @@
                     </div>
                 </a>
             </div>
-
-            <!-- 轮播项目3 -->
+            <!-- 轮播3 -->
             <div class="carousel-slide" data-index="2">
                 <a href="post/post3.html" class="carousel-link">
                     <img class="carousel-image" src="https://s41.ax1x.com/2025/12/07/pZnFlYF.md.png" alt="文章封面3">
@@ -261,8 +242,7 @@
                     </div>
                 </a>
             </div>
-
-            <!-- 轮播项目4 -->
+            <!-- 轮播4 -->
             <div class="carousel-slide" data-index="3">
                 <a href="post/post4.html" class="carousel-link">
                     <img class="carousel-image" src="https://s41.ax1x.com/2025/12/14/pZMRq76.jpg" alt="文章封面4">
@@ -272,8 +252,7 @@
                     </div>
                 </a>
             </div>
-
-            <!-- 轮播项目5 -->
+            <!-- 轮播5 -->
             <div class="carousel-slide" data-index="4">
                 <a href="post/post5.html" class="carousel-link">
                     <img class="carousel-image" src="https://s41.ax1x.com/2025/12/08/pZnTyu9.jpg" alt="文章封面5">
@@ -283,8 +262,7 @@
                     </div>
                 </a>
             </div>
-
-            <!-- 轮播项目6 -->
+            <!-- 轮播6 -->
             <div class="carousel-slide" data-index="5">
                 <a href="post/post6.html" class="carousel-link">
                     <img class="carousel-image" src="https://s41.ax1x.com/2026/03/01/peS0ln0.jpg" alt="文章封面6">
@@ -294,8 +272,7 @@
                     </div>
                 </a>
             </div>
-
-            <!-- 轮播项目7 -->
+            <!-- 轮播7 -->
             <div class="carousel-slide" data-index="6">
                 <a href="post/post7.html" class="carousel-link">
                     <img class="carousel-image" src="https://s41.ax1x.com/2026/03/02/pepKMAP.jpg" alt="RSS订阅封面">
@@ -305,8 +282,7 @@
                     </div>
                 </a>
             </div>
-
-            <!-- 轮播项目8 -->
+            <!-- 轮播8 -->
             <div class="carousel-slide" data-index="7">
                 <a href="post/post8.html" class="carousel-link">
                     <img class="carousel-image" src="https://s41.ax1x.com/2026/03/02/pepKu7t.jpg" alt="newsletter订阅封面">
@@ -316,13 +292,12 @@
                     </div>
                 </a>
             </div>
-
-            <!-- 轮播控制 -->
+            <!-- 控制按钮 -->
             <div class="carousel-controls">
                 <button class="carousel-btn prev-btn">❮</button>
                 <button class="carousel-btn next-btn">❯</button>
             </div>
-
+            <!-- 指示器 -->
             <div class="carousel-indicators">
                 <div class="indicator active" data-index="0"></div>
                 <div class="indicator" data-index="1"></div>
@@ -358,7 +333,6 @@
                     </div>
                 </a>
             </article>
-
             <!-- 卡片2 -->
             <article class="post-card">
                 <a href="post/post2.html">
@@ -379,7 +353,6 @@
                     </div>
                 </a>
             </article>
-
             <!-- 卡片3 -->
             <article class="post-card">
                 <a href="post/post3.html">
@@ -401,7 +374,6 @@
                     </div>
                 </a>
             </article>
-
             <!-- 卡片4 -->
             <article class="post-card">
                 <a href="post/post4.html">
@@ -422,7 +394,6 @@
                     </div>
                 </a>
             </article>
-
             <!-- 卡片5 -->
             <article class="post-card">
                 <a href="post/post5.html">
@@ -443,7 +414,6 @@
                     </div>
                 </a>
             </article>
-
             <!-- 卡片6 -->
             <article class="post-card">
                 <a href="post/post6.html">
@@ -464,7 +434,6 @@
                     </div>
                 </a>
             </article>
-
             <!-- 卡片7 -->
             <article class="post-card">
                 <a href="post/post7.html">
@@ -485,7 +454,6 @@
                     </div>
                 </a>
             </article>
-
             <!-- 卡片8 -->
             <article class="post-card">
                 <a href="post/post8.html">
@@ -513,9 +481,7 @@
     <section class="newsletter-section container">
         <div class="newsletter-card">
             <h2 class="newsletter-title">订阅我的 newsletter</h2>
-            <p class="newsletter-description">
-                每周精选文章、生活感悟、旅行故事，直接发送到你的邮箱。随时可以退订。
-            </p>
+            <p class="newsletter-description">每周精选文章、生活感悟、旅行故事，直接发送到你的邮箱。随时可以退订。</p>
             <form action="https://buttondown.com/api/emails/embed-subscribe/zhr-0731" method="post" class="embeddable-buttondown-form newsletter-form">
                 <div class="form-row">
                     <label for="newsletter-email" class="sr-only">电子邮箱</label>
@@ -554,6 +520,7 @@
     <!-- 轮播 & 音乐 & 搜索 -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // 轮播
             class Carousel {
                 constructor(containerId) {
                     this.container = document.getElementById(containerId);
