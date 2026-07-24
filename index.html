@@ -11,59 +11,175 @@
     <link rel="shortcut icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png" type="image/png">
     <link rel="apple-touch-icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png">
 
-    <!-- ====== 新增样式（Ghost 主题、卡片、代码高亮） ====== -->
+    <!-- ====== 样式引用 ====== -->
     <link rel="stylesheet" href="https://zhr-0731.github.io/css/html/screen.css">
     <link rel="stylesheet" href="https://zhr-0731.github.io/css/html/cards.min.css">
     <link rel="stylesheet" href="https://zhr-0731.github.io/css/html/prism-tomorrow.min.css">
-
-    <!-- 原自定义样式（保留，放在最后以覆盖） -->
     <link rel="stylesheet" href="https://zhr-0731.github.io/css/style.css">
 
-    <!-- ====== 新增内联样式：卡片网格布局 ====== -->
+    <!-- ====== 内联样式：网格布局 + 沉浸光感卡片 ====== -->
     <style>
-        /* 强制 post-feed 使用网格，一行 4 个卡片 */
+        /* ---------- 网格布局 ---------- */
         .post-feed {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
-            margin-top: 30px;
+            display: grid !important;
+            grid-template-columns: repeat(4, 1fr) !important;
+            gap: 24px !important;
+            margin-top: 30px !important;
         }
 
-        /* 保持卡片高度一致 */
+        /* ---------- 沉浸光感卡片样式 ---------- */
         .post-card {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
+            background: linear-gradient(
+                180deg,
+                rgba(255, 255, 255, 0.10) 0%,
+                rgba(255, 255, 255, 0.04) 100%
+            ) !important;
+            backdrop-filter: blur(24px) saturate(140%) !important;
+            -webkit-backdrop-filter: blur(24px) saturate(140%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            border-radius: 20px !important;
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.25),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.05) !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            overflow: hidden !important;
+            color: rgba(255, 255, 255, 0.92) !important;
+            display: flex !important;
+            flex-direction: column !important;
+            height: 100% !important;
+        }
+
+        .post-card:hover {
+            background: linear-gradient(
+                180deg,
+                rgba(255, 255, 255, 0.14) 0%,
+                rgba(255, 255, 255, 0.06) 100%
+            ) !important;
+            border-color: rgba(255, 255, 255, 0.22) !important;
+            box-shadow:
+                0 12px 40px rgba(0, 0, 0, 0.20),
+                inset 0 1px 0 rgba(255, 255, 255, 0.35),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.06) !important;
+            transform: translateY(-2px) !important;
+        }
+
+        .post-card:active {
+            transform: translateY(0) scale(0.97) !important;
+            background: linear-gradient(
+                180deg,
+                rgba(255, 255, 255, 0.06) 0%,
+                rgba(255, 255, 255, 0.02) 100%
+            ) !important;
+            box-shadow:
+                0 4px 16px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
         }
 
         .post-card a {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
+            display: flex !important;
+            flex-direction: column !important;
+            height: 100% !important;
+            text-decoration: none !important;
+            color: inherit !important;
         }
 
         .post-card .post-content {
-            flex: 1;
+            flex: 1 !important;
+            padding: 16px 20px !important;
         }
 
-        /* 响应式：中等屏幕显示 2 列 */
+        /* ---------- 卡片内部文字 ---------- */
+        .post-card .post-title {
+            color: rgba(255, 255, 255, 0.95) !important;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+            font-weight: 600 !important;
+            font-size: 1.1rem !important;
+            line-height: 1.4 !important;
+            margin-bottom: 8px !important;
+        }
+
+        .post-card .post-excerpt {
+            color: rgba(255, 255, 255, 0.75) !important;
+            text-shadow: 0 1px 6px rgba(0, 0, 0, 0.15) !important;
+            font-size: 0.9rem !important;
+            line-height: 1.5 !important;
+        }
+
+        .post-card .post-tag {
+            color: rgba(255, 255, 255, 0.85) !important;
+            background: rgba(255, 255, 255, 0.12) !important;
+            backdrop-filter: blur(8px) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 12px !important;
+            padding: 2px 12px !important;
+            font-size: 0.75rem !important;
+            display: inline-block !important;
+            margin-right: 4px !important;
+        }
+
+        .post-card .post-more {
+            color: rgba(255, 255, 255, 0.7) !important;
+            font-size: 0.85rem !important;
+        }
+
+        .post-card .author-image {
+            border: 2px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 50% !important;
+            width: 32px !important;
+            height: 32px !important;
+            object-fit: cover !important;
+        }
+
+        .post-card .post-media {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+            overflow: hidden !important;
+            border-radius: 20px 20px 0 0 !important;
+        }
+
+        .post-card .post-media img {
+            width: 100% !important;
+            height: 200px !important;
+            object-fit: cover !important;
+            display: block !important;
+            transition: transform 0.3s ease !important;
+        }
+
+        .post-card:hover .post-media img {
+            transform: scale(1.03) !important;
+        }
+
+        .post-card .post-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+            padding: 12px 20px !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+        }
+
+        /* ---------- 响应式 ---------- */
         @media (max-width: 1024px) {
             .post-feed {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 20px !important;
             }
         }
 
-        /* 小屏幕显示 1 列 */
         @media (max-width: 640px) {
             .post-feed {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr !important;
+                gap: 16px !important;
+            }
+            .post-card .post-media img {
+                height: 160px !important;
             }
         }
     </style>
 </head>
-<script src="/js/weather-background.js"></script>
+
 <body>
-    <!-- 头部导航 (绝对定位，悬浮在轮播图上) -->
+    <!-- 头部导航 -->
     <header>
         <div class="container">
             <div class="header-inner">
@@ -74,28 +190,23 @@
 
                 <nav>
                     <ul>
-                        <!-- 导航栏中的音乐播放器 -->
                         <li class="nav-music-player">
                             <div class="music-controls-compact">
                                 <button class="play-pause-btn-compact playing" id="playPauseBtnCompact">
                                     <span class="play-icon">▶</span>
                                     <span class="pause-icon">❚❚</span>
                                 </button>
-
                                 <div class="music-album-compact">
                                     <img src="https://s41.ax1x.com/2026/01/10/pZ0cJLq.jpg" alt="专辑封面" class="album-image-compact">
                                 </div>
-
                                 <div class="music-title-compact" id="musicTitleCompact">金鹰955</div>
                             </div>
                         </li>
-
                         <li><a href="index.html">文章|Article</a></li>
                         <li><a href="https://zhr-0731.github.io/zhr-s-videos">视频|Video</a></li>
                     </ul>
                 </nav>
 
-                <!-- 搜索表单 -->
                 <div class="header-search">
                     <input type="text" class="search-input" id="searchQuery" placeholder="搜索文章..." autocomplete="off">
                     <button class="search-submit" id="searchSubmitBtn">🔍</button>
@@ -104,22 +215,21 @@
         </div>
     </header>
 
-    <!-- 音频元素 - 自动播放 -->
+    <!-- 音频 -->
     <audio id="backgroundMusic" loop autoplay>
         <source src="http://tvtj.jxwltx.com:8003/hunanws.m3u8" type="application/x-mpegURL">
         您的浏览器不支持音频播放
     </audio>
 
-    <!-- 轮播图部分 - 紧贴页面顶部，高度100vh -->
+    <!-- 轮播图 -->
     <section class="carousel-section">
-        <!-- 新增居中标题 -->
         <div class="banner-title">
             <div class="main-title">zhr的博客</div>
             <div class="sub-title">随便写写</div>
         </div>
 
         <div class="carousel-container" id="carouselContainer">
-            <!-- 轮播项目1：GitHub Pages搭建博客 -->
+            <!-- 轮播项目1 -->
             <div class="carousel-slide active" data-index="0">
                 <a href="post/post.html" class="carousel-link">
                     <img class="carousel-image" src="https://images.unsplash.com/photo-1598960087461-556c5a1f864a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200" alt="文章封面1">
@@ -130,7 +240,7 @@
                 </a>
             </div>
 
-            <!-- 轮播项目2：走出书本 -->
+            <!-- 轮播项目2 -->
             <div class="carousel-slide" data-index="1">
                 <a href="post/post2.html" class="carousel-link">
                     <img class="carousel-image" src="https://s41.ax1x.com/2025/12/06/pZmROmT.jpg" alt="文章封面2">
@@ -141,7 +251,7 @@
                 </a>
             </div>
 
-            <!-- 轮播项目3：四季的花 -->
+            <!-- 轮播项目3 -->
             <div class="carousel-slide" data-index="2">
                 <a href="post/post3.html" class="carousel-link">
                     <img class="carousel-image" src="https://s41.ax1x.com/2025/12/07/pZnFlYF.md.png" alt="文章封面3">
@@ -152,7 +262,7 @@
                 </a>
             </div>
 
-            <!-- 轮播项目4：重庆 #1 -->
+            <!-- 轮播项目4 -->
             <div class="carousel-slide" data-index="3">
                 <a href="post/post4.html" class="carousel-link">
                     <img class="carousel-image" src="https://s41.ax1x.com/2025/12/14/pZMRq76.jpg" alt="文章封面4">
@@ -163,7 +273,7 @@
                 </a>
             </div>
 
-            <!-- 轮播项目5：重庆 #2 -->
+            <!-- 轮播项目5 -->
             <div class="carousel-slide" data-index="4">
                 <a href="post/post5.html" class="carousel-link">
                     <img class="carousel-image" src="https://s41.ax1x.com/2025/12/08/pZnTyu9.jpg" alt="文章封面5">
@@ -174,7 +284,7 @@
                 </a>
             </div>
 
-            <!-- 轮播项目6：张家小樵夫 -->
+            <!-- 轮播项目6 -->
             <div class="carousel-slide" data-index="5">
                 <a href="post/post6.html" class="carousel-link">
                     <img class="carousel-image" src="https://s41.ax1x.com/2026/03/01/peS0ln0.jpg" alt="文章封面6">
@@ -185,7 +295,7 @@
                 </a>
             </div>
 
-            <!-- 轮播项目7：全平台订阅指南·RSS -->
+            <!-- 轮播项目7 -->
             <div class="carousel-slide" data-index="6">
                 <a href="post/post7.html" class="carousel-link">
                     <img class="carousel-image" src="https://s41.ax1x.com/2026/03/02/pepKMAP.jpg" alt="RSS订阅封面">
@@ -196,7 +306,7 @@
                 </a>
             </div>
 
-            <!-- 轮播项目8：全平台订阅指南·newsletter -->
+            <!-- 轮播项目8 -->
             <div class="carousel-slide" data-index="7">
                 <a href="post/post8.html" class="carousel-link">
                     <img class="carousel-image" src="https://s41.ax1x.com/2026/03/02/pepKu7t.jpg" alt="newsletter订阅封面">
@@ -207,13 +317,12 @@
                 </a>
             </div>
 
-            <!-- 轮播控制按钮 -->
+            <!-- 轮播控制 -->
             <div class="carousel-controls">
                 <button class="carousel-btn prev-btn">❮</button>
                 <button class="carousel-btn next-btn">❯</button>
             </div>
 
-            <!-- 轮播指示器 - 8个 -->
             <div class="carousel-indicators">
                 <div class="indicator active" data-index="0"></div>
                 <div class="indicator" data-index="1"></div>
@@ -227,9 +336,8 @@
         </div>
     </section>
 
-    <!-- 主要内容区 -->
+    <!-- 文章列表 -->
     <main class="main-content container">
-        <!-- 文章列表（包含完整的8篇文章） -->
         <div class="post-feed">
             <!-- 卡片1 -->
             <article class="post-card">
@@ -401,24 +509,17 @@
         </div>
     </main>
 
-    <!-- Newsletter 订阅区域 -->
+    <!-- Newsletter -->
     <section class="newsletter-section container">
         <div class="newsletter-card">
             <h2 class="newsletter-title">订阅我的 newsletter</h2>
             <p class="newsletter-description">
                 每周精选文章、生活感悟、旅行故事，直接发送到你的邮箱。随时可以退订。
             </p>
-            <form action="https://buttondown.com/api/emails/embed-subscribe/zhr-0731" 
-                  method="post" 
-                  class="embeddable-buttondown-form newsletter-form">
+            <form action="https://buttondown.com/api/emails/embed-subscribe/zhr-0731" method="post" class="embeddable-buttondown-form newsletter-form">
                 <div class="form-row">
                     <label for="newsletter-email" class="sr-only">电子邮箱</label>
-                    <input type="email" 
-                           name="email" 
-                           id="newsletter-email" 
-                           class="newsletter-input" 
-                           placeholder="your@email.com" 
-                           required>
+                    <input type="email" name="email" id="newsletter-email" class="newsletter-input" placeholder="your@email.com" required>
                     <input type="hidden" name="embed" value="1">
                     <button type="submit" class="newsletter-button">订阅</button>
                 </div>
@@ -439,12 +540,7 @@
                         <li><a href="https://bgithub.xyz/zhr-0731" target="_blank">GitHub</a></li>
                     </ul>
                 </nav>
-
-                <div class="powered-by">
-                    基于 GitHub Pages
-                </div>
-
-                <!-- RSS 订阅链接 -->
+                <div class="powered-by">基于 GitHub Pages</div>
                 <a href="https://zhr-0731.github.io/rss.xml" target="_blank" class="rss-subscribe" rel="noopener noreferrer">
                     <span class="rss-icon">📡</span> RSS 订阅
                 </a>
@@ -452,8 +548,11 @@
         </div>
     </footer>
 
+    <!-- 天气背景脚本 -->
+    <script src="/js/weather-background.js"></script>
+
+    <!-- 轮播 & 音乐 & 搜索 -->
     <script>
-        // 轮播功能脚本 (完全保留原轮播逻辑)
         document.addEventListener('DOMContentLoaded', function() {
             class Carousel {
                 constructor(containerId) {
@@ -462,34 +561,26 @@
                     this.indicators = this.container.querySelectorAll('.indicator');
                     this.prevBtn = this.container.querySelector('.prev-btn');
                     this.nextBtn = this.container.querySelector('.next-btn');
-
                     this.currentIndex = 0;
                     this.totalSlides = this.slides.length;
                     this.autoSlideInterval = null;
                     this.autoSlideDuration = 5000;
-
                     this.init();
                 }
-
                 init() {
                     this.prevBtn.addEventListener('click', () => this.prevSlide());
                     this.nextBtn.addEventListener('click', () => this.nextSlide());
-
                     this.indicators.forEach((indicator, index) => {
                         indicator.addEventListener('click', () => this.goToSlide(index));
                     });
-
                     document.addEventListener('keydown', (e) => {
                         if (e.key === 'ArrowLeft') this.prevSlide();
                         if (e.key === 'ArrowRight') this.nextSlide();
                     });
-
                     this.container.addEventListener('mouseenter', () => this.stopAutoSlide());
                     this.container.addEventListener('mouseleave', () => this.startAutoSlide());
-
                     this.startAutoSlide();
                 }
-
                 updateSlide() {
                     this.slides.forEach((slide, index) => {
                         slide.classList.toggle('active', index === this.currentIndex);
@@ -498,18 +589,25 @@
                         indicator.classList.toggle('active', index === this.currentIndex);
                     });
                 }
-
-                nextSlide() { this.currentIndex = (this.currentIndex + 1) % this.totalSlides; this.updateSlide(); this.resetAutoSlide(); }
-                prevSlide() { this.currentIndex = (this.currentIndex - 1 + this.totalSlides) % this.totalSlides; this.updateSlide(); this.resetAutoSlide(); }
-                goToSlide(index) { if (index >= 0 && index < this.totalSlides) { this.currentIndex = index; this.updateSlide(); this.resetAutoSlide(); } }
-                startAutoSlide() { this.stopAutoSlide(); this.autoSlideInterval = setInterval(() => this.nextSlide(), this.autoSlideDuration); }
-                stopAutoSlide() { if (this.autoSlideInterval) { clearInterval(this.autoSlideInterval); this.autoSlideInterval = null; } }
-                resetAutoSlide() { this.stopAutoSlide(); this.startAutoSlide(); }
+                nextSlide() { this.currentIndex = (this.currentIndex + 1) % this.totalSlides;
+                    this.updateSlide();
+                    this.resetAutoSlide(); }
+                prevSlide() { this.currentIndex = (this.currentIndex - 1 + this.totalSlides) % this.totalSlides;
+                    this.updateSlide();
+                    this.resetAutoSlide(); }
+                goToSlide(index) { if (index >= 0 && index < this.totalSlides) { this.currentIndex = index;
+                        this.updateSlide();
+                        this.resetAutoSlide(); } }
+                startAutoSlide() { this.stopAutoSlide();
+                    this.autoSlideInterval = setInterval(() => this.nextSlide(), this.autoSlideDuration); }
+                stopAutoSlide() { if (this.autoSlideInterval) { clearInterval(this.autoSlideInterval);
+                        this.autoSlideInterval = null; } }
+                resetAutoSlide() { this.stopAutoSlide();
+                    this.startAutoSlide(); }
             }
-
             new Carousel('carouselContainer');
 
-            // 音乐播放器功能 (完全保留)
+            // 音乐播放器
             const backgroundMusic = document.getElementById('backgroundMusic');
             const playPauseBtnCompact = document.getElementById('playPauseBtnCompact');
 
@@ -562,7 +660,7 @@
                 document.getElementById('musicTitleCompact').textContent = '切换到备用音频';
             });
 
-            // 搜索跳转逻辑
+            // 搜索
             const searchInput = document.getElementById('searchQuery');
             const searchBtn = document.getElementById('searchSubmitBtn');
 
@@ -572,7 +670,6 @@
                     window.location.href = 'https://zhr-0731.github.io/search.html?q=' + encodeURIComponent(query);
                 }
             }
-
             searchBtn.addEventListener('click', performSearch);
             searchInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
@@ -581,6 +678,8 @@
             });
         });
     </script>
-<script src="/js/theme-switcher.js"></script>
+
+    <!-- 主题切换 -->
+    <script src="/js/theme-switcher.js"></script>
 </body>
 </html>
