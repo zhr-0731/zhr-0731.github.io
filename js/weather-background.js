@@ -1,5 +1,5 @@
 /**
- * 天气背景壁纸自动切换（修复 body 为 null 的问题 + 重试机制）
+ * 天气背景壁纸自动切换（使用 document.documentElement 避免 body null 问题）
  * 依赖：https://uapis.cn/api/v1/misc/weather
  *       https://uapis.cn/api/v1/image/bing-daily
  */
@@ -28,11 +28,14 @@
     const FALLBACK = 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1920&q=80';
 
     let enabled = true;
-    let retryCount = 0;
-    const MAX_RETRIES = 10;
 
-    // ========== 安全获取 body ==========
-    function getBody() {
+    // ========== 安全获取目标元素（优先 html，备选 body） ==========
+    function getTargetElement() {
+        // 优先使用 document.documentElement (<html>)
+        // 因为它在 DOM 树中总是最先存在
+        const el = document.documentElement;
+        if (el) return el;
+        // 备选：尝试获取 body
         return document.body || document.querySelector('body') || null;
     }
 
@@ -55,39 +58,32 @@
             });
     }
 
-    // ========== 设置背景壁纸（带重试机制） ==========
-    function setBackground(imageUrl, attempt) {
-        attempt = attempt || 0;
-        const body = getBody();
-        if (!body) {
-            // body 尚未就绪，延迟重试
-            if (attempt < MAX_RETRIES) {
-                console.log(`[天气背景] body 未就绪，${attempt + 1} 秒后重试...`);
-                setTimeout(() => setBackground(imageUrl, attempt + 1), 1000 * (attempt + 1));
-            } else {
-                console.error('[天气背景] body 始终未就绪，放弃设置背景');
-            }
+    // ========== 设置背景壁纸（直接操作 html 元素） ==========
+    function setBackground(imageUrl) {
+        const target = getTargetElement();
+        if (!target) {
+            console.warn('[天气背景] 无法获取目标元素，跳过设置');
+            // 尝试用 setTimeout 再试一次
+            setTimeout(() => setBackground(imageUrl), 1000);
             return;
         }
 
-        // body 已就绪，应用壁纸
         if (!enabled) {
-            body.style.backgroundImage = 'none';
-            body.style.backgroundColor = '';
-            body.style.backgroundBlendMode = 'normal';
+            target.style.backgroundImage = 'none';
+            target.style.backgroundColor = '';
+            target.style.backgroundBlendMode = 'normal';
             return;
         }
 
         const url = imageUrl || FALLBACK;
-        console.log(`[天气背景] 应用壁纸: ${url}`);
-        body.style.backgroundImage = `url(${url})`;
-        body.style.backgroundSize = 'cover';
-        body.style.backgroundPosition = 'center';
-        body.style.backgroundAttachment = 'fixed';
-        body.style.backgroundColor = 'rgba(0,0,0,0.3)';
-        body.style.backgroundBlendMode = 'overlay';
-        // 重试计数归零
-        retryCount = 0;
+        console.log(`[天气背景] 应用壁纸到 <${target.tagName.toLowerCase()}>: ${url}`);
+        target.style.backgroundImage = `url(${url})`;
+        target.style.backgroundSize = 'cover';
+        target.style.backgroundPosition = 'center';
+        target.style.backgroundAttachment = 'fixed';
+        target.style.backgroundColor = 'rgba(0,0,0,0.3)';
+        target.style.backgroundBlendMode = 'overlay';
+        target.style.minHeight = '100vh';
     }
 
     // ========== 获取天气并应用壁纸 ==========
@@ -136,11 +132,11 @@
             fetchWeatherAndApply();
         } else {
             console.log('[天气背景] 功能已关闭');
-            const body = getBody();
-            if (body) {
-                body.style.backgroundImage = 'none';
-                body.style.backgroundColor = '';
-                body.style.backgroundBlendMode = 'normal';
+            const target = getTargetElement();
+            if (target) {
+                target.style.backgroundImage = 'none';
+                target.style.backgroundColor = '';
+                target.style.backgroundBlendMode = 'normal';
             }
         }
         updateToggleIcon();
@@ -171,25 +167,36 @@
 
     // ========== 初始化 ==========
     function init() {
+        // 检测目标元素是否存在，如果不存在则等待
+        if (!getTargetElement()) {
+            console.log('[天气背景] 目标元素未就绪，等待 500ms 后重试...');
+            setTimeout(init, 500);
+            return;
+        }
+
         const btn = ensureToggleButton();
         if (btn) {
             btn.addEventListener('click', toggleBackground);
         }
+
         // 首次加载
         fetchWeatherAndApply();
         // 每小时刷新一次
         setInterval(fetchWeatherAndApply, 3600000);
-        console.log('[天气背景] 脚本已初始化，查看控制台可看到API请求日志');
+        console.log('[天气背景] 脚本已初始化，目标元素: <' + (getTargetElement()?.tagName?.toLowerCase() || 'unknown') + '>');
     }
 
-    // 等待 DOM 就绪（多重保障）
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else if (document.readyState === 'interactive' || document.readyState === 'complete') {
-        // 如果 DOM 已就绪，直接执行
-        setTimeout(init, 0);
+    // 立即执行，无需等待 DOMContentLoaded
+    // 因为 document.documentElement 在脚本执行时通常已经存在
+    if (document.documentElement) {
+        // 但 body 可能还没加载完成，给一个缓冲
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
     } else {
-        // 兜底：立即执行
-        init();
+        // 极端情况：连 html 都没准备好
+        document.addEventListener('DOMContentLoaded', init);
     }
 })();
