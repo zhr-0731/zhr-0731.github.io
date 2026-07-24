@@ -14,7 +14,7 @@
     <!-- 代码高亮 -->
     <link rel="stylesheet" href="https://zhr-0731.github.io/css/html/prism-tomorrow.min.css">
 
-    <!-- 主样式表（只保留布局样式，背景由 JS 动态注入） -->
+    <!-- 主样式表（所有布局样式，背景由 JS 动态注入） -->
     <style>
         /* ---------- 重置 & 基础 ---------- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -24,7 +24,7 @@
             color: #fff;
             background: #0a0a0f; /* fallback */
         }
-        /* 背景由 JS 注入 style 标签，此处不设置 background-image */
+        /* 背景由 weather-background.js 注入 style 标签，此处不设置 background-image */
 
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
@@ -612,146 +612,14 @@
         </div>
     </footer>
 
-    <!-- ============================================================ -->
-    <!-- 所有 JavaScript 内联，确保背景强制生效                      -->
-    <!-- ============================================================ -->
-    <script>
-        // ===== 1. 天气背景（内联，强制注入 style 标签） =====
-        (function() {
-            'use strict';
+    <!-- ====== JavaScript 引用 ====== -->
+    <!-- 1. 天气背景 -->
+    <script src="/js/weather-background.js"></script>
 
-            // 天气 → 必应壁纸日期映射
-            const WEATHER_BING_DATES = {
-                '晴': '2026-07-10',
-                '多云': '2026-06-21',
-                '阴': '2026-06-22',
-                '小雨': '2026-06-22',
-                '中雨': '2026-06-22',
-                '大雨': '2026-06-22',
-                '雷阵雨': '2026-05-04',
-                '小雪': '2025-12-20',
-                '中雪': '2025-12-20',
-                '大雪': '2025-12-20',
-                '雨夹雪': '2026-06-23',
-                '雾': '2023-12-07',
-                '霾': '2026-06-23',
-                '沙尘': '2026-05-14',
-                'default': '2026-06-13'
-            };
-
-            const FALLBACK = 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1920&q=80';
-
-            // 获取春节日期（仅用于可能扩展，本脚本只用固定日期）
-            function getChineseNewYear(year) {
-                const dates = {
-                    2024: new Date(2024, 1, 10),
-                    2025: new Date(2025, 0, 29),
-                    2026: new Date(2026, 1, 17),
-                    2027: new Date(2027, 1, 6),
-                    2028: new Date(2028, 0, 26),
-                    2029: new Date(2029, 1, 13),
-                    2030: new Date(2030, 1, 3)
-                };
-                return dates[year] || null;
-            }
-
-            // 强制设置背景（通过注入 style 标签）
-            function setBackground(imageUrl) {
-                const url = imageUrl || FALLBACK;
-                // 移除旧的背景 style
-                const oldStyle = document.getElementById('dynamic-bg-style');
-                if (oldStyle) oldStyle.remove();
-
-                // 创建新的 style 标签
-                const style = document.createElement('style');
-                style.id = 'dynamic-bg-style';
-                style.textContent = `
-                    body {
-                        background-image: url(${url}) !important;
-                        background-size: cover !important;
-                        background-position: center !important;
-                        background-attachment: fixed !important;
-                        background-color: #0a0a0f !important;
-                    }
-                `;
-                document.head.appendChild(style);
-                console.log('[天气背景] 已注入背景图片:', url);
-            }
-
-            // 获取壁纸
-            function fetchBingWallpaper(date) {
-                const url = `https://uapis.cn/api/v1/image/bing-daily?date=${date}&format=json&resolution=4k`;
-                console.log('[天气背景] 请求壁纸 API:', url);
-                return fetch(url)
-                    .then(res => {
-                        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                        return res.json();
-                    })
-                    .then(data => {
-                        console.log('[天气背景] 壁纸 API 返回:', data);
-                        return data.image_url_4k || data.image_url || null;
-                    })
-                    .catch(err => {
-                        console.warn('[天气背景] 壁纸请求失败，使用备用', err);
-                        return null;
-                    });
-            }
-
-            // 主流程
-            function fetchWeatherAndApply() {
-                const weatherApi = 'https://uapis.cn/api/v1/misc/weather?extended=false&lang=zh';
-                console.log('[天气背景] 请求天气 API:', weatherApi);
-                fetch(weatherApi)
-                    .then(res => {
-                        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                        return res.json();
-                    })
-                    .then(weatherData => {
-                        console.log('[天气背景] 天气 API 返回:', weatherData);
-                        const weather = weatherData.weather || 'default';
-                        console.log('[天气背景] 识别天气:', weather);
-                        const date = WEATHER_BING_DATES[weather] || WEATHER_BING_DATES['default'];
-                        console.log('[天气背景] 对应壁纸日期:', date);
-                        return fetchBingWallpaper(date);
-                    })
-                    .then(imgUrl => {
-                        setBackground(imgUrl);
-                    })
-                    .catch(err => {
-                        console.warn('[天气背景] 整体失败，使用备用壁纸', err);
-                        setBackground(null);
-                    });
-            }
-
-            // 页面加载后执行
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', fetchWeatherAndApply);
-            } else {
-                fetchWeatherAndApply();
-            }
-
-            // 每小时刷新一次
-            setInterval(fetchWeatherAndApply, 3600000);
-
-            // 暴露开关功能（如果导航栏有按钮，可以控制）
-            window.__weatherEnabled = true;
-            window.toggleWeatherBackground = function() {
-                window.__weatherEnabled = !window.__weatherEnabled;
-                if (window.__weatherEnabled) {
-                    fetchWeatherAndApply();
-                } else {
-                    const style = document.getElementById('dynamic-bg-style');
-                    if (style) style.remove();
-                    console.log('[天气背景] 已关闭');
-                }
-            };
-        })();
-    </script>
-
-    <!-- 轮播、音乐、搜索 -->
+    <!-- 2. 轮播、音乐、搜索（内联） -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // ----- 轮播 -----
+            // 轮播
             class Carousel {
                 constructor(containerId) {
                     this.container = document.getElementById(containerId);
@@ -805,7 +673,7 @@
             }
             new Carousel('carouselContainer');
 
-            // ----- 音乐 -----
+            // 音乐
             const backgroundMusic = document.getElementById('backgroundMusic');
             const playPauseBtnCompact = document.getElementById('playPauseBtnCompact');
 
@@ -858,7 +726,7 @@
                 document.getElementById('musicTitleCompact').textContent = '切换到备用音频';
             });
 
-            // ----- 搜索 -----
+            // 搜索
             const searchInput = document.getElementById('searchQuery');
             const searchBtn = document.getElementById('searchSubmitBtn');
 
@@ -877,77 +745,8 @@
         });
     </script>
 
-    <!-- 主题切换（春节/公祭日）—— 内联 -->
-    <script>
-        (function() {
-            'use strict';
-            // 主题切换逻辑（与之前相同）
-            const SPRING_IMG = 'https://s41.ax1x.com/2026/07/24/pmgT1ne.jpg';
-            const MEMORIAL_IMG = 'https://s41.ax1x.com/2026/07/24/pmgT5B4.png';
-            const DEFAULT_IMG = 'https://images.unsplash.com/photo-1598960087461-556c5a1f864a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200';
-
-            function getChineseNewYear(year) {
-                const dates = {
-                    2024: new Date(2024, 1, 10), 2025: new Date(2025, 0, 29),
-                    2026: new Date(2026, 1, 17), 2027: new Date(2027, 1, 6),
-                    2028: new Date(2028, 0, 26), 2029: new Date(2029, 1, 13),
-                    2030: new Date(2030, 1, 3)
-                };
-                return dates[year] || null;
-            }
-
-            function getTheme() {
-                const now = new Date();
-                const year = now.getFullYear();
-                const month = now.getMonth() + 1;
-                const day = now.getDate();
-                if (month === 12 && day === 13) return 'memorial';
-                const cny = getChineseNewYear(year);
-                if (cny) {
-                    const start = new Date(cny);
-                    start.setDate(start.getDate() - 1);
-                    const end = new Date(cny);
-                    end.setDate(end.getDate() + 6);
-                    if (now >= start && now <= end) return 'spring';
-                }
-                return 'default';
-            }
-
-            function applyTheme() {
-                const theme = getTheme();
-                const slide1 = document.querySelector('.carousel-slide[data-index="0"]');
-                if (!slide1) return;
-                const img = slide1.querySelector('.carousel-image');
-                const title = slide1.querySelector('.carousel-title');
-                const excerpt = slide1.querySelector('.carousel-excerpt');
-
-                if (theme === 'spring') {
-                    if (img) img.src = SPRING_IMG;
-                    if (title) title.textContent = '🧨 新春快乐';
-                    if (excerpt) excerpt.textContent = '辞旧迎新，愿新的一年平安顺遂，幸福安康。';
-                } else if (theme === 'memorial') {
-                    if (img) img.src = MEMORIAL_IMG;
-                    if (title) title.textContent = '🕯️ 国家公祭日';
-                    if (excerpt) excerpt.textContent = '1937年12月13日，南京大屠杀。铭记历史，珍爱和平。';
-                } else {
-                    // 恢复默认（如果之前被改过）
-                    if (img && !img.src.includes('unsplash')) {
-                        img.src = DEFAULT_IMG;
-                    }
-                    // 如果标题被改过，恢复原始（但原始数据不好恢复，保持原样）
-                    // 这里不自动恢复，以免覆盖用户自定义
-                }
-                console.log('[主题切换] 当前主题:', theme);
-            }
-
-            // 等待DOM加载完成
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', applyTheme);
-            } else {
-                applyTheme();
-            }
-        })();
-    </script>
+    <!-- 3. 主题切换（春节/公祭日） -->
+    <script src="/js/theme.js"></script>
 
 </body>
 </html>
