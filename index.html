@@ -17,9 +17,15 @@
     <link rel="stylesheet" href="https://zhr-0731.github.io/css/html/prism-tomorrow.min.css">
     <link rel="stylesheet" href="https://zhr-0731.github.io/css/style.css">
 
-    <!-- ====== 关键样式：清除中间容器背景，保留 body/html 可设置背景 ====== -->
+    <!-- ====== 关键样式：清除中间容器背景 + 卡片毛玻璃 ====== -->
     <style>
-        /* 1. 只清除中间容器（可能遮挡背景的层） */
+        /* 1. body 和 html 保留背景设置能力（不添加任何覆盖） */
+        html, body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        /* 2. 所有可能遮挡背景的中间层强制透明 */
         .gh-site,
         .site-content,
         .gh-outer,
@@ -33,10 +39,8 @@
             background-color: transparent !important;
             background-image: none !important;
         }
-
-        /* 2. 卡片毛玻璃效果（覆盖） */
+        /* 3. 卡片毛玻璃效果（重新定义，覆盖 Ghost） */
         .post-card {
-            /* 注意：这里使用 rgba 背景，但被上面的通配清除，所以必须重新定义 */
             background: rgba(255, 255, 255, 0.08) !important;
             backdrop-filter: blur(20px) saturate(150%) !important;
             -webkit-backdrop-filter: blur(20px) saturate(150%) !important;
@@ -206,7 +210,7 @@
             <div class="sub-title">随便写写</div>
         </div>
         <div class="carousel-container" id="carouselContainer">
-            <!-- 轮播项 1～8（完整） -->
+            <!-- 轮播1 -->
             <div class="carousel-slide active" data-index="0">
                 <a href="post/post.html" class="carousel-link">
                     <img class="carousel-image" src="https://images.unsplash.com/photo-1598960087461-556c5a1f864a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200" alt="文章封面1">
@@ -216,6 +220,7 @@
                     </div>
                 </a>
             </div>
+            <!-- 轮播2 -->
             <div class="carousel-slide" data-index="1">
                 <a href="post/post2.html" class="carousel-link">
                     <img class="carousel-image" src="https://s41.ax1x.com/2025/12/06/pZmROmT.jpg" alt="文章封面2">
@@ -225,6 +230,7 @@
                     </div>
                 </a>
             </div>
+            <!-- 轮播3 -->
             <div class="carousel-slide" data-index="2">
                 <a href="post/post3.html" class="carousel-link">
                     <img class="carousel-image" src="https://s41.ax1x.com/2025/12/07/pZnFlYF.md.png" alt="文章封面3">
@@ -234,6 +240,7 @@
                     </div>
                 </a>
             </div>
+            <!-- 轮播4 -->
             <div class="carousel-slide" data-index="3">
                 <a href="post/post4.html" class="carousel-link">
                     <img class="carousel-image" src="https://s41.ax1x.com/2025/12/14/pZMRq76.jpg" alt="文章封面4">
@@ -243,6 +250,7 @@
                     </div>
                 </a>
             </div>
+            <!-- 轮播5 -->
             <div class="carousel-slide" data-index="4">
                 <a href="post/post5.html" class="carousel-link">
                     <img class="carousel-image" src="https://s41.ax1x.com/2025/12/08/pZnTyu9.jpg" alt="文章封面5">
@@ -252,6 +260,7 @@
                     </div>
                 </a>
             </div>
+            <!-- 轮播6 -->
             <div class="carousel-slide" data-index="5">
                 <a href="post/post6.html" class="carousel-link">
                     <img class="carousel-image" src="https://s41.ax1x.com/2026/03/01/peS0ln0.jpg" alt="文章封面6">
@@ -261,6 +270,7 @@
                     </div>
                 </a>
             </div>
+            <!-- 轮播7 -->
             <div class="carousel-slide" data-index="6">
                 <a href="post/post7.html" class="carousel-link">
                     <img class="carousel-image" src="https://s41.ax1x.com/2026/03/02/pepKMAP.jpg" alt="RSS订阅封面">
@@ -270,6 +280,7 @@
                     </div>
                 </a>
             </div>
+            <!-- 轮播8 -->
             <div class="carousel-slide" data-index="7">
                 <a href="post/post8.html" class="carousel-link">
                     <img class="carousel-image" src="https://s41.ax1x.com/2026/03/02/pepKu7t.jpg" alt="newsletter订阅封面">
@@ -301,7 +312,7 @@
     <!-- 文章列表 -->
     <main class="main-content container">
         <div class="post-feed">
-            <!-- 卡片1～8 -->
+            <!-- 卡片1 -->
             <article class="post-card">
                 <a href="post/post.html">
                     <div class="post-media">
@@ -320,6 +331,7 @@
                     </div>
                 </a>
             </article>
+            <!-- 卡片2 -->
             <article class="post-card">
                 <a href="post/post2.html">
                     <div class="post-media">
@@ -339,6 +351,7 @@
                     </div>
                 </a>
             </article>
+            <!-- 卡片3 -->
             <article class="post-card">
                 <a href="post/post3.html">
                     <div class="post-media">
@@ -359,6 +372,7 @@
                     </div>
                 </a>
             </article>
+            <!-- 卡片4 -->
             <article class="post-card">
                 <a href="post/post4.html">
                     <div class="post-media">
@@ -378,6 +392,7 @@
                     </div>
                 </a>
             </article>
+            <!-- 卡片5 -->
             <article class="post-card">
                 <a href="post/post5.html">
                     <div class="post-media">
@@ -397,6 +412,7 @@
                     </div>
                 </a>
             </article>
+            <!-- 卡片6 -->
             <article class="post-card">
                 <a href="post/post6.html">
                     <div class="post-media">
@@ -416,6 +432,7 @@
                     </div>
                 </a>
             </article>
+            <!-- 卡片7 -->
             <article class="post-card">
                 <a href="post/post7.html">
                     <div class="post-media">
@@ -435,6 +452,7 @@
                     </div>
                 </a>
             </article>
+            <!-- 卡片8 -->
             <article class="post-card">
                 <a href="post/post8.html">
                     <div class="post-media">
