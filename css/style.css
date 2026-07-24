@@ -539,3 +539,24 @@ footer {
     .newsletter-card { padding: 28px 20px; }
     .newsletter-title { font-size: 1.4rem; }
 }
+
+/* ====== 卡片容器（每个卡片独立包裹） ====== */
+.card-wrapper {
+    background: transparent !important;
+    background-color: transparent !important;
+    padding: 0;
+    margin: 0;
+    /* 如需为单个卡片添加动效，可在此定义 */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* 单个卡片容器悬浮效果（可选） */
+.card-wrapper:hover {
+    transform: translateY(-4px);
+}
+
+/* 确保卡片在容器内完整显示 */
+.card-wrapper .post-card {
+    height: 100%;
+    margin: 0;
+}
