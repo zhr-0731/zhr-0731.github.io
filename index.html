@@ -17,20 +17,22 @@
     <link rel="stylesheet" href="https://zhr-0731.github.io/css/html/prism-tomorrow.min.css">
     <link rel="stylesheet" href="https://zhr-0731.github.io/css/style.css">
 
-    <!-- ====== 关键样式：清除中间容器背景 + 卡片毛玻璃 ====== -->
+    <!-- ====== 彻底清除所有中间容器背景（包括 .post-feed） ====== -->
     <style>
-        /* 1. body 和 html 保留背景设置能力（不添加任何覆盖） */
+        /* 1. 保留 html 和 body 可设置背景 */
         html, body {
             min-height: 100vh;
             margin: 0;
             padding: 0;
         }
-        /* 2. 所有可能遮挡背景的中间层强制透明 */
+
+        /* 2. 强制所有可能遮挡背景的容器透明（使用更具体的选择器） */
         .gh-site,
         .site-content,
         .gh-outer,
         .site-main,
-        .main-content,
+        main.main-content.container,
+        .main-content.container,
         .container,
         .post-feed,
         .post-card,
@@ -39,7 +41,15 @@
             background-color: transparent !important;
             background-image: none !important;
         }
-        /* 3. 卡片毛玻璃效果（重新定义，覆盖 Ghost） */
+
+        /* 针对 .post-feed 特别强化（可能是最直接的遮挡源） */
+        .post-feed {
+            background: transparent !important;
+            background-color: transparent !important;
+            background-image: none !important;
+        }
+
+        /* 3. 卡片毛玻璃效果（覆盖 Ghost） */
         .post-card {
             background: rgba(255, 255, 255, 0.08) !important;
             backdrop-filter: blur(20px) saturate(150%) !important;
@@ -66,7 +76,7 @@
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
         }
 
-        /* 卡片内部文字 */
+        /* 卡片内部文字样式 */
         .post-card .post-content {
             flex: 1 !important;
             padding: 16px 20px !important;
