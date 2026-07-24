@@ -1,7 +1,7 @@
 /**
- * 天气背景壁纸自动切换（修复 body null 错误 + 控制台日志）
- * 依赖：https://uapis.cn/api/v1/misc/weather（天气）
- *       https://uapis.cn/api/v1/image/bing-daily（壁纸）
+ * 天气背景壁纸自动切换（修复 body 为 null 的问题 + 重试机制）
+ * 依赖：https://uapis.cn/api/v1/misc/weather
+ *       https://uapis.cn/api/v1/image/bing-daily
  */
 (function() {
     'use strict';
@@ -28,6 +28,13 @@
     const FALLBACK = 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1920&q=80';
 
     let enabled = true;
+    let retryCount = 0;
+    const MAX_RETRIES = 10;
+
+    // ========== 安全获取 body ==========
+    function getBody() {
+        return document.body || document.querySelector('body') || null;
+    }
 
     // ========== 从必应 API 获取壁纸图片 URL ==========
     function fetchBingWallpaper(date) {
@@ -48,14 +55,22 @@
             });
     }
 
-    // ========== 设置背景壁纸（修复：每次重新获取 body） ==========
-    function setBackground(imageUrl) {
-        const body = document.body;   // 关键修复：每次使用时获取
+    // ========== 设置背景壁纸（带重试机制） ==========
+    function setBackground(imageUrl, attempt) {
+        attempt = attempt || 0;
+        const body = getBody();
         if (!body) {
-            console.warn('[天气背景] document.body 尚未就绪，跳过设置');
+            // body 尚未就绪，延迟重试
+            if (attempt < MAX_RETRIES) {
+                console.log(`[天气背景] body 未就绪，${attempt + 1} 秒后重试...`);
+                setTimeout(() => setBackground(imageUrl, attempt + 1), 1000 * (attempt + 1));
+            } else {
+                console.error('[天气背景] body 始终未就绪，放弃设置背景');
+            }
             return;
         }
 
+        // body 已就绪，应用壁纸
         if (!enabled) {
             body.style.backgroundImage = 'none';
             body.style.backgroundColor = '';
@@ -71,6 +86,8 @@
         body.style.backgroundAttachment = 'fixed';
         body.style.backgroundColor = 'rgba(0,0,0,0.3)';
         body.style.backgroundBlendMode = 'overlay';
+        // 重试计数归零
+        retryCount = 0;
     }
 
     // ========== 获取天气并应用壁纸 ==========
@@ -119,7 +136,7 @@
             fetchWeatherAndApply();
         } else {
             console.log('[天气背景] 功能已关闭');
-            const body = document.body;
+            const body = getBody();
             if (body) {
                 body.style.backgroundImage = 'none';
                 body.style.backgroundColor = '';
@@ -165,10 +182,14 @@
         console.log('[天气背景] 脚本已初始化，查看控制台可看到API请求日志');
     }
 
-    // 等待 DOM 就绪
+    // 等待 DOM 就绪（多重保障）
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
+    } else if (document.readyState === 'interactive' || document.readyState === 'complete') {
+        // 如果 DOM 已就绪，直接执行
+        setTimeout(init, 0);
     } else {
+        // 兜底：立即执行
         init();
     }
 })();
