@@ -1,5 +1,5 @@
 /**
- * 天气背景壁纸自动切换（带控制台日志调试）
+ * 天气背景壁纸自动切换（修复 body null 错误 + 控制台日志）
  * 依赖：https://uapis.cn/api/v1/misc/weather（天气）
  *       https://uapis.cn/api/v1/image/bing-daily（壁纸）
  */
@@ -28,7 +28,6 @@
     const FALLBACK = 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1920&q=80';
 
     let enabled = true;
-    const body = document.body;
 
     // ========== 从必应 API 获取壁纸图片 URL ==========
     function fetchBingWallpaper(date) {
@@ -49,13 +48,21 @@
             });
     }
 
-    // ========== 设置背景壁纸 ==========
+    // ========== 设置背景壁纸（修复：每次重新获取 body） ==========
     function setBackground(imageUrl) {
+        const body = document.body;   // 关键修复：每次使用时获取
+        if (!body) {
+            console.warn('[天气背景] document.body 尚未就绪，跳过设置');
+            return;
+        }
+
         if (!enabled) {
             body.style.backgroundImage = 'none';
             body.style.backgroundColor = '';
+            body.style.backgroundBlendMode = 'normal';
             return;
         }
+
         const url = imageUrl || FALLBACK;
         console.log(`[天气背景] 应用壁纸: ${url}`);
         body.style.backgroundImage = `url(${url})`;
@@ -112,9 +119,12 @@
             fetchWeatherAndApply();
         } else {
             console.log('[天气背景] 功能已关闭');
-            body.style.backgroundImage = 'none';
-            body.style.backgroundColor = '';
-            body.style.backgroundBlendMode = 'normal';
+            const body = document.body;
+            if (body) {
+                body.style.backgroundImage = 'none';
+                body.style.backgroundColor = '';
+                body.style.backgroundBlendMode = 'normal';
+            }
         }
         updateToggleIcon();
     }
@@ -155,6 +165,7 @@
         console.log('[天气背景] 脚本已初始化，查看控制台可看到API请求日志');
     }
 
+    // 等待 DOM 就绪
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {
