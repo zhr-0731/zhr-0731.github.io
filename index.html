@@ -11,16 +11,15 @@
     <link rel="shortcut icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png" type="image/png">
     <link rel="apple-touch-icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png">
 
-    <!-- ====== 样式引用 ====== -->
+    <!-- ====== Ghost 样式（布局必需） ====== -->
     <link rel="stylesheet" href="https://zhr-0731.github.io/css/html/screen.css">
     <link rel="stylesheet" href="https://zhr-0731.github.io/css/html/cards.min.css">
     <link rel="stylesheet" href="https://zhr-0731.github.io/css/html/prism-tomorrow.min.css">
     <link rel="stylesheet" href="https://zhr-0731.github.io/css/style.css">
 
-    <!-- ====== 内联样式：彻底透明化 + 沉浸光感卡片 ====== -->
+    <!-- ====== 关键样式：清除中间容器背景，保留 body/html 可设置背景 ====== -->
     <style>
-        /* ---------- 强制所有中间层透明（清除挡板） ---------- */
-        html, body,
+        /* 1. 只清除中间容器（可能遮挡背景的层） */
         .gh-site,
         .site-content,
         .gh-outer,
@@ -28,16 +27,16 @@
         .main-content,
         .container,
         .post-feed,
-        .post-feed *,
         .post-card,
         .post-card * {
             background: transparent !important;
             background-color: transparent !important;
             background-image: none !important;
-            /* 但保留卡片自身的背景（将在 .post-card 中重新定义） */
         }
-        /* 恢复卡片自身的背景（因为上面清除了） */
+
+        /* 2. 卡片毛玻璃效果（覆盖） */
         .post-card {
+            /* 注意：这里使用 rgba 背景，但被上面的通配清除，所以必须重新定义 */
             background: rgba(255, 255, 255, 0.08) !important;
             backdrop-filter: blur(20px) saturate(150%) !important;
             -webkit-backdrop-filter: blur(20px) saturate(150%) !important;
@@ -63,15 +62,7 @@
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
         }
 
-        /* ---------- 网格布局 ---------- */
-        .post-feed {
-            display: grid !important;
-            grid-template-columns: repeat(4, 1fr) !important;
-            gap: 24px !important;
-            margin-top: 30px !important;
-        }
-
-        /* ---------- 卡片内部文字 ---------- */
+        /* 卡片内部文字 */
         .post-card .post-content {
             flex: 1 !important;
             padding: 16px 20px !important;
@@ -143,6 +134,13 @@
             color: inherit !important;
         }
 
+        /* 网格布局 */
+        .post-feed {
+            display: grid !important;
+            grid-template-columns: repeat(4, 1fr) !important;
+            gap: 24px !important;
+            margin-top: 30px !important;
+        }
         @media (max-width: 1024px) {
             .post-feed {
                 grid-template-columns: repeat(2, 1fr) !important;
@@ -160,9 +158,8 @@
         }
     </style>
 </head>
-
 <body>
-    <!-- ====== 头部导航 ====== -->
+    <!-- 头部导航 -->
     <header>
         <div class="container">
             <div class="header-inner">
@@ -209,7 +206,7 @@
             <div class="sub-title">随便写写</div>
         </div>
         <div class="carousel-container" id="carouselContainer">
-            <!-- 轮播项 1～8（完整保留） -->
+            <!-- 轮播项 1～8（完整） -->
             <div class="carousel-slide active" data-index="0">
                 <a href="post/post.html" class="carousel-link">
                     <img class="carousel-image" src="https://images.unsplash.com/photo-1598960087461-556c5a1f864a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200" alt="文章封面1">
@@ -304,7 +301,7 @@
     <!-- 文章列表 -->
     <main class="main-content container">
         <div class="post-feed">
-            <!-- 卡片1～8（完整保留） -->
+            <!-- 卡片1～8 -->
             <article class="post-card">
                 <a href="post/post.html">
                     <div class="post-media">
@@ -497,10 +494,9 @@
         </div>
     </footer>
 
-    <!-- 天气背景脚本 -->
+    <!-- ====== JavaScript ====== -->
     <script src="/js/weather-background.js"></script>
 
-    <!-- 轮播 & 音乐 & 搜索 -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // 轮播
@@ -629,7 +625,6 @@
         });
     </script>
 
-    <!-- 主题切换 -->
     <script src="/js/theme-switcher.js"></script>
 </body>
 </html>
