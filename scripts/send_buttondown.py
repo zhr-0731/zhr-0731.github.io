@@ -115,7 +115,7 @@ def send_buttondown_email(title, summary, body_html, article_url):
     email_data = {
         "subject": f"{title}",
         "body": full_html,
-        "publish": True,          # 立即发送给所有订阅者
+        "status": "about_to_send",          # 立即发送给所有订阅者
     }
 
     print("正在创建并发送邮件...", flush=True)
