@@ -1,0 +1,111 @@
+[
+  {
+    "id": "post/post9.html",
+    "title": "21世纪，人与AI的命题，怎么破？",
+    "excerpt": "人能否在技术中介化一切的进程中，继续作为目的、主体和责任者存在，使科技成为扩展自由的条件，而不是反过来把人改造成技术的条件、函数和燃料？",
+    "date": "2026-10-17",
+    "link": "post/post9.html",
+    "image": "https://s41.ax1x.com/2026/10/17/pnw0AMT.jpg",
+    "tags": [
+      "AI",
+      "科技",
+      "社会"
+    ]
+  },
+  {
+    "id": "post/post8.html",
+    "title": "全平台订阅指南 · newsletter",
+    "excerpt": "通过邮件订阅我的newsletter，每周精选文章、生活随笔，直接送到你的收件箱。",
+    "date": "2026-03-02",
+    "link": "post/post8.html",
+    "image": "https://s41.ax1x.com/2026/03/02/pepKu7t.jpg",
+    "tags": [
+      "订阅",
+      "指南"
+    ]
+  },
+  {
+    "id": "post/post7.html",
+    "title": "全平台订阅指南 · RSS",
+    "excerpt": "开放、自由的互联网需要RSS。通过RSS定制你的信息流，不受算法控制。本指南介绍如何在全平台订阅本博客。",
+    "date": "2026-03-01",
+    "link": "post/post7.html",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/4/43/Feed-icon.svg",
+    "tags": [
+      "教程",
+      "RSS"
+    ]
+  },
+  {
+    "id": "post/post5.html",
+    "title": "去了一趟重庆 #2",
+    "excerpt": "2月，我终于有了机会，和同学去重庆看看。这是一个充满惊喜和美食的城市。",
+    "date": "2025-12-24",
+    "link": "post/post5.html",
+    "image": "https://s41.ax1x.com/2025/12/08/pZnTyu9.jpg",
+    "tags": [
+      "旅行",
+      "城市"
+    ]
+  },
+  {
+    "id": "post/post4.html",
+    "title": "去了一趟重庆 #1",
+    "excerpt": "2月，我终于有了机会，和同学去重庆看看。这是一个充满惊喜和美食的城市。",
+    "date": "2025-12-14",
+    "link": "post/post4.html",
+    "image": "https://s41.ax1x.com/2025/12/14/pZMRq76.jpg",
+    "tags": [
+      "旅行",
+      "城市"
+    ]
+  },
+  {
+    "id": "post/post3.html",
+    "title": "四季的花",
+    "excerpt": "花，是四季的讯号，每当花一开，人们便知道一个新的季节又到了。",
+    "date": "2025-12-07",
+    "link": "post/post3.html",
+    "image": "https://s41.ax1x.com/2025/12/07/pZnFlYF.md.png",
+    "tags": [
+      "生活",
+      "感悟"
+    ]
+  },
+  {
+    "id": "post/post.html",
+    "title": "使用GitHub Pages搭建个人博客",
+    "excerpt": "详细讲解如何使用GitHub Pages免费部署个人博客网站，包含HTML、CSS和GitHub配置",
+    "date": "2025-12-06",
+    "link": "post/post.html",
+    "image": "https://images.unsplash.com/photo-1598960087461-556c5a1f864a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200",
+    "tags": [
+      "技术",
+      "GitHub"
+    ]
+  },
+  {
+    "id": "post/post2.html",
+    "title": "走出书本，对生活更有体会",
+    "excerpt": "书本中的世界固然是精彩的，但书本外的世界会更丰富。读过书后再走出书本，对生活会有更深的体会。",
+    "date": "2024-01-29",
+    "link": "post/post2.html",
+    "image": "https://s41.ax1x.com/2025/12/06/pZmROmT.jpg",
+    "tags": [
+      "生活",
+      "感悟"
+    ]
+  },
+  {
+    "id": "post/post6.html",
+    "title": "张家小樵夫",
+    "excerpt": "快要过年了，我央求妈妈带我去乡下姑姑家。帮姑姑砍柴的经历，让我成了“张家小樵夫”，也懂得了劳动创造美好生活的道理。",
+    "date": "2023-01-21",
+    "link": "post/post6.html",
+    "image": "https://s41.ax1x.com/2026/03/01/peS0ln0.jpg",
+    "tags": [
+      "生活",
+      "随笔"
+    ]
+  }
+]
