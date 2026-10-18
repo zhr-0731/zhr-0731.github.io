@@ -4,14 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>搜索文章</title>
-    
-    <!-- 网页图标 -->
+
     <link rel="icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png" type="image/png">
     <link rel="shortcut icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png" type="image/png">
     <link rel="apple-touch-icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png">
-    
+
     <style>
-        /* 使用与首页相同的CSS样式 */
         :root {
             --ghost-accent-color: #59c090;
             --text-color: #333;
@@ -21,13 +19,9 @@
             --font-serif: 'Noto Serif SC', serif;
             --font-sans: 'Noto Sans SC', sans-serif;
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
             font-family: var(--font-sans);
             color: var(--text-color);
@@ -37,29 +31,12 @@
             flex-direction: column;
             min-height: 100vh;
         }
-        
-        a {
-            text-decoration: none;
-            color: inherit;
-            transition: color 0.3s;
-        }
-        
-        a:hover {
-            color: var(--ghost-accent-color);
-        }
-        
-        img {
-            max-width: 100%;
-            height: auto;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        /* 头部导航 - 与首页一致 */
+
+        a { text-decoration: none; color: inherit; transition: color 0.3s; }
+        a:hover { color: var(--ghost-accent-color); }
+        img { max-width: 100%; height: auto; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
         header {
             position: sticky;
             top: 0;
@@ -68,50 +45,24 @@
             z-index: 100;
             border-bottom: 1px solid var(--border-color);
         }
-        
+
         .header-inner {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 15px 0;
         }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-        
-        .logo img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-        
-        .logo-text {
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-        
-        nav li {
-            margin-left: 25px;
-        }
-        
-        nav a {
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-        
-        .header-actions {
-            display: flex;
-            align-items: center;
-        }
-        
+
+        .logo { display: flex; align-items: center; }
+        .logo img { width: 40px; height: 40px; border-radius: 50%; margin-right: 10px; }
+        .logo-text { font-weight: bold; font-size: 1.2rem; }
+
+        nav ul { display: flex; list-style: none; }
+        nav li { margin-left: 25px; }
+        nav a { font-size: 0.9rem; font-weight: 500; }
+
+        .header-actions { display: flex; align-items: center; }
+
         .search-btn {
             background: none;
             border: none;
@@ -126,33 +77,15 @@
             border-radius: 50%;
             transition: all 0.3s;
         }
-        
-        .search-btn:hover {
-            background: var(--light-gray);
-        }
-        
-        /* 搜索页面特定样式 */
-        .search-page-container {
-            padding: 60px 0;
-            flex: 1;
-        }
-        
-        .search-header {
-            margin-bottom: 40px;
-        }
-        
-        .search-title {
-            font-size: 2rem;
-            font-family: var(--font-serif);
-            margin-bottom: 10px;
-        }
-        
-        .search-box {
-            max-width: 1000px;
-            margin: 0 auto 60px;
-            position: relative;
-        }
-        
+
+        .search-btn:hover { background: var(--light-gray); }
+
+        .search-page-container { padding: 60px 0; flex: 1; }
+        .search-header { margin-bottom: 40px; }
+        .search-title { font-size: 2rem; font-family: var(--font-serif); margin-bottom: 10px; }
+
+        .search-box { max-width: 1000px; margin: 0 auto 60px; position: relative; }
+
         .search-form {
             display: flex;
             width: 100%;
@@ -162,11 +95,9 @@
             border: 2px solid transparent;
             transition: all 0.3s;
         }
-        
-        .search-form:focus-within {
-            border-color: var(--ghost-accent-color);
-        }
-        
+
+        .search-form:focus-within { border-color: var(--ghost-accent-color); }
+
         .search-input {
             flex: 1;
             padding: 22px 35px;
@@ -175,7 +106,7 @@
             outline: none;
             font-family: var(--font-sans);
         }
-        
+
         .search-button {
             background: var(--ghost-accent-color);
             color: white;
@@ -186,17 +117,11 @@
             transition: all 0.3s;
             font-weight: 500;
         }
-        
-        .search-button:hover {
-            background: #4aa97a;
-        }
-        
-        /* 搜索结果 */
-        .search-results {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        
+
+        .search-button:hover { background: #4aa97a; }
+
+        .search-results { max-width: 1000px; margin: 0 auto; }
+
         .search-stats {
             font-size: 1rem;
             color: #888;
@@ -204,7 +129,7 @@
             padding-bottom: 20px;
             border-bottom: 1px solid var(--border-color);
         }
-        
+
         .search-result-item {
             margin-bottom: 50px;
             padding: 0;
@@ -215,18 +140,15 @@
             overflow: hidden;
             display: flex;
         }
-        
+
         .search-result-item:hover {
             border-color: var(--ghost-accent-color);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             transform: translateY(-3px);
         }
-        
-        .result-content {
-            flex: 1;
-            padding: 30px;
-        }
-        
+
+        .result-content { flex: 1; padding: 30px; }
+
         .result-title {
             font-size: 1.5rem;
             margin-bottom: 15px;
@@ -234,187 +156,67 @@
             line-height: 1.3;
             color: var(--text-color);
         }
-        
-        .result-title:hover {
-            color: var(--ghost-accent-color);
-        }
-        
-        .result-excerpt {
-            color: #666;
-            margin-bottom: 20px;
-            font-size: 1rem;
-            line-height: 1.6;
-        }
-        
-        .result-date {
-            color: #888;
-            font-size: 0.9rem;
-        }
-        
-        .result-image {
-            width: 250px;
-            height: 200px;
-            overflow: hidden;
-            position: relative;
-        }
-        
+
+        .result-title:hover { color: var(--ghost-accent-color); }
+
+        .result-excerpt { color: #666; margin-bottom: 20px; font-size: 1rem; line-height: 1.6; }
+        .result-date { color: #888; font-size: 0.9rem; }
+
+        .result-image { width: 250px; height: 200px; overflow: hidden; position: relative; }
+
         .result-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.5s;
         }
-        
-        .search-result-item:hover .result-image img {
-            transform: scale(1.05);
-        }
-        
-        .no-results {
-            text-align: center;
-            padding: 80px 20px;
-            color: #888;
-        }
-        
-        .no-results-icon {
-            font-size: 3.5rem;
-            margin-bottom: 25px;
-            opacity: 0.5;
-        }
-        
-        .no-results-title {
-            font-size: 1.7rem;
-            margin-bottom: 15px;
-        }
-        
-        .no-results-text {
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        /* 页脚 */
+
+        .search-result-item:hover .result-image img { transform: scale(1.05); }
+
+        .no-results { text-align: center; padding: 80px 20px; color: #888; }
+        .no-results-icon { font-size: 3.5rem; margin-bottom: 25px; opacity: 0.5; }
+        .no-results-title { font-size: 1.7rem; margin-bottom: 15px; }
+        .no-results-text { font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
         footer {
             background: var(--light-gray);
             padding: 50px 0;
             margin-top: auto;
             border-top: 1px solid var(--border-color);
         }
-        
-        .footer-inner {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .copyright {
-            color: #888;
-        }
-        
-        .footer-nav ul {
-            display: flex;
-            list-style: none;
-        }
-        
-        .footer-nav li {
-            margin-left: 20px;
-        }
-        
-        .powered-by {
-            color: #888;
-            font-size: 0.9rem;
-        }
-        
-        /* 响应式设计 */
+
+        .footer-inner { display: flex; justify-content: space-between; align-items: center; }
+        .copyright { color: #888; }
+        .footer-nav ul { display: flex; list-style: none; }
+        .footer-nav li { margin-left: 20px; }
+        .powered-by { color: #888; font-size: 0.9rem; }
+
         @media (max-width: 768px) {
-            .header-inner {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            nav ul {
-                margin-top: 15px;
-                flex-wrap: wrap;
-            }
-            
-            nav li {
-                margin: 5px 15px 5px 0;
-            }
-            
-            .search-title {
-                font-size: 1.7rem;
-            }
-            
-            .search-input {
-                padding: 18px 25px;
-                font-size: 1.1rem;
-            }
-            
-            .search-button {
-                padding: 0 30px;
-                font-size: 1rem;
-            }
-            
-            .search-result-item {
-                flex-direction: column;
-            }
-            
-            .result-image {
-                width: 100%;
-                height: 200px;
-                order: -1;
-            }
-            
-            .result-content {
-                padding: 25px;
-            }
-            
-            .result-title {
-                font-size: 1.3rem;
-            }
-            
-            .footer-inner {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .footer-nav ul {
-                margin: 20px 0;
-                justify-content: center;
-            }
-            
-            .footer-nav li {
-                margin: 0 10px;
-            }
+            .header-inner { flex-direction: column; align-items: flex-start; }
+            nav ul { margin-top: 15px; flex-wrap: wrap; }
+            nav li { margin: 5px 15px 5px 0; }
+            .search-title { font-size: 1.7rem; }
+            .search-input { padding: 18px 25px; font-size: 1.1rem; }
+            .search-button { padding: 0 30px; font-size: 1rem; }
+            .search-result-item { flex-direction: column; }
+            .result-image { width: 100%; height: 200px; order: -1; }
+            .result-content { padding: 25px; }
+            .result-title { font-size: 1.3rem; }
+            .footer-inner { flex-direction: column; text-align: center; }
+            .footer-nav ul { margin: 20px 0; justify-content: center; }
+            .footer-nav li { margin: 0 10px; }
         }
-        
+
         @media (max-width: 480px) {
-            .search-title {
-                font-size: 1.5rem;
-            }
-            
-            .search-form {
-                flex-direction: column;
-                border-radius: 12px;
-            }
-            
-            .search-input {
-                padding: 15px;
-                border-bottom: 1px solid var(--border-color);
-            }
-            
-            .search-button {
-                padding: 15px;
-                width: 100%;
-            }
-            
-            .result-image {
-                height: 180px;
-            }
+            .search-title { font-size: 1.5rem; }
+            .search-form { flex-direction: column; border-radius: 12px; }
+            .search-input { padding: 15px; border-bottom: 1px solid var(--border-color); }
+            .search-button { padding: 15px; width: 100%; }
+            .result-image { height: 180px; }
         }
     </style>
 </head>
 <body>
-    <!-- 头部导航 -->
     <header>
         <div class="container">
             <div class="header-inner">
@@ -424,14 +226,14 @@
                         <span class="logo-text">zhr的博客</span>
                     </a>
                 </div>
-                
+
                 <nav>
                     <ul>
                         <li><a href="index.html">文章|Article</a></li>
                         <li><a href="https://zhr-0731.github.io/zhr-s-videos">视频|Video</a></li>
                     </ul>
                 </nav>
-                
+
                 <div class="header-actions">
                     <a href="search.html" class="search-btn">🔍</a>
                 </div>
@@ -439,45 +241,38 @@
         </div>
     </header>
 
-    <!-- 搜索引擎主内容 -->
     <main class="search-page-container container">
         <div class="search-header">
             <h1 class="search-title">搜索</h1>
         </div>
-        
+
         <div class="search-box">
             <form class="search-form" id="searchForm">
-                <input 
-                    type="text" 
-                    class="search-input" 
-                    id="searchInput" 
+                <input
+                    type="text"
+                    class="search-input"
+                    id="searchInput"
                     name="q"
-                    placeholder="输入关键词搜索..." 
+                    placeholder="输入关键词搜索..."
                     autocomplete="off"
                     value=""
                 >
                 <button type="submit" class="search-button">搜索</button>
             </form>
         </div>
-        
-        <!-- 搜索结果 -->
+
         <div class="search-results" id="searchResults">
-            <div class="search-stats" id="searchStats">
-                输入关键词开始搜索
-            </div>
-            
+            <div class="search-stats" id="searchStats">正在加载文章索引…</div>
             <div id="resultsList">
-                <!-- 搜索结果将动态插入这里 -->
                 <div class="no-results">
                     <div class="no-results-icon">🔍</div>
                     <h3 class="no-results-title">输入关键词搜索文章</h3>
-                    <p class="no-results-text">尝试搜索"GitHub"、"博客"、"生活"、"重庆"、"AI"等关键词</p>
+                    <p class="no-results-text">文章索引加载完成后即可搜索</p>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- 页脚 -->
     <footer>
         <div class="container">
             <div class="footer-inner">
@@ -486,132 +281,73 @@
                         <li><a href="https://bgithub.xyz/zhr-0731" target="_blank">GitHub</a></li>
                     </ul>
                 </nav>
-                
-                <div class="powered-by">
-                    基于 GitHub Pages
-                </div>
+                <div class="powered-by">基于 GitHub Pages</div>
             </div>
         </div>
     </footer>
 
     <script>
-        // 文章数据 - 已整合全部9篇文章（含新增的AI文章）
-        const articles = [
-            {
-                id: 1,
-                title: "使用GitHub Pages搭建个人博客",
-                excerpt: "详细讲解如何使用GitHub Pages免费部署个人博客网站，包含HTML、CSS和GitHub配置...",
-                date: "2023-10-15",
-                link: "post/post.html",
-                image: "https://images.unsplash.com/photo-1598960087461-556c5a1f864a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=960"
-            },
-            {
-                id: 2,
-                title: "走出书本，对生活更有体会",
-                excerpt: "书本中的世界固然是精彩的，但书本外的世界会更丰富。读过书后再走出书本，对生活会有更深的体会。",
-                date: "2023-10-10",
-                link: "post/post2.html",
-                image: "https://s41.ax1x.com/2025/12/06/pZmROmT.jpg"
-            },
-            {
-                id: 3,
-                title: "四季的花",
-                excerpt: "春有百花秋有月，夏有凉风冬有雪。四季更替，花儿也随之绽放，每一季都有独特的花卉装点我们的生活。",
-                date: "2023-10-05",
-                link: "post/post3.html",
-                image: "https://s41.ax1x.com/2025/12/07/pZnFlYF.md.png"
-            },
-            {
-                id: 4,
-                title: "去了一趟重庆 #1",
-                excerpt: "2月，我终于有了机会，和同学去这个充满惊喜和美食的城市看看。",
-                date: "2025-12-14",
-                link: "post/post4.html",
-                image: "https://s41.ax1x.com/2025/12/14/pZMRq76.jpg"
-            },
-            {
-                id: 5,
-                title: "去了一趟重庆 #2",
-                excerpt: "2月，我终于有了机会，和同学去重庆看看。这是一个充满惊喜和美食的城市。",
-                date: "2025-12-08",
-                link: "post/post5.html",
-                image: "https://s41.ax1x.com/2025/12/08/pZnTyu9.jpg"
-            },
-            {
-                id: 6,
-                title: "张家小樵夫",
-                excerpt: "快要过年了，我央求妈妈带我去乡下姑姑家。帮姑姑砍柴的经历，让我成了“张家小樵夫”，也懂得了劳动创造美好生活的道理。",
-                date: "2023-01-21",
-                link: "post/post6.html",
-                image: "https://s41.ax1x.com/2026/03/01/peS0ln0.jpg"
-            },
-            {
-                id: 7,
-                title: "全平台订阅指南 · RSS",
-                excerpt: "开放、自由的互联网需要RSS。通过RSS定制你的信息流，本指南介绍如何在全平台订阅本博客。",
-                date: "2026-03-01",
-                link: "post/post7.html",
-                image: "https://s41.ax1x.com/2026/03/02/pepKMAP.jpg"
-            },
-            {
-                id: 8,
-                title: "全平台订阅指南 · newsletter",
-                excerpt: "通过邮件订阅我的newsletter，每周精选文章直接送到你的收件箱。",
-                date: "2026-03-02",
-                link: "post/post8.html",
-                image: "https://s41.ax1x.com/2026/03/02/pepKu7t.jpg"
-            },
-            {
-                id: 9,
-                title: "21世纪，人与AI的命题，怎么破？",
-                excerpt: "人能否在技术中介化一切的进程中，继续作为目的、主体和责任者存在，使科技成为扩展自由的条件，而不是反过来把人改造成技术的条件、函数和燃料？",
-                date: "2026-10-17",
-                link: "post/post9.html",
-                image: "https://s41.ax1x.com/2026/10/17/pnw0AMT.jpg"
-            }
-        ];
-        
-        // 获取URL参数
+        let articles = [];
+
+        function esc(s) {
+            return String(s ?? '').replace(/[&<>"']/g, c => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            })[c]);
+        }
+
+        async function loadArticles() {
+            const res = await fetch('articles.json', { cache: 'no-cache' });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return await res.json();
+        }
+
         function getQueryParam(name) {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(name);
         }
-        
-        // 高亮文本
+
         function highlightText(text, keyword) {
-            if (!keyword) return text;
+            const safe = esc(text);
+            if (!keyword) return safe;
             const regex = new RegExp(`(${keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-            return text.replace(regex, '<mark class="highlight">$1</mark>');
+            return safe.replace(regex, '<mark class="highlight">$1</mark>');
         }
-        
-        // 执行搜索
-        function performSearch(keyword) {
+
+        function emptyState(keyword) {
+            const stats = document.getElementById('searchStats');
+            const list = document.getElementById('resultsList');
             if (!keyword) {
-                document.getElementById('searchStats').textContent = '输入关键词开始搜索';
-                document.getElementById('resultsList').innerHTML = `
+                stats.textContent = '输入关键词开始搜索';
+                list.innerHTML = `
                     <div class="no-results">
                         <div class="no-results-icon">🔍</div>
                         <h3 class="no-results-title">输入关键词搜索文章</h3>
                         <p class="no-results-text">尝试搜索"GitHub"、"博客"、"生活"、"重庆"、"AI"等关键词</p>
-                    </div>
-                `;
+                    </div>`;
+            }
+        }
+
+        function performSearch(keyword) {
+            if (!keyword) {
+                emptyState('');
                 return;
             }
-            
-            // 更新URL
+
             const newUrl = `${window.location.pathname}?q=${encodeURIComponent(keyword)}`;
             window.history.pushState({ keyword }, '', newUrl);
-            
-            // 搜索文章
+
             const results = articles.filter(article => {
-                const searchText = `${article.title} ${article.excerpt}`.toLowerCase();
-                return searchText.includes(keyword.toLowerCase());
+                const haystack = [
+                    article.title,
+                    article.excerpt,
+                    ...(article.tags || [])
+                ].join(' ').toLowerCase();
+                return haystack.includes(keyword.toLowerCase());
             });
-            
-            // 显示结果
+
             const searchStats = document.getElementById('searchStats');
             const resultsList = document.getElementById('resultsList');
-            
+
             if (results.length === 0) {
                 searchStats.textContent = `没有找到与"${keyword}"相关的结果`;
                 resultsList.innerHTML = `
@@ -619,65 +355,60 @@
                         <div class="no-results-icon">🔎</div>
                         <h3 class="no-results-title">未找到相关文章</h3>
                         <p class="no-results-text">尝试使用其他关键词搜索</p>
-                    </div>
-                `;
-            } else {
-                searchStats.textContent = `找到 ${results.length} 条与"${keyword}"相关的结果`;
-                
-                let html = '';
-                results.forEach(article => {
-                    const highlightedTitle = highlightText(article.title, keyword);
-                    const highlightedExcerpt = highlightText(article.excerpt, keyword);
-                    
-                    html += `
-                        <div class="search-result-item">
-                            <div class="result-content">
-                                <a href="${article.link}" class="result-title">${highlightedTitle}</a>
-                                <div class="result-excerpt">${highlightedExcerpt}</div>
-                                <div class="result-date">${article.date}</div>
-                            </div>
-                            <div class="result-image">
-                                <a href="${article.link}">
-                                    <img src="${article.image}" alt="${article.title}">
-                                </a>
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                resultsList.innerHTML = html;
+                    </div>`;
+                return;
             }
+
+            searchStats.textContent = `找到 ${results.length} 条与"${keyword}"相关的结果`;
+            resultsList.innerHTML = results.map(article => `
+                <div class="search-result-item">
+                    <div class="result-content">
+                        <a href="${esc(article.link)}" class="result-title">${highlightText(article.title, keyword)}</a>
+                        <div class="result-excerpt">${highlightText(article.excerpt, keyword)}</div>
+                        <div class="result-date">${esc(article.date)}</div>
+                    </div>
+                    <div class="result-image">
+                        <a href="${esc(article.link)}">
+                            <img src="${esc(article.image)}" alt="${esc(article.title)}">
+                        </a>
+                    </div>
+                </div>
+            `).join('');
         }
-        
-        // 页面加载时执行
-        document.addEventListener('DOMContentLoaded', function() {
+
+        document.addEventListener('DOMContentLoaded', async function() {
             const searchForm = document.getElementById('searchForm');
             const searchInput = document.getElementById('searchInput');
-            
-            // 从URL获取搜索词
+
+            try {
+                articles = await loadArticles();
+            } catch (err) {
+                console.error('加载 articles.json 失败:', err);
+                document.getElementById('searchStats').textContent = '文章索引加载失败';
+                document.getElementById('resultsList').innerHTML = `
+                    <div class="no-results">
+                        <div class="no-results-icon">⚠️</div>
+                        <h3 class="no-results-title">索引加载失败</h3>
+                        <p class="no-results-text">请确认根目录下存在 articles.json</p>
+                    </div>`;
+                return;
+            }
+
             const initialKeyword = getQueryParam('q');
             if (initialKeyword) {
                 searchInput.value = initialKeyword;
                 performSearch(initialKeyword);
+            } else {
+                emptyState('');
+                setTimeout(() => searchInput.focus(), 300);
             }
-            
-            // 自动聚焦搜索框
-            if (!initialKeyword) {
-                setTimeout(() => {
-                    searchInput.focus();
-                }, 300);
-            }
-            
-            // 表单提交
+
             searchForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 const keyword = searchInput.value.trim();
-                if (keyword) {
-                    performSearch(keyword);
-                }
+                if (keyword) performSearch(keyword);
             });
-            
-            // 监听浏览器前进/后退
+
             window.addEventListener('popstate', function() {
                 const keyword = getQueryParam('q');
                 if (keyword) {
@@ -685,26 +416,17 @@
                     performSearch(keyword);
                 } else {
                     searchInput.value = '';
-                    performSearch('');
+                    emptyState('');
                 }
             });
-            
-            // 添加高亮样式
-            const style = document.createElement('style');
-            style.textContent = `
-                .highlight {
-                    background-color: rgba(89, 192, 144, 0.2);
-                    padding: 0 2px;
-                    border-radius: 2px;
-                    font-weight: 500;
-                }
-                
-                .search-input::placeholder {
-                    color: #999;
-                }
-            `;
-            document.head.appendChild(style);
         });
+
+        const style = document.createElement('style');
+        style.textContent = `
+            .highlight { background-color: rgba(89, 192, 144, 0.2); padding: 0 2px; border-radius: 2px; font-weight: 500; }
+            .search-input::placeholder { color: #999; }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
