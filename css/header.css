@@ -1,0 +1,64 @@
+header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: rgba(10,10,15,0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 12px 0;
+}
+.header-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
+}
+.logo { display: flex; align-items: center; gap: 8px; }
+.logo img { height: 36px; border-radius: 50%; }
+.logo-text { font-weight: 600; font-size: 1.2rem; color: rgba(255,255,255,0.95); }
+
+nav ul { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+nav ul li a { color: rgba(255,255,255,0.7); font-size: 0.9rem; transition: color 0.2s; }
+nav ul li a:hover { color: #fff; }
+
+/* 导航内嵌音乐播放器 */
+.music-controls-compact {
+    display: flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,0.06);
+    padding: 4px 10px 4px 6px;
+    border-radius: 30px;
+    border: 1px solid rgba(255,255,255,0.06);
+}
+.play-pause-btn-compact {
+    background: none; border: none; color: #fff; cursor: pointer;
+    font-size: 0.9rem; width: 28px; height: 28px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; background: rgba(255,255,255,0.06);
+}
+.play-pause-btn-compact .pause-icon { display: none; }
+.play-pause-btn-compact.playing .play-icon { display: none; }
+.play-pause-btn-compact.playing .pause-icon { display: inline; }
+.music-album-compact img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
+.music-title-compact { font-size: 0.75rem; color: rgba(255,255,255,0.8); white-space: nowrap; }
+
+/* 头部搜索框 */
+.header-search {
+    display: flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,0.06);
+    padding: 4px 8px 4px 12px;
+    border-radius: 30px;
+    border: 1px solid rgba(255,255,255,0.06);
+}
+.header-search input {
+    background: transparent; border: none; color: #fff;
+    padding: 4px 0; font-size: 0.85rem; outline: none; width: 120px;
+}
+.header-search input::placeholder { color: rgba(255,255,255,0.4); }
+.header-search button {
+    background: none; border: none; color: rgba(255,255,255,0.6);
+    cursor: pointer; font-size: 1rem;
+}
+
+@media (max-width: 640px) {
+    .header-inner { flex-direction: column; align-items: stretch; gap: 8px; }
+    nav ul { justify-content: center; }
+    .header-search { width: 100%; }
+    .header-search input { flex: 1; width: auto; }
+}
