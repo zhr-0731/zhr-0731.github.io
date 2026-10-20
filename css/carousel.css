@@ -1,0 +1,62 @@
+.carousel-section {
+    position: relative; height: 100vh; overflow: hidden;
+}
+.carousel-container {
+    position: relative; width: 100%; height: 100%;
+}
+.carousel-slide {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    opacity: 0; transition: opacity 0.8s ease;
+    pointer-events: none; /* 非激活 slide 不接收点击 */
+}
+.carousel-slide.active {
+    opacity: 1;
+    pointer-events: auto; /* 只有当前 slide 可点击 */
+}
+.carousel-link { display: block; width: 100%; height: 100%; position: relative; }
+.carousel-image { width: 100%; height: 100%; object-fit: cover; }
+.carousel-caption {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 40px 60px 50px;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+    color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.carousel-title { font-size: 2.2rem; font-weight: 600; margin-bottom: 6px; }
+.carousel-excerpt { font-size: 1.05rem; opacity: 0.85; max-width: 70%; line-height: 1.6; }
+
+.carousel-controls {
+    position: absolute; top: 50%; width: 100%; transform: translateY(-50%);
+    display: flex; justify-content: space-between; padding: 0 20px; z-index: 20;
+    pointer-events: none;
+}
+.carousel-btn {
+    pointer-events: auto;
+    background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);
+    border: 1px solid rgba(255,255,255,0.15); color: #fff;
+    width: 44px; height: 44px; border-radius: 50%; font-size: 1.3rem;
+    cursor: pointer; transition: background 0.2s;
+    display: flex; align-items: center; justify-content: center;
+}
+.carousel-btn:hover { background: rgba(0,0,0,0.6); }
+
+.carousel-indicators {
+    position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 10px; z-index: 20;
+}
+.indicator {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: rgba(255,255,255,0.35); cursor: pointer;
+    transition: background 0.2s, transform 0.2s; border: none; padding: 0;
+}
+.indicator.active { background: #fff; transform: scale(1.25); }
+
+@media (max-width: 1024px) {
+    .carousel-title { font-size: 1.8rem; }
+    .carousel-excerpt { font-size: 0.95rem; max-width: 100%; }
+}
+@media (max-width: 640px) {
+    .carousel-caption { padding: 20px 24px 30px; }
+    .carousel-title { font-size: 1.4rem; }
+    .carousel-excerpt { font-size: 0.85rem; }
+    .carousel-btn { width: 36px; height: 36px; font-size: 1rem; }
+}
