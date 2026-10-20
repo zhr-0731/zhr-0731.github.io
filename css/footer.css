@@ -1,0 +1,7 @@
+footer { padding: 30px 0; border-top: 1px solid rgba(255,255,255,0.06); text-align: center; }
+.footer-inner { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.footer-nav ul { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+.footer-nav a { color: rgba(255,255,255,0.6); font-size: 0.9rem; transition: color 0.2s; }
+.footer-nav a:hover { color: #fff; }
+.powered-by, .rss-subscribe { color: rgba(255,255,255,0.4); font-size: 0.8rem; }
+.rss-subscribe { display: inline-flex; align-items: center; gap: 6px; }
