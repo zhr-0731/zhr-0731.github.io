@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日一言</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            color: #fff;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            padding: 24px;
+        }
+        .quote-container {
+            text-align: center;
+            max-width: 95%;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .quote-container.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .quote-text {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: rgba(255,255,255,0.95);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+            word-break: break-word;
+        }
+        .quote-author {
+            font-size: 0.85rem;
+            color: #59c090;
+            font-style: italic;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="quote-container" id="quoteBox">
+        <div class="quote-text" id="quoteText">正在获取今日一言...</div>
+        <div class="quote-author" id="quoteAuthor"></div>
+    </div>
+
+    <script>
+        // 兜底本地句子（当API请求失败或超时时展示）
+        const FALLBACK_QUOTES = [
+            { text: "书山有路勤为径，学海无涯苦作舟。", author: "韩愈" },
+            { text: "生活不止眼前的苟且，还有诗和远方的田野。", author: "高晓松" },
+            { text: "人的一切痛苦，本质上都是对自己无能的愤怒。", author: "王小波" },
+            { text: "凡心所向，素履以往，生如逆旅，一苇以航。", author: "木心" },
+            { text: "世界上只有一种真正的英雄主义，那就是在认清生活的真相后依然热爱生活。", author: "罗曼·罗兰" }
+        ];
+
+        const quoteBox = document.getElementById('quoteBox');
+        const quoteText = document.getElementById('quoteText');
+        const quoteAuthor = document.getElementById('quoteAuthor');
+
+        // 渲染并显示动画
+        function renderQuote(text, author) {
+            quoteText.textContent = `“${text}”`;
+            quoteAuthor.textContent = author ? `—— ${author}` : '';
+            
+            // 轻微延迟触发CSS动画
+            setTimeout(() => {
+                quoteBox.classList.add('show');
+            }, 100);
+        }
+
+        // 展示兜底句子
+        function showFallback() {
+            const randomIndex = Math.floor(Math.random() * FALLBACK_QUOTES.length);
+            const quote = FALLBACK_QUOTES[randomIndex];
+            renderQuote(quote.text, quote.author);
+        }
+
+        // 请求一言API
+        async function fetchHitokoto() {
+            // 接口参数：选取 d(文学) e(原创) h(影视) i(诗词) k(哲学) 分类
+            const apiUrl = 'https://v1.hitokoto.cn/?c=d&c=e&c=h&c=i&c=k';
+            
+            try {
+                // 设置 5 秒超时，防止API抽风导致长时间空白
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+                const response = await fetch(apiUrl, { signal: controller.signal });
+                clearTimeout(timeoutId);
+
+                if (!response.ok) throw new Error('网络请求异常');
+
+                const data = await response.json();
+                
+                // 优先使用 from_who (作者) 或 from (出处) 作为署名
+                let author = '';
+                if (data.from_who && data.from) {
+                    author = `${data.from_who} 《${data.from}》`;
+                } else if (data.from) {
+                    author = `《${data.from}》`;
+                } else if (data.from_who) {
+                    author = data.from_who;
+                } else {
+                    author = '佚名';
+                }
+
+                renderQuote(data.hitokoto, author);
+            } catch (error) {
+                console.warn('一言API请求失败，已切换至兜底句子:', error);
+                showFallback(); // 网络错误、超时或API挂掉时，立刻展示兜底句子
+            }
+        }
+
+        // 页面加载后执行
+        window.addEventListener('DOMContentLoaded', fetchHitokoto);
+    </script>
+</body>
+</html>
