@@ -24,25 +24,25 @@
 
     <!-- 首页专属布局样式 -->
     <style>
-        /* 主容器：允许页面滚动，不再锁死高度，防止内容挤压重叠 */
+        /* 主容器：固定宽度与内边距，不再强行锁死 100vh */
         .hero-layout {
             display: flex;
             flex-direction: column;
-            min-height: calc(100vh - 85px); 
-            padding: 85px 20px 20px 20px;
+            gap: 20px; /* 上方区域和播放器之间的固定间距 */
+            padding: 85px 20px 20px 20px; /* 顶部避开导航栏 */
             max-width: 1400px;
             margin: 0 auto;
             box-sizing: border-box;
         }
 
-        /* 上半部分：左右分栏 */
+        /* 上半部分：纯固定高度 */
         .hero-top {
             display: grid;
             grid-template-columns: 1fr 2.2fr;
             gap: 15px;
-            flex: 1; 
-            /* 给上方区域设定最小高度，防止在屏幕较小时被压扁 */
-            min-height: 450px; 
+            /* 核心：写死高度。视口高度减去顶部(85) - 底部(66) - 间距(20+20) - 预留(10) */
+            height: calc(100vh - 201px); 
+            min-height: 450px; /* 防止在极小屏幕上被压扁 */
         }
 
         /* 左侧：窗口 1 和 2 */
@@ -94,14 +94,8 @@
 
         /* 下半部分：全宽音乐播放器 */
         .hero-bottom {
-            /* 高度严格匹配网易云 iframe，去除多余留白 */
             height: 66px;
             flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            /* 调整：紧密贴合上方，设置为 15px */
-            margin-top: 15px; 
         }
 
         /* 修饰网易云播放器的白底外观 */
@@ -111,6 +105,7 @@
             border: none;
             border-radius: 8px; 
             background: #fff;
+            display: block;
         }
 
         /* 响应式适配 */
@@ -120,7 +115,7 @@
             }
             .hero-top {
                 grid-template-columns: 1fr;
-                min-height: 750px;
+                height: 800px; /* 手机端纵向排列给固定大高度 */
             }
             .hero-left { height: 350px; }
             .hero-right { height: 400px; }
