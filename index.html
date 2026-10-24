@@ -24,12 +24,11 @@
 
     <!-- 首页专属布局样式 -->
     <style>
-        /* 主容器：改为上下垂直布局 */
+        /* 主容器：改为 min-height，允许内容撑开，防止挤压重叠 */
         .hero-layout {
             display: flex;
             flex-direction: column;
-            height: calc(100vh - 85px); 
-            /* 调整：底部 padding 改为 30px，防止贴底 */
+            min-height: calc(100vh - 85px); 
             padding: 85px 20px 30px 20px;
             max-width: 1400px;
             margin: 0 auto;
@@ -41,8 +40,9 @@
             display: grid;
             grid-template-columns: 1fr 2.2fr;
             gap: 15px;
-            flex: 1; /* 占据剩余所有高度 */
-            min-height: 0; /* 防止内容撑破 */
+            /* 给上方区域设定一个明确的高度，确保它不会因为内容缩水 */
+            height: 60vh; 
+            min-height: 420px;
         }
 
         /* 左侧：窗口 1 和 2 */
@@ -99,35 +99,36 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255, 255, 255, 0.03);
-            border: 2px dashed rgba(255, 255, 255, 0.15);
-            border-radius: 16px;
+            background: transparent; /* 移除深色背景，让网易云的白底自然显示 */
+            border: none; /* 移除边框 */
             padding: 0;
-            overflow: hidden;
-            /* 调整：下移一点（从 20px 增加到 35px），拉开与上方内容的间距 */
-            margin-top: 35px; 
+            /* 调整：大幅下移，从 35px 改为 60px */
+            margin-top: 60px; 
+            margin-bottom: 20px;
         }
 
+        /* 修饰网易云播放器的白底外观 */
         .music-iframe {
             width: 100%;
             height: 86px;
             border: none;
-            background: transparent;
+            border-radius: 12px; /* 给白底加个圆角好看些 */
+            background: #fff;
         }
 
         /* 响应式适配 */
         @media (max-width: 768px) {
             .hero-layout {
-                height: auto;
                 padding-top: 130px;
             }
             .hero-top {
                 grid-template-columns: 1fr;
+                height: auto;
             }
             .hero-left { height: 350px; }
             .hero-right { height: 400px; }
             .hero-bottom {
-                margin-top: 25px;
+                margin-top: 40px;
             }
         }
     </style>
@@ -183,7 +184,7 @@
         </div>
 
         <!-- 下半部分：全宽音乐播放器 -->
-        <div class="hero-bottom window-box">
+        <div class="hero-bottom">
             <iframe class="music-iframe" frameborder="no" border="0" marginwidth="0" marginheight="0" 
                     src="https://music.163.com/outchain/player?type=2&id=2022748660&auto=0&height=66">
             </iframe>
