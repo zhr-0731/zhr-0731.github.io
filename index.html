@@ -14,7 +14,7 @@
     <!-- 代码高亮 -->
     <link rel="stylesheet" href="https://zhr-0731.github.io/css/html/prism-tomorrow.min.css">
 
-    <!-- 站点样式（使用相对路径） -->
+    <!-- 站点样式 -->
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/carousel.css">
@@ -51,15 +51,21 @@
             height: 100%;
         }
         
+        /* ==========================================
+           核心修改：调深背景板颜色 + 增加毛玻璃效果
+           ========================================== */
         .window-box {
-            background: rgba(255, 255, 255, 0.03);
-            border: 2px dashed rgba(255, 255, 255, 0.15);
+            background: rgba(15, 15, 20, 0.75); /* 调深：深色半透明背景 */
+            backdrop-filter: blur(12px);        /* 增加背景模糊，提高文字对比度 */
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1); /* 边框改为实线，稍微提亮边缘 */
             border-radius: 16px;
             overflow: hidden;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); /* 加一点阴影更有质感 */
         }
 
         /* 窗口 1 & 2 黄金分割比例 */
@@ -178,10 +184,10 @@
             </div>
         </div>
 
-        <!-- 下半部分：网易云播放器 (歌单模式 type=0) -->
+        <!-- 下半部分：网易云播放器 -->
         <div class="hero-bottom">
             <iframe class="music-iframe" frameborder="no" border="0" marginwidth="0" marginheight="0" 
-                    src="https://music.163.com/outchain/player?type=0&id=8597656203&auto=1&height=86">
+                    src="https://music.163.com/outchain/player?type=0&id=316192152&auto=0&height=86">
             </iframe>
         </div>
 
@@ -232,17 +238,12 @@
     </footer>
 
     <!-- ================= 外部 JS 引用 ================= -->
-    <!-- 1. 背景模块 -->
     <script src="/js/weather-background.js"></script>
-
-    <!-- 2. 站点功能模块 (相对路径) -->
     <script src="js/utils.js"></script>
     <script src="js/articles.js"></script>
     <script src="js/carousel.js"></script>
     <script src="js/search.js"></script>
     <script src="js/index.js"></script>
-
-    <!-- 3. 主题切换 -->
     <script src="/js/theme.js"></script>
 </body>
 </html>
