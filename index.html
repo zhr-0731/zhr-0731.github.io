@@ -14,7 +14,7 @@
     <!-- 代码高亮 -->
     <link rel="stylesheet" href="https://zhr-0731.github.io/css/html/prism-tomorrow.min.css">
 
-    <!-- 站点样式 -->
+    <!-- 站点样式（使用相对路径） -->
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/carousel.css">
@@ -22,18 +22,20 @@
     <link rel="stylesheet" href="css/newsletter.css">
     <link rel="stylesheet" href="css/footer.css">
 
+    <!-- 首页专属布局样式 -->
     <style>
+        /* 主容器：不做高度限制，内容自然撑开 */
         .hero-layout {
             display: flex;
             flex-direction: column;
             gap: 20px;
-            padding: 85px 20px 20px 20px;
+            padding: 85px 20px 10px 20px;
             max-width: 1200px; 
             margin: 0 auto;
             box-sizing: border-box;
         }
 
-        /* 上方：固定 500px 保证日历宽松 */
+        /* 上半部分：固定高度 500px，保证日历和轮播的显示空间 */
         .hero-top {
             display: grid;
             grid-template-columns: 1fr 2.2fr;
@@ -41,6 +43,7 @@
             height: 500px; 
         }
 
+        /* 左侧：窗口 1 和 2 */
         .hero-left {
             display: flex;
             flex-direction: column;
@@ -52,16 +55,18 @@
             background: rgba(255, 255, 255, 0.03);
             border: 2px dashed rgba(255, 255, 255, 0.15);
             border-radius: 16px;
-            overflow: hidden; /* 这里的 hidden 是为了让 iframe 有圆角 */
+            overflow: hidden;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
+        /* 窗口 1 & 2 黄金分割比例 */
         #window-1 { flex: 0.618; }
         #window-2 { flex: 0.382; }
 
+        /* 右侧轮播图 */
         .hero-right {
             position: relative;
             border-radius: 16px;
@@ -76,6 +81,7 @@
             position: relative;
         }
 
+        /* 内嵌网页样式 */
         .window-box iframe:not(.music-iframe) {
             width: 100%;
             height: 100%;
@@ -83,7 +89,7 @@
             background: transparent;
         }
 
-        /* 修复播放器：黑框高度给足 110px */
+        /* 下半部分：播放器容器，给足 110px 防止被切边 */
         .hero-bottom {
             height: 110px; 
             width: 100%;
@@ -93,20 +99,22 @@
             flex-shrink: 0;
         }
 
-        /* 修复播放器：红框直接撑满黑框，不设死高度 */
+        /* 网易云播放器 */
         .music-iframe {
             width: 100%;
-            height: 100%; /* 关键：和父容器一样高 */
+            height: 100%;
             border: none;
             border-radius: 12px; 
             background: #fff;
             display: block; 
         }
 
+        /* 让文章卡片贴紧播放器 */
         .main-content {
             padding-top: 20px !important; 
         }
 
+        /* 响应式适配 */
         @media (max-width: 768px) {
             .hero-layout {
                 padding-top: 130px;
@@ -115,12 +123,13 @@
                 grid-template-columns: 1fr;
                 height: auto; 
             }
-            .hero-left { height: 400px; } /* 手机端给足高度 */
+            .hero-left { height: 400px; }
             .hero-right { height: 400px; }
         }
     </style>
 </head>
 <body>
+    <!-- 导航栏 -->
     <header>
         <div class="container">
             <div class="header-inner">
@@ -142,8 +151,12 @@
         </div>
     </header>
 
+    <!-- 主视觉区域 -->
     <section class="hero-layout">
+        
+        <!-- 上半部分：左右分栏 -->
         <div class="hero-top">
+            <!-- 左侧：日历与每日一言 -->
             <div class="hero-left">
                 <div id="window-1" class="window-box">
                     <iframe src="widget/div-1.html" scrolling="no"></iframe>
@@ -152,6 +165,8 @@
                     <iframe src="widget/div-2.html" scrolling="no"></iframe>
                 </div>
             </div>
+
+            <!-- 右侧：轮播图 -->
             <div class="hero-right">
                 <div class="carousel-container" id="carouselContainer">
                     <div class="carousel-controls">
@@ -163,20 +178,23 @@
             </div>
         </div>
 
-        <!-- 父容器高度 110px，完全包裹住内部的 86px 网易云 -->
+        <!-- 下半部分：网易云播放器 (歌单模式 type=0) -->
         <div class="hero-bottom">
             <iframe class="music-iframe" frameborder="no" border="0" marginwidth="0" marginheight="0" 
-                    src="https://music.163.com/outchain/player?type=2&id=2022748660&auto=0&height=86">
+                    src="https://music.163.com/outchain/player?type=0&id=316192152&auto=0&height=86">
             </iframe>
         </div>
+
     </section>
 
+    <!-- 文章列表 -->
     <main class="main-content container">
         <div class="post-feed" id="postFeed">
             <div class="feed-status">正在加载文章…</div>
         </div>
     </main>
 
+    <!-- Newsletter -->
     <section class="newsletter-section container">
         <div class="newsletter-card">
             <h2 class="newsletter-title">订阅我的 newsletter</h2>
@@ -196,6 +214,7 @@
         </div>
     </section>
 
+    <!-- 页脚 -->
     <footer>
         <div class="container">
             <div class="footer-inner">
@@ -212,12 +231,18 @@
         </div>
     </footer>
 
+    <!-- ================= 外部 JS 引用 ================= -->
+    <!-- 1. 背景模块 -->
     <script src="/js/weather-background.js"></script>
+
+    <!-- 2. 站点功能模块 (相对路径) -->
     <script src="js/utils.js"></script>
     <script src="js/articles.js"></script>
     <script src="js/carousel.js"></script>
     <script src="js/search.js"></script>
     <script src="js/index.js"></script>
+
+    <!-- 3. 主题切换 -->
     <script src="/js/theme.js"></script>
 </body>
 </html>
