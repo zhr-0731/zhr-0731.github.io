@@ -24,28 +24,24 @@
 
     <!-- 首页专属布局样式 -->
     <style>
-        /* 主容器 */
         .hero-layout {
             display: flex;
             flex-direction: column;
             gap: 20px;
-            padding: 85px 20px 20px 20px;
+            padding: 85px 20px 10px 20px;
             max-width: 1200px; 
             margin: 0 auto;
             box-sizing: border-box;
         }
 
-        /* 上半部分：缩短高度，给下方文章卡片留出展示空间 */
+        /* 上半部分 */
         .hero-top {
             display: grid;
             grid-template-columns: 1fr 2.2fr;
             gap: 15px;
-            /* 核心修改：高度改为屏幕高度的 55%，不再占满全屏 */
-            height: 55vh; 
-            min-height: 380px; /* 保证小屏幕上不被压得太惨 */
+            height: 480px; 
         }
 
-        /* 左侧：窗口 1 和 2 */
         .hero-left {
             display: flex;
             flex-direction: column;
@@ -62,15 +58,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: rgba(255, 255, 255, 0.3);
-            font-size: 1.2rem;
         }
 
-        /* 窗口 1 & 2 黄金分割比例 */
         #window-1 { flex: 0.618; }
         #window-2 { flex: 0.382; }
 
-        /* 右侧轮播图 */
         .hero-right {
             position: relative;
             border-radius: 16px;
@@ -92,39 +84,43 @@
             background: transparent;
         }
 
-        /* 下半部分：全宽音乐播放器 */
+        /* 核心修改：给足 100px 高度，防止网易云底部被裁 */
         .hero-bottom {
-            height: 86px; 
+            height: 100px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
             flex-shrink: 0;
         }
 
-        /* 修饰网易云播放器的白底外观 */
+        /* 核心修改：设置 display: block; 消除 iframe 底部留白 */
         .music-iframe {
             width: 100%;
             height: 86px;
             border: none;
             border-radius: 12px; 
             background: #fff;
-            display: block;
+            display: block; 
         }
 
-        /* 响应式适配 */
+        .main-content {
+            padding-top: 20px !important; 
+        }
+
         @media (max-width: 768px) {
             .hero-layout {
                 padding-top: 130px;
             }
             .hero-top {
                 grid-template-columns: 1fr;
-                height: 800px; 
+                height: auto; 
             }
             .hero-left { height: 350px; }
             .hero-right { height: 400px; }
-            .hero-bottom, .music-iframe { height: 86px; }
         }
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
     <header>
         <div class="container">
             <div class="header-inner">
@@ -146,12 +142,8 @@
         </div>
     </header>
 
-    <!-- 主视觉区域 -->
     <section class="hero-layout">
-        
-        <!-- 上半部分：左右分栏 -->
         <div class="hero-top">
-            <!-- 左侧：窗口 1 和 2 -->
             <div class="hero-left">
                 <div id="window-1" class="window-box">
                     <iframe src="widget/div-1.html" scrolling="no"></iframe>
@@ -160,8 +152,6 @@
                     <iframe src="widget/div-2.html" scrolling="no"></iframe>
                 </div>
             </div>
-
-            <!-- 右侧：轮播图 -->
             <div class="hero-right">
                 <div class="carousel-container" id="carouselContainer">
                     <div class="carousel-controls">
@@ -173,23 +163,20 @@
             </div>
         </div>
 
-        <!-- 下半部分：全宽音乐播放器 -->
+        <!-- 给足 100px 高度 -->
         <div class="hero-bottom">
             <iframe class="music-iframe" frameborder="no" border="0" marginwidth="0" marginheight="0" 
                     src="https://music.163.com/outchain/player?type=2&id=2022748660&auto=0&height=86">
             </iframe>
         </div>
-
     </section>
 
-    <!-- 文章列表 -->
     <main class="main-content container">
         <div class="post-feed" id="postFeed">
             <div class="feed-status">正在加载文章…</div>
         </div>
     </main>
 
-    <!-- Newsletter -->
     <section class="newsletter-section container">
         <div class="newsletter-card">
             <h2 class="newsletter-title">订阅我的 newsletter</h2>
@@ -209,7 +196,6 @@
         </div>
     </section>
 
-    <!-- 页脚 -->
     <footer>
         <div class="container">
             <div class="footer-inner">
@@ -226,7 +212,6 @@
         </div>
     </footer>
 
-    <!-- ================= 外部 JS 引用 ================= -->
     <script src="/js/weather-background.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/articles.js"></script>
