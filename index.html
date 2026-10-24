@@ -6,15 +6,15 @@
     <title>zhr的博客 - 随便写写</title>
     <meta name="description" content="zhr的个人博客">
 
-    <!-- 网页图标 -->
+    <!-- 网页图标 (保留绝对路径) -->
     <link rel="icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png" type="image/png">
     <link rel="shortcut icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png" type="image/png">
     <link rel="apple-touch-icon" href="https://s41.ax1x.com/2025/12/07/pZnSiid.png">
 
-    <!-- 代码高亮 -->
+    <!-- 代码高亮 (保留绝对路径) -->
     <link rel="stylesheet" href="https://zhr-0731.github.io/css/html/prism-tomorrow.min.css">
 
-    <!-- 站点样式 -->
+    <!-- 站点样式（使用相对路径） -->
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/carousel.css">
@@ -38,7 +38,7 @@
         .hero-left {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 15px;
             height: 100%;
         }
         
@@ -55,9 +55,25 @@
             font-size: 1.2rem;
         }
 
-        /* 黄金分割比 */
+        /* 窗口 1 & 2 黄金分割比例 */
         #window-1 { flex: 0.618; }
         #window-2 { flex: 0.382; }
+
+        /* 窗口 3：网易云播放器 */
+        #window-3 {
+            height: 86px;
+            flex-shrink: 0;
+            padding: 0;
+            background: transparent;
+            border: none;
+        }
+        #window-3 iframe {
+            width: 100%;
+            max-width: 330px;
+            height: 86px;
+            border: none;
+            border-radius: 12px;
+        }
 
         .hero-right {
             position: relative;
@@ -73,7 +89,7 @@
             position: relative;
         }
 
-        .window-box iframe {
+        .window-box iframe:not(#window-3 iframe) {
             width: 100%;
             height: 100%;
             border: none;
@@ -86,7 +102,7 @@
                 height: auto;
                 padding-top: 130px;
             }
-            .hero-left { height: 350px; }
+            .hero-left { height: 450px; }
             .hero-right { height: 400px; }
         }
     </style>
@@ -102,18 +118,6 @@
                 </div>
                 <nav>
                     <ul>
-                        <li class="nav-music-player">
-                            <div class="music-controls-compact">
-                                <button class="play-pause-btn-compact" id="playPauseBtnCompact">
-                                    <span class="play-icon">▶</span>
-                                    <span class="pause-icon">❚❚</span>
-                                </button>
-                                <div class="music-album-compact">
-                                    <img src="https://s41.ax1x.com/2026/01/10/pZ0cJLq.jpg" alt="专辑封面">
-                                </div>
-                                <div class="music-title-compact" id="musicTitleCompact">点击播放</div>
-                            </div>
-                        </li>
                         <li><a href="index.html">文章|Article</a></li>
                         <li><a href="https://zhr-0731.github.io/zhr-s-videos">视频|Video</a></li>
                     </ul>
@@ -126,23 +130,28 @@
         </div>
     </header>
 
-    <!-- 背景音乐 -->
-    <audio id="backgroundMusic" loop autoplay>
-        <source src="https://rscdn.ajmide.com/r_1700/nglive_1700.m3u8" type="application/vnd.apple.mpegurl">
-        您的浏览器不支持音频播放
-    </audio>
-
     <!-- 主视觉区域 -->
     <section class="hero-layout">
         <div class="hero-left">
+            <!-- 窗口 1：日历 -->
             <div id="window-1" class="window-box">
                 <iframe src="widget/div-1.html" scrolling="no"></iframe>
             </div>
+            
+            <!-- 窗口 2：每日一言 -->
             <div id="window-2" class="window-box">
                 <iframe src="widget/div-2.html" scrolling="no"></iframe>
             </div>
+
+            <!-- 窗口 3：网易云外链播放器 -->
+            <div id="window-3" class="window-box">
+                <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" 
+                        src="https://music.163.com/outchain/player?type=2&id=2022748660&auto=0&height=66">
+                </iframe>
+            </div>
         </div>
 
+        <!-- 右侧轮播 -->
         <div class="hero-right">
             <div class="carousel-container" id="carouselContainer">
                 <div class="carousel-controls">
@@ -198,14 +207,18 @@
         </div>
     </footer>
 
-    <!-- 外部 JS 引用 -->
+    <!-- ================= 外部 JS 引用 ================= -->
+    <!-- 1. 背景模块 -->
     <script src="/js/weather-background.js"></script>
+
+    <!-- 2. 站点功能模块 (相对路径) -->
     <script src="js/utils.js"></script>
     <script src="js/articles.js"></script>
     <script src="js/carousel.js"></script>
-    <script src="js/music.js"></script>
     <script src="js/search.js"></script>
     <script src="js/index.js"></script>
+
+    <!-- 3. 主题切换 -->
     <script src="/js/theme.js"></script>
 </body>
 </html>
