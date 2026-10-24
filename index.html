@@ -24,25 +24,25 @@
 
     <!-- 首页专属布局样式 -->
     <style>
-        /* 主容器：固定宽度与内边距，不再强行锁死 100vh */
+        /* 主容器 */
         .hero-layout {
             display: flex;
             flex-direction: column;
-            gap: 20px; /* 上方区域和播放器之间的固定间距 */
-            padding: 85px 20px 20px 20px; /* 顶部避开导航栏 */
-            max-width: 1400px;
+            gap: 20px;
+            padding: 85px 20px 20px 20px;
+            max-width: 1200px; 
             margin: 0 auto;
             box-sizing: border-box;
         }
 
-        /* 上半部分：纯固定高度 */
+        /* 上半部分：缩短高度，给下方文章卡片留出展示空间 */
         .hero-top {
             display: grid;
             grid-template-columns: 1fr 2.2fr;
             gap: 15px;
-            /* 核心：写死高度。视口高度减去顶部(85) - 底部(66) - 间距(20+20) - 预留(10) */
-            height: calc(100vh - 201px); 
-            min-height: 450px; /* 防止在极小屏幕上被压扁 */
+            /* 核心修改：高度改为屏幕高度的 55%，不再占满全屏 */
+            height: 55vh; 
+            min-height: 380px; /* 保证小屏幕上不被压得太惨 */
         }
 
         /* 左侧：窗口 1 和 2 */
@@ -94,16 +94,16 @@
 
         /* 下半部分：全宽音乐播放器 */
         .hero-bottom {
-            height: 66px;
+            height: 86px; 
             flex-shrink: 0;
         }
 
         /* 修饰网易云播放器的白底外观 */
         .music-iframe {
             width: 100%;
-            height: 66px;
+            height: 86px;
             border: none;
-            border-radius: 8px; 
+            border-radius: 12px; 
             background: #fff;
             display: block;
         }
@@ -115,10 +115,11 @@
             }
             .hero-top {
                 grid-template-columns: 1fr;
-                height: 800px; /* 手机端纵向排列给固定大高度 */
+                height: 800px; 
             }
             .hero-left { height: 350px; }
             .hero-right { height: 400px; }
+            .hero-bottom, .music-iframe { height: 86px; }
         }
     </style>
 </head>
@@ -175,7 +176,7 @@
         <!-- 下半部分：全宽音乐播放器 -->
         <div class="hero-bottom">
             <iframe class="music-iframe" frameborder="no" border="0" marginwidth="0" marginheight="0" 
-                    src="https://music.163.com/outchain/player?type=2&id=2022748660&auto=0&height=66">
+                    src="https://music.163.com/outchain/player?type=2&id=2022748660&auto=0&height=86">
             </iframe>
         </div>
 
