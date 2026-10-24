@@ -14,7 +14,7 @@
     <!-- 代码高亮 -->
     <link rel="stylesheet" href="https://zhr-0731.github.io/css/html/prism-tomorrow.min.css">
 
-    <!-- 站点样式（使用相对路径） -->
+    <!-- 站点样式 -->
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/carousel.css">
@@ -22,24 +22,23 @@
     <link rel="stylesheet" href="css/newsletter.css">
     <link rel="stylesheet" href="css/footer.css">
 
-    <!-- 首页专属布局样式 -->
     <style>
         .hero-layout {
             display: flex;
             flex-direction: column;
             gap: 20px;
-            padding: 85px 20px 10px 20px;
+            padding: 85px 20px 20px 20px;
             max-width: 1200px; 
             margin: 0 auto;
             box-sizing: border-box;
         }
 
-        /* 上半部分 */
+        /* 上方：固定 500px 保证日历宽松 */
         .hero-top {
             display: grid;
             grid-template-columns: 1fr 2.2fr;
             gap: 15px;
-            height: 480px; 
+            height: 500px; 
         }
 
         .hero-left {
@@ -53,7 +52,7 @@
             background: rgba(255, 255, 255, 0.03);
             border: 2px dashed rgba(255, 255, 255, 0.15);
             border-radius: 16px;
-            overflow: hidden;
+            overflow: hidden; /* 这里的 hidden 是为了让 iframe 有圆角 */
             position: relative;
             display: flex;
             align-items: center;
@@ -84,19 +83,20 @@
             background: transparent;
         }
 
-        /* 核心修改：给足 100px 高度，防止网易云底部被裁 */
+        /* 修复播放器：黑框高度给足 110px */
         .hero-bottom {
-            height: 100px; 
+            height: 110px; 
+            width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
         }
 
-        /* 核心修改：设置 display: block; 消除 iframe 底部留白 */
+        /* 修复播放器：红框直接撑满黑框，不设死高度 */
         .music-iframe {
             width: 100%;
-            height: 86px;
+            height: 100%; /* 关键：和父容器一样高 */
             border: none;
             border-radius: 12px; 
             background: #fff;
@@ -115,7 +115,7 @@
                 grid-template-columns: 1fr;
                 height: auto; 
             }
-            .hero-left { height: 350px; }
+            .hero-left { height: 400px; } /* 手机端给足高度 */
             .hero-right { height: 400px; }
         }
     </style>
@@ -163,7 +163,7 @@
             </div>
         </div>
 
-        <!-- 给足 100px 高度 -->
+        <!-- 父容器高度 110px，完全包裹住内部的 86px 网易云 -->
         <div class="hero-bottom">
             <iframe class="music-iframe" frameborder="no" border="0" marginwidth="0" marginheight="0" 
                     src="https://music.163.com/outchain/player?type=2&id=2022748660&auto=0&height=86">
