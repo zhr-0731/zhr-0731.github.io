@@ -8,127 +8,57 @@ on:
     - cron: '0 2 * * *'
   workflow_dispatch:
 
-# 顶层零权限，各 job 按需授权
 permissions: {}
 
 jobs:
-  # ── 1. 工作流自身审计：zizmor + actionlint ──
+  # ── 1. 工作流自身审计：actionlint + zizmor ──
   workflow-audit:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      security-events: write
     steps:
-      - uses: step-security/harden-runner@v2   # TODO(pin): 固定为完整 SHA
+      - uses: actions/checkout@v4
         with:
-          egress-policy: audit
+          persist-credentials: false
 
-      - uses: actions/checkout@v4              # TODO(pin)
+      - name: actionlint
+        uses: raven-actions/actionlint@v2
+
+      - name: zizmor（发现即失败）
+        uses: zizmorcore/zizmor-action@v0.7.0
         with:
-          persist-credentials: false           # 防止 token 残留在 .git/config
+          advanced-security: false   # 私有仓库免费模式：日志输出 + 失败 job
+          min-severity: medium
 
-      - name: actionlint（语法与常见错误）
-        uses: raven-actions/actionlint@v2      # TODO(pin)
-
-      - name: zizmor（工作流安全静态分析）
-        uses: zizmorcore/zizmor-action@v0.2.0  # TODO(pin)
-        with:
-          advanced-security: true              # 结果上传到 Code Scanning
-
-  # ── 2. 依赖审查（PR 阶段阻断高危依赖） ──
-  dependency-review:
+  # ── 2. 依赖审查：OSV-Scanner（PR 增量） ──
+  dependency-scan:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pull-requests: write
+      pull-requests: write   # 允许在 PR 中评论结果（不需要 GHAS）
     steps:
-      - uses: step-security/harden-runner@v2   # TODO(pin)
-        with:
-          egress-policy: audit
-
-      - uses: actions/checkout@v4              # TODO(pin)
-
-      - uses: actions/dependency-review-action@v4  # TODO(pin)
-        with:
-          fail-on-severity: high
-          comment-summary-in-pr: on-failure
-
-  # ── 3. CodeQL SAST ──
-  codeql:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      security-events: write
-    strategy:
-      fail-fast: false
-      matrix:
-        language: ['javascript-typescript']    # 按仓库实际语言调整
-    steps:
-      - uses: step-security/harden-runner@v2   # TODO(pin)
-        with:
-          egress-policy: audit
-
-      - uses: actions/checkout@v4              # TODO(pin)
-
-      - uses: github/codeql-action/init@v3     # TODO(pin)
-        with:
-          languages: ${{ matrix.language }}
-
-      - uses: github/codeql-action/analyze@v3  # TODO(pin)
-
-  # ── 4. Trivy：文件系统 / IaC / 依赖漏洞 ──
-  trivy:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      security-events: write
-    steps:
-      - uses: step-security/harden-runner@v2   # TODO(pin)
-        with:
-          egress-policy: audit
-
-      - uses: actions/checkout@v4              # TODO(pin)
-
-      - name: Trivy fs & IaC scan
-        uses: aquasecurity/trivy-action@v0.35.0  # TODO(pin)
-        with:
-          scan-type: 'fs'
-          scan-ref: '.'
-          format: 'sarif'
-          output: 'trivy-results.sarif'
-          severity: 'HIGH,CRITICAL'
-          exit-code: '1'
-
-      - name: Upload Trivy SARIF
-        if: always()
-        uses: github/codeql-action/upload-sarif@v3  # TODO(pin)
-        with:
-          sarif_file: 'trivy-results.sarif'
-
-  # ── 5. OpenSSF Scorecard（定时态势评估） ──
-  scorecard:
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      security-events: write
-      id-token: write
-    steps:
-      - uses: step-security/harden-runner@v2   # TODO(pin)
-        with:
-          egress-policy: audit
-
-      - uses: actions/checkout@v4              # TODO(pin)
+      - uses: actions/checkout@v4
         with:
           persist-credentials: false
 
-      - uses: ossf/scorecard-action@v2.4.4     # TODO(pin)
+      - uses: google/osv-scanner-action/osv-scanner-action@v2
         with:
-          results_file: results.sarif
-          results_format: sarif
-          publish_results: true
+          scan-args: |-
+            --lockfile=./package-lock.json
+            --lockfile=./requirements.txt
+            --format=markdown
+            --output=osv-results.md
 
-      - uses: github/codeql-action/upload-sarif@v3  # TODO(pin)
+      - name: 在 PR 中评论结果
+        if: always()
+        uses: marocchino/sticky-pull-request-comment@v2
         with:
-          sarif_file: results.sarif
+          path: osv-results.md
+
+      - name: 高危/严重漏洞阻断合并
+        run: |
+          if grep -qE '\b(HIGH|CRITICAL)\b' osv-results.md; then
+            echo "❌ 检测到高危或严重依赖漏洞，PR 被阻断。"
+            exit 1
+          fi
