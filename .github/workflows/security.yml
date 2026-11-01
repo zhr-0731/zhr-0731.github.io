@@ -8,14 +8,15 @@ on:
     - cron: '0 2 * * *'
   workflow_dispatch:
 
+# 全局默认清空权限，按需在各个 Job 中分配（遵循最小权限原则）
 permissions: {}
 
 jobs:
-  # ── 1. CodeQL 官方代码扫描（修复了之前的配置问题） ──
+  # ── 1. CodeQL 官方代码扫描（整合了高级配置） ──
   codeql:
     runs-on: ubuntu-latest
     permissions:
-      security-events: write
+      security-events: write   # 需要此权限来上传扫描结果
       actions: read
       contents: read
     steps:
@@ -26,7 +27,8 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
-          languages: javascript # 注意：这里直接用 javascript，不要用 javascript-typescript
+          # 注意：这里必须写 javascript，不要写 javascript-typescript
+          languages: javascript
 
       - name: Autobuild
         uses: github/codeql-action/autobuild@v3
@@ -105,7 +107,7 @@ jobs:
           docker run --rm \
             -v "${{ github.workspace }}:/src" \
             -w /src \
-            semgrep/semgrep:1.183.0 \
+            semgrep/semgrep:latest \
             semgrep scan \
             --config=p/security-audit \
             --config=p/owasp-top-ten \
@@ -114,11 +116,11 @@ jobs:
             --error \
             --text
 
-  # ── 5. Trivy：修复报错逻辑，改为上传 SARIF 格式 ──
+  # ── 5. Trivy：修复版本号，改为上传 SARIF 格式 ──
   trivy:
     runs-on: ubuntu-latest
     permissions:
-      security-events: write   # 需要此权限来上传扫描结果
+      security-events: write   # 需要此权限来上传 SARIF
       contents: read
     steps:
       - uses: actions/checkout@v4
@@ -126,15 +128,16 @@ jobs:
           persist-credentials: false
 
       - name: Trivy fs & IaC 扫描
+        # 👇 修复：去掉了 0.36.0 前面的 v
         uses: aquasecurity/trivy-action@0.36.0
         with:
           scan-type: 'fs'
           scan-ref: '.'
-          format: 'sarif'            # 改为 SARIF 格式
-          output: 'trivy-results.sarif' # 输出到文件
+          format: 'sarif'
+          output: 'trivy-results.sarif'
           severity: 'HIGH,CRITICAL'
           ignore-unfixed: true
-          exit-code: '0'             # 设为 0，不再因为发现漏洞让整个 job 报错（红叉）
+          exit-code: '0'   # 设为 0，避免发现漏洞导致整个 Job 失败，结果交给安全面板展示
 
       - name: 上传 Trivy 结果到 GitHub 安全面板
         uses: github/codeql-action/upload-sarif@v3
