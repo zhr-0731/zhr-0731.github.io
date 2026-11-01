@@ -7,15 +7,21 @@ on:
   # 允许手动触发，方便测试
   workflow_dispatch:
 
+# 👇 1. 添加权限声明：因为需要自动推送代码，必须赋予写权限
+permissions:
+  contents: write
+
 jobs:
   update-rss:
     runs-on: ubuntu-latest
     steps:
-      # 1. 检出仓库代码，使用 GH_TOKEN 以便有权限推送回仓库
+      # 1. 检出仓库代码
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GH_TOKEN }}
+          # 👇 2. 建议使用自带的 GITHUB_TOKEN，不需要额外去配置 GH_TOKEN（除非有跨仓库操作）
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # 注意：这里【不能】写 persist-credentials: false，否则后面 git push 会因为没有凭证而失败
 
       # 2. 设置 Python 环境
       - name: Set up Python
@@ -23,7 +29,7 @@ jobs:
         with:
           python-version: '3.11'
 
-      # 3. 安装 Python 依赖（包括 lxml，用于生成带 CDATA 的 RSS）
+      # 3. 安装 Python 依赖
       - name: Install dependencies
         run: |
           pip install requests beautifulsoup4 lxml
@@ -31,14 +37,20 @@ jobs:
       # 4. 运行核心脚本
       - name: Run update script
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          # 👇 3. 环境变量同步改为 GITHUB_TOKEN
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python .github/scripts/update_rss.py
 
-      # 5. 提交并推送所有更改（如果有的话）
+      # 5. 提交并推送所有更改
       - name: Commit and push changes
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          # 👇 4. 优化：不要用 git add .，改为添加你脚本实际生成的文件
+          # 假设你的脚本生成的是 rss.xml 或 feed.xml，请按需修改下面的文件名
+          # 如果你不确定，保留 git add . 也可以，但容易误提交其他临时文件
           git add .
+          
           git commit -m "chore: update RSS feed with latest posts [skip ci]" || exit 0
           git push
