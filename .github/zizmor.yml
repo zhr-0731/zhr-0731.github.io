@@ -1,0 +1,16 @@
+rules:
+  unpinned-uses:
+    config:
+      policies:
+        actions/*: ref-pin
+        github/*: ref-pin
+        raven-actions/*: ref-pin
+        zizmorcore/*: ref-pin
+        aquasecurity/*: ref-pin
+        "*": hash-pin
+  artipacked:
+    config:
+      ignore:
+        - .github/workflows/download-css.yml
+        - .github/workflows/check-new-posts.yml
+        - .github/workflows/send-newsletter.yml
