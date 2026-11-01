@@ -14,10 +14,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Delete Workflow Runs
-        uses: Mattraks/delete-workflow-runs@v2.1.0
+        # 👇 修复：将 @v2.1.0 替换为完整的 Commit Hash (SHA)
+        uses: Mattraks/delete-workflow-runs@f9b7bf7bd6711a1f731a2c8c89e6b8ea2c2d12d3 # v2.1.0
         with:
-          # 以下参数是必须的，否则它不知道删哪个仓库、怎么删
           token: ${{ github.token }}
           repository: ${{ github.repository }}
-          retain_days: 7          # 保留最近 7 天的运行记录
-          keep_minimum_runs: 10    # 每种工作流至少保留最近的 5 次记录
+          retain_days: 7
+          keep_minimum_runs: 5
