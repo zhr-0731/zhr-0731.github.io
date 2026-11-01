@@ -76,7 +76,6 @@ jobs:
         run: |
           set -euo pipefail
           
-          # 👇 修复：使用 Bash 数组代替字符串拼接，完美通过 shellcheck 检查
           LOCK_FILES=()
           for f in package-lock.json yarn.lock pnpm-lock.yaml requirements.txt poetry.lock go.sum Cargo.lock; do
             [ -f "$f" ] && LOCK_FILES+=("-L" "$f")
@@ -117,7 +116,7 @@ jobs:
             --error \
             --text
 
-  # ── 5. Trivy：修复版本号，上传 SARIF 格式 ──
+  # ── 5. Trivy：修复版本标签 ──
   trivy:
     runs-on: ubuntu-latest
     permissions:
@@ -129,8 +128,8 @@ jobs:
           persist-credentials: false
 
       - name: Trivy fs & IaC 扫描
-        # 👇 修复：使用官方真实存在的版本号 0.28.0
-        uses: aquasecurity/trivy-action@0.28.0
+        # 👇 修复：目前 Trivy-action 最新的有效版本标签是 0.30.0
+        uses: aquasecurity/trivy-action@0.30.0
         with:
           scan-type: 'fs'
           scan-ref: '.'
