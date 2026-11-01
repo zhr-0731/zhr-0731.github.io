@@ -1,4 +1,4 @@
-name: Security Gate
+name: Free Security Gate
 
 on:
   pull_request:
@@ -11,7 +11,6 @@ on:
 permissions: {}
 
 jobs:
-  # ── 1. 工作流自身审计：actionlint + zizmor ──
   workflow-audit:
     runs-on: ubuntu-latest
     permissions:
@@ -23,15 +22,14 @@ jobs:
           persist-credentials: false
 
       - name: actionlint
-        uses: raven-actions/actionlint@v2
+        uses: raven-actions/actionlint@v2.2.0   # 锁定具体版本
 
       - name: zizmor
-        uses: zizmorcore/zizmor-action@v0.7.0
+        uses: zizmorcore/zizmor-action@v0.8.0   # 升级
         with:
           advanced-security: false
           min-severity: medium
 
-  # ── 2. 依赖漏洞扫描（OSV-Scanner CLI 方式） ──
   dependency-scan:
     if: github.event_name == 'pull_request' || github.event_name == 'push'
     runs-on: ubuntu-latest
@@ -44,7 +42,7 @@ jobs:
 
       - name: 安装 OSV-Scanner
         run: |
-          OSV_VERSION=1.9.2
+          OSV_VERSION=2.4.0
           curl -sSfL "https://github.com/google/osv-scanner/releases/download/v${OSV_VERSION}/osv-scanner_linux_amd64" \
             -o /usr/local/bin/osv-scanner
           chmod +x /usr/local/bin/osv-scanner
@@ -52,13 +50,13 @@ jobs:
       - name: 扫描锁文件并阻断高危
         run: |
           set -euo pipefail
-          LOCKFILES=""
+          LOCK_ARGS=""
           for f in package-lock.json yarn.lock pnpm-lock.yaml requirements.txt poetry.lock go.sum Cargo.lock; do
-            [ -f "$f" ] && LOCKFILES="$LOCKFILES --lockfile=$f"
+            [ -f "$f" ] && LOCK_ARGS="$LOCK_ARGS -L $f"
           done
-          [ -z "$LOCKFILES" ] && { echo "未发现锁文件，跳过"; exit 0; }
+          [ -z "$LOCK_ARGS" ] && { echo "未发现锁文件，跳过"; exit 0; }
 
-          osv-scanner $LOCKFILES --format=markdown --output=osv-results.md || true
+          osv-scanner scan $LOCK_ARGS --format=markdown --output=osv-results.md || true
 
           if grep -qiE '\b(HIGH|CRITICAL)\b' osv-results.md; then
             echo "❌ 检测到高危或严重依赖漏洞，PR 被阻断。"
@@ -67,7 +65,6 @@ jobs:
           fi
           echo "✅ 未发现高危依赖漏洞。"
 
-  # ── 3. SAST：Semgrep（Docker 方式，完全免费） ──
   semgrep:
     runs-on: ubuntu-latest
     permissions:
@@ -82,7 +79,7 @@ jobs:
           docker run --rm \
             -v "${{ github.workspace }}:/src" \
             -w /src \
-            semgrep/semgrep:latest \
+            semgrep/semgrep:1.183.0 \
             semgrep scan \
             --config=p/security-audit \
             --config=p/owasp-top-ten \
@@ -91,7 +88,6 @@ jobs:
             --error \
             --text
 
-  # ── 4. Trivy：依赖 + IaC + 文件系统（免费，无 SARIF 上传） ──
   trivy:
     runs-on: ubuntu-latest
     permissions:
@@ -102,7 +98,7 @@ jobs:
           persist-credentials: false
 
       - name: Trivy fs & IaC 扫描（发现即失败）
-        uses: aquasecurity/trivy-action@v0.35.0
+        uses: aquasecurity/trivy-action@v0.36.0   # 升级
         with:
           scan-type: 'fs'
           scan-ref: '.'
