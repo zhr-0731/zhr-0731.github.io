@@ -8,6 +8,10 @@ on:
     - cron: '0 2 * * *'  # 每日全量历史兜底
   workflow_dispatch:
 
+# 👇 1. 添加权限声明：扫描密钥只需要读取权限（修复 CodeQL 警告）
+permissions:
+  contents: read
+
 jobs:
   secret-scan:
     runs-on: ubuntu-latest
@@ -15,6 +19,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0  # 必须！浅克隆会让历史扫描形同虚设
+          # 👇 2. 禁用凭证持久化，防止第三方 Action 滥用 token
+          persist-credentials: false
 
       - name: Run Gitleaks (full history, strict)
         run: |
