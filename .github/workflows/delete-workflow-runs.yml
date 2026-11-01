@@ -1,19 +1,23 @@
-name: Delete old workflow runs
+name: Cleanup Old Workflow Runs
+
 on:
   schedule:
-    - cron: '0 0 * * 0' # 每周日运行
-  workflow_dispatch:
+    - cron: '0 0 * * 0' # 每周日 00:00 (UTC) 自动执行
+  workflow_dispatch:    # 允许手动触发测试
+
 permissions:
   actions: write
   contents: read
+
 jobs:
-  del_runs:
+  delete-runs:
     runs-on: ubuntu-latest
     steps:
-      - name: Delete workflow runs
-        uses: Mattraks/delete-workflow-runs@v2
+      - name: Delete Workflow Runs
+        uses: Mattraks/delete-workflow-runs@v2.1.0
         with:
+          # 以下参数是必须的，否则它不知道删哪个仓库、怎么删
           token: ${{ github.token }}
           repository: ${{ github.repository }}
-          retain_days: 7 # 只保留最近7天的记录
-          keep_minimum_runs: 5 # 每种工作流至少保留5条
+          retain_days: 7          # 保留最近 7 天的运行记录
+          keep_minimum_runs: 10    # 每种工作流至少保留最近的 5 次记录
