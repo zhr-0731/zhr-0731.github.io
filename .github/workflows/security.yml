@@ -1,0 +1,134 @@
+name: Security Gate
+
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+# 顶层零权限，各 job 按需授权
+permissions: {}
+
+jobs:
+  # ── 1. 工作流自身审计：zizmor + actionlint ──
+  workflow-audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: step-security/harden-runner@v2   # TODO(pin): 固定为完整 SHA
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@v4              # TODO(pin)
+        with:
+          persist-credentials: false           # 防止 token 残留在 .git/config
+
+      - name: actionlint（语法与常见错误）
+        uses: raven-actions/actionlint@v2      # TODO(pin)
+
+      - name: zizmor（工作流安全静态分析）
+        uses: zizmorcore/zizmor-action@v0.2.0  # TODO(pin)
+        with:
+          advanced-security: true              # 结果上传到 Code Scanning
+
+  # ── 2. 依赖审查（PR 阶段阻断高危依赖） ──
+  dependency-review:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: step-security/harden-runner@v2   # TODO(pin)
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@v4              # TODO(pin)
+
+      - uses: actions/dependency-review-action@v4  # TODO(pin)
+        with:
+          fail-on-severity: high
+          comment-summary-in-pr: on-failure
+
+  # ── 3. CodeQL SAST ──
+  codeql:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ['javascript-typescript']    # 按仓库实际语言调整
+    steps:
+      - uses: step-security/harden-runner@v2   # TODO(pin)
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@v4              # TODO(pin)
+
+      - uses: github/codeql-action/init@v3     # TODO(pin)
+        with:
+          languages: ${{ matrix.language }}
+
+      - uses: github/codeql-action/analyze@v3  # TODO(pin)
+
+  # ── 4. Trivy：文件系统 / IaC / 依赖漏洞 ──
+  trivy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: step-security/harden-runner@v2   # TODO(pin)
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@v4              # TODO(pin)
+
+      - name: Trivy fs & IaC scan
+        uses: aquasecurity/trivy-action@v0.35.0  # TODO(pin)
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'HIGH,CRITICAL'
+          exit-code: '1'
+
+      - name: Upload Trivy SARIF
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3  # TODO(pin)
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+  # ── 5. OpenSSF Scorecard（定时态势评估） ──
+  scorecard:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+      id-token: write
+    steps:
+      - uses: step-security/harden-runner@v2   # TODO(pin)
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@v4              # TODO(pin)
+        with:
+          persist-credentials: false
+
+      - uses: ossf/scorecard-action@v2.4.4     # TODO(pin)
+        with:
+          results_file: results.sarif
+          results_format: sarif
+          publish_results: true
+
+      - uses: github/codeql-action/upload-sarif@v3  # TODO(pin)
+        with:
+          sarif_file: results.sarif
