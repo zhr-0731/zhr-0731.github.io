@@ -7,28 +7,30 @@ jobs:
   download:
     runs-on: ubuntu-latest
     permissions:
-      contents: write       # 确保有写入权限
+      contents: write       # 确保有写入权限（必须）
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        # 💡 注意：因为最后要 git push，所以这里【绝对不能】写 persist-credentials: false
+        # checkout 默认会自动帮你配置好 git 的凭证，后续的 push 才能成功。
 
       - name: Create css directory
         run: mkdir -p css
 
       - name: Download CSS files
         run: |
-          curl -L -o css/screen.css "https://www.domon.cn/assets/built/screen.css?v=9649418e97"
-          curl -L -o css/cards.min.css "https://www.domon.cn/public/cards.min.css?v=9649418e97"
-          curl -L -o css/prism-tomorrow.min.css "https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism-tomorrow.min.css"
-          curl -L -o css/main.css "https://cdn.jsdelivr.net/ghost/sodo-search@~1.8/umd/main.css"
+          curl -sSL -o css/screen.css "https://www.domon.cn/assets/built/screen.css?v=9649418e97"
+          curl -sSL -o css/cards.min.css "https://www.domon.cn/public/cards.min.css?v=9649418e97"
+          curl -sSL -o css/prism-tomorrow.min.css "https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism-tomorrow.min.css"
+          curl -sSL -o css/main.css "https://cdn.jsdelivr.net/ghost/sodo-search@~1.8/umd/main.css"
+          # 加上了 -s (静默) 和 -S (显示错误) 参数，让日志更干净，如果下载失败也能看出来
 
       - name: Force add and commit
         run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git add -f css/                      # 强制添加（绕过 .gitignore，但你没有）
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add -f css/                      
           git commit -m "Download latest CSS assets" || echo "Nothing new to commit"
           git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # 💡 优化：去掉了原来的 env: GITHUB_TOKEN，因为 actions/checkout@v4 已经帮你处理好了推送凭证。
