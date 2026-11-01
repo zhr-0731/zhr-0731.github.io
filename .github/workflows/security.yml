@@ -16,6 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      actions: read
     steps:
       - uses: actions/checkout@v4
         with:
@@ -24,41 +25,88 @@ jobs:
       - name: actionlint
         uses: raven-actions/actionlint@v2
 
-      - name: zizmor（发现即失败）
+      - name: zizmor
         uses: zizmorcore/zizmor-action@v0.7.0
         with:
-          advanced-security: false   # 私有仓库免费模式：日志输出 + 失败 job
+          advanced-security: false
           min-severity: medium
 
-  # ── 2. 依赖审查：OSV-Scanner（PR 增量） ──
+  # ── 2. 依赖漏洞扫描（OSV-Scanner CLI 方式） ──
   dependency-scan:
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' || github.event_name == 'push'
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pull-requests: write   # 允许在 PR 中评论结果（不需要 GHAS）
     steps:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
 
-      - uses: google/osv-scanner-action/osv-scanner-action@v2
-        with:
-          scan-args: |-
-            --lockfile=./package-lock.json
-            --lockfile=./requirements.txt
-            --format=markdown
-            --output=osv-results.md
-
-      - name: 在 PR 中评论结果
-        if: always()
-        uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          path: osv-results.md
-
-      - name: 高危/严重漏洞阻断合并
+      - name: 安装 OSV-Scanner
         run: |
-          if grep -qE '\b(HIGH|CRITICAL)\b' osv-results.md; then
+          OSV_VERSION=1.9.2
+          curl -sSfL "https://github.com/google/osv-scanner/releases/download/v${OSV_VERSION}/osv-scanner_linux_amd64" \
+            -o /usr/local/bin/osv-scanner
+          chmod +x /usr/local/bin/osv-scanner
+
+      - name: 扫描锁文件并阻断高危
+        run: |
+          set -euo pipefail
+          LOCKFILES=""
+          for f in package-lock.json yarn.lock pnpm-lock.yaml requirements.txt poetry.lock go.sum Cargo.lock; do
+            [ -f "$f" ] && LOCKFILES="$LOCKFILES --lockfile=$f"
+          done
+          [ -z "$LOCKFILES" ] && { echo "未发现锁文件，跳过"; exit 0; }
+
+          osv-scanner $LOCKFILES --format=markdown --output=osv-results.md || true
+
+          if grep -qiE '\b(HIGH|CRITICAL)\b' osv-results.md; then
             echo "❌ 检测到高危或严重依赖漏洞，PR 被阻断。"
+            cat osv-results.md
             exit 1
           fi
+          echo "✅ 未发现高危依赖漏洞。"
+
+  # ── 3. SAST：Semgrep（Docker 方式，完全免费） ──
+  semgrep:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Semgrep 扫描（发现 ERROR 即失败）
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}:/src" \
+            -w /src \
+            semgrep/semgrep:latest \
+            semgrep scan \
+            --config=p/security-audit \
+            --config=p/owasp-top-ten \
+            --config=p/secrets \
+            --severity=ERROR \
+            --error \
+            --text
+
+  # ── 4. Trivy：依赖 + IaC + 文件系统（免费，无 SARIF 上传） ──
+  trivy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Trivy fs & IaC 扫描（发现即失败）
+        uses: aquasecurity/trivy-action@v0.35.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'table'
+          severity: 'HIGH,CRITICAL'
+          exit-code: '1'
+          ignore-unfixed: true
