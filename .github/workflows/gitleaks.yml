@@ -1,11 +1,11 @@
-name: Gitleaks Secret Scan
+name: Gitleaks Strict Gate
 
 on:
   pull_request:
   push:
     branches: [main, master]
   schedule:
-    - cron: '0 2 * * *' # 每日全量兜底扫描
+    - cron: '0 2 * * *'  # 每日全量历史兜底
   workflow_dispatch:
 
 jobs:
@@ -14,9 +14,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # 必须！默认浅克隆会让 Gitleaks 只能看到最新一条 commit
-      - uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }} # 组织仓库必需；个人仓库可删
-          GITLEAKS_CONFIG: .gitleaks.toml # 可选；不指定则使用内置规则
+          fetch-depth: 0  # 必须！浅克隆会让历史扫描形同虚设
+
+      - name: Run Gitleaks (full history, strict)
+        run: |
+          set -euo pipefail
+          GITLEAKS_VERSION=8.30.1
+          curl -sSfL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" \
+            -o gitleaks.tar.gz
+          tar -xzf gitleaks.tar.gz -C /usr/local/bin gitleaks
+
+          # 先扫描工作区（当前文件状态）
+          gitleaks detect --source . --no-git --config .gitleaks.toml \
+            --redact --no-banner --exit-code 1
+
+          # 再扫描完整 Git 历史（所有 commit）
+          gitleaks detect --source . --config .gitleaks.toml \
+            --redact --no-banner --exit-code 1
