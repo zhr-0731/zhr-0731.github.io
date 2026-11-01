@@ -8,17 +8,24 @@ on:
       - 'post/**'
   workflow_dispatch:
 
+# 👇 1. 添加明确的权限声明（修复 CodeQL 警告）
+permissions:
+  contents: read
+
 jobs:
   send:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        # 👇 2. 升级到 v4，并禁用凭证持久化（安全最佳实践）
+        uses: actions/checkout@v4
         with:
           fetch-depth: 2
+          persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        # 👇 3. 升级到 v5
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x'
 
