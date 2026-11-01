@@ -14,8 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Delete Workflow Runs
-        # 👇 修复：将 @v2.1.0 替换为完整的 Commit Hash (SHA)
-        uses: Mattraks/delete-workflow-runs@f9b7bf7bd6711a1f731a2c8c89e6b8ea2c2d12d3 # v2.1.0
+        # 👇 使用你提供的删除器 SHA 哈希
+        uses: Mattraks/delete-workflow-runs@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
         with:
           token: ${{ github.token }}
           repository: ${{ github.repository }}
