@@ -8,9 +8,11 @@ rules:
         zizmorcore/*: ref-pin
         aquasecurity/*: ref-pin
         "*": hash-pin
+
   artipacked:
-    config:
-      ignore:
-        - .github/workflows/download-css.yml
-        - .github/workflows/check-new-posts.yml
-        - .github/workflows/send-newsletter.yml
+    ignore:
+      # 以下工作流末尾均有 git push 操作，必须保留 checkout 默认凭证持久化
+      - download-css.yml
+      - check-new-posts.yml
+      - send-newsletter.yml
+      - build-articles.yml
