@@ -1,0 +1,22 @@
+name: Gitleaks Secret Scan
+
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+  schedule:
+    - cron: '0 2 * * *' # 每日全量兜底扫描
+  workflow_dispatch:
+
+jobs:
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # 必须！默认浅克隆会让 Gitleaks 只能看到最新一条 commit
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }} # 组织仓库必需；个人仓库可删
+          GITLEAKS_CONFIG: .gitleaks.toml # 可选；不指定则使用内置规则
