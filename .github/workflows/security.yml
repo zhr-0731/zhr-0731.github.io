@@ -8,15 +8,14 @@ on:
     - cron: '0 2 * * *'
   workflow_dispatch:
 
-# 全局默认清空权限，按需在各个 Job 中分配（遵循最小权限原则）
 permissions: {}
 
 jobs:
-  # ── 1. CodeQL 官方代码扫描（整合了高级配置） ──
+  # ── 1. CodeQL 官方代码扫描 ──
   codeql:
     runs-on: ubuntu-latest
     permissions:
-      security-events: write   # 需要此权限来上传扫描结果
+      security-events: write
       actions: read
       contents: read
     steps:
@@ -27,7 +26,6 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
-          # 注意：这里必须写 javascript，不要写 javascript-typescript
           languages: javascript
 
       - name: Autobuild
@@ -77,13 +75,16 @@ jobs:
       - name: 扫描锁文件并阻断高危
         run: |
           set -euo pipefail
-          LOCK_ARGS=""
+          
+          # 👇 修复：使用 Bash 数组代替字符串拼接，完美通过 shellcheck 检查
+          LOCK_FILES=()
           for f in package-lock.json yarn.lock pnpm-lock.yaml requirements.txt poetry.lock go.sum Cargo.lock; do
-            [ -f "$f" ] && LOCK_ARGS="$LOCK_ARGS -L $f"
+            [ -f "$f" ] && LOCK_FILES+=("-L" "$f")
           done
-          [ -z "$LOCK_ARGS" ] && { echo "未发现锁文件，跳过"; exit 0; }
+          
+          [ ${#LOCK_FILES[@]} -eq 0 ] && { echo "未发现锁文件，跳过"; exit 0; }
 
-          osv-scanner scan $LOCK_ARGS --format=markdown --output=osv-results.md || true
+          osv-scanner scan "${LOCK_FILES[@]}" --format=markdown --output=osv-results.md || true
 
           if grep -qiE '\b(HIGH|CRITICAL)\b' osv-results.md; then
             echo "❌ 检测到高危或严重依赖漏洞，PR 被阻断。"
@@ -116,11 +117,11 @@ jobs:
             --error \
             --text
 
-  # ── 5. Trivy：修复版本号，改为上传 SARIF 格式 ──
+  # ── 5. Trivy：修复版本号，上传 SARIF 格式 ──
   trivy:
     runs-on: ubuntu-latest
     permissions:
-      security-events: write   # 需要此权限来上传 SARIF
+      security-events: write
       contents: read
     steps:
       - uses: actions/checkout@v4
@@ -128,8 +129,8 @@ jobs:
           persist-credentials: false
 
       - name: Trivy fs & IaC 扫描
-        # 👇 修复：去掉了 0.36.0 前面的 v
-        uses: aquasecurity/trivy-action@0.36.0
+        # 👇 修复：使用官方真实存在的版本号 0.28.0
+        uses: aquasecurity/trivy-action@0.28.0
         with:
           scan-type: 'fs'
           scan-ref: '.'
@@ -137,7 +138,7 @@ jobs:
           output: 'trivy-results.sarif'
           severity: 'HIGH,CRITICAL'
           ignore-unfixed: true
-          exit-code: '0'   # 设为 0，避免发现漏洞导致整个 Job 失败，结果交给安全面板展示
+          exit-code: '0'
 
       - name: 上传 Trivy 结果到 GitHub 安全面板
         uses: github/codeql-action/upload-sarif@v3
