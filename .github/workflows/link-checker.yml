@@ -1,0 +1,29 @@
+name: Broken Link Checker
+
+on:
+  schedule:
+    - cron: '0 0 * * 1' # 每周一 00:00 (UTC) 自动执行
+  workflow_dispatch:    # 允许手动触发测试
+
+permissions:
+  contents: read
+  issues: write # 发现死链时可以自动创建 Issue 提醒你
+
+jobs:
+  link-checker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Lychee Broken Link Checker
+        # 👇 修复：将 @v2.9.0 替换为完整的 Commit Hash (SHA)
+        uses: lycheeverse/lychee-action@a9f5f82f69be9a07a4fc9bfc412379023c9b3eb6 # v2.9.0
+        with:
+          # 扫描所有 markdown 和 html 文件中的链接
+          args: --verbose --no-progress './**/*.md' './**/*.html'
+          fail: true # 如果有死链，工作流变红（会发邮件提醒你）
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
