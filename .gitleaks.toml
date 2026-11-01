@@ -1,0 +1,18 @@
+title = "项目敏感信息扫描白名单"
+
+[extend]
+useDefault = true # 保留 Gitleaks 内置的全部检测规则
+
+[allowlist]
+description = "项目级误报排除"
+
+# 按正则排除已知的安全占位符（例如文档示例中的 KEY）
+regexes = [
+  '''EXAMPLE_KEY_[A-Z0-9]{10,}''',
+]
+
+# 排除特定路径（例如配置文件自身包含示例规则）
+paths = [
+  '''\.gitleaks\.toml''',
+  '''docs/.*''', # 如果文档中大量出现示例密钥
+]
