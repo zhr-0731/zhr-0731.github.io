@@ -20,16 +20,16 @@ jobs:
 
       - name: Lychee Broken Link Checker
         id: lychee
-        # 👇 完美替换为你提供的 v2.9.0 哈希
+        # 👇 使用你指定的 lychee-action v2.9.0 哈希
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
         with:
           args: --verbose --no-progress './**/*.md' './**/*.html'
-          fail: false # 不直接报错，而是生成报告
+          fail: false
 
       - name: Create Issue From File
         if: steps.lychee.outputs.exit_code != 0
-        # 👇 提 Issue 工具（peter-evans v5）的 SHA 哈希
-        uses: peter-evans/create-issue-from-file@d5fd9d5b72d5f41355b09ebc8c8fb7a8205259b7 # v5
+        # 👇 修复：替换为 peter-evans/create-issue-from-file v5.0.0 的正确 SHA
+        uses: peter-evans/create-issue-from-file@24452a72d85239eacf1468b0f1982a9f3fec4c94 # v5.0.0
         with:
           title: "🔗 发现失效链接，请及时修复"
           content-filepath: ./lychee/out.md
