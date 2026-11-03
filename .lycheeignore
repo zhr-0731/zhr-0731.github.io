@@ -1,0 +1,5 @@
+# 忽略 GitHub 占位符链接
+yourusername\.github\.io
+
+# 忽略微信公众号文章链接（微信反爬虫会重定向到验证码页面导致误报）
+mp\.weixin\.qq\.com
