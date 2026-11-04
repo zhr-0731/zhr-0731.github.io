@@ -1,0 +1,95 @@
+name: Moderation Unblock
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  unblock:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Unblock expired users
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_PAT }}
+          script: |
+            const fs = require('fs');
+            const crypto = require('crypto');
+            const FILE = '.moderation/violations.json.enc';
+            const DAY = 24 * 3600 * 1000;
+
+            const keyB64 = process.env.MODERATION_ENC_KEY;
+            if (!keyB64) { core.setFailed('MODERATION_ENC_KEY missing'); return; }
+            const KEY = Buffer.from(keyB64, 'base64');
+
+            if (!fs.existsSync(FILE)) return;
+            const buf = fs.readFileSync(FILE);
+            if (buf.length < 28) return;
+            const iv = buf.subarray(0, 12);
+            const tag = buf.subarray(12, 28);
+            const data = buf.subarray(28);
+
+            let rec;
+            try {
+              const d = crypto.createDecipheriv('aes-256-gcm', KEY, iv);
+              d.setAuthTag(tag);
+              rec = JSON.parse(Buffer.concat([d.update(data), d.final()]).toString('utf8'));
+            } catch (e) {
+              core.setFailed(`decrypt failed: ${e.name}`);
+              return;
+            }
+
+            const now = Date.now();
+            let changed = false;
+
+            for (const [u, entry] of Object.entries(rec)) {
+              if (entry.permanent) continue;
+
+              // 优先用 ban_until；旧记录回退到 blocked_at + 7天
+              let until = null;
+              if (entry.ban_until) {
+                until = new Date(entry.ban_until).getTime();
+              } else if (entry.blocked_at) {
+                until = new Date(entry.blocked_at).getTime() + 7 * DAY;
+              }
+              if (until === null || now < until) continue;
+
+              const r = await fetch(`https://api.github.com/user/blocks/${encodeURIComponent(u)}`, {
+                method: 'DELETE',
+                headers: {
+                  'Authorization': `Bearer ${process.env.GH_PAT}`,
+                  'Accept': 'application/vnd.github+json',
+                },
+              });
+              if (r.ok || r.status === 204) {
+                delete entry.blocked_at;
+                delete entry.ban_until;
+                core.info(`unblocked ${u.slice(0, 4)}***`);
+                changed = true;
+              } else {
+                core.warning(`unblock http ${r.status}`);
+              }
+            }
+
+            if (changed) {
+              const nIv = crypto.randomBytes(12);
+              const c = crypto.createCipheriv('aes-256-gcm', KEY, nIv);
+              const nData = Buffer.concat([c.update(JSON.stringify(rec), 'utf8'), c.final()]);
+              fs.writeFileSync(FILE, Buffer.concat([nIv, c.getAuthTag(), nData]));
+            }
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+          MODERATION_ENC_KEY: ${{ secrets.MODERATION_ENC_KEY }}
+
+      - name: Commit encrypted record
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add .moderation/violations.json.enc
+          git diff --staged --quiet || git commit -m "chore: unblock expired"
+          git push
