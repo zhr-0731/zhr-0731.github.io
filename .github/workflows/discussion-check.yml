@@ -3,102 +3,197 @@ on:
   discussion_comment:
     types: [created]
 
-# 顶层声明：约束默认 GITHUB_TOKEN 的权限范围
 permissions:
-  contents: read        # 读取仓库内容（预留，当前步骤未 checkout，但保持最小可读）
-  discussions: write    # 隐藏评论（minimizeComment）所需的写权限
+  contents: write
+  discussions: write
 
 jobs:
   moderate:
     runs-on: ubuntu-latest
     steps:
-      - name: Analyze text and images
+      - uses: actions/checkout@v4
+
+      - name: Moderate, notify to #13, and persist encrypted record
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GH_PAT }}
           script: |
+            const fs = require('fs');
+            const crypto = require('crypto');
+            const API = 'https://uapis.cn/api/v1';
+            const FILE = '.moderation/violations.json.enc';
+            const NOTICE_DISCUSSION_NUMBER = 13;
+            const DAY = 24 * 3600 * 1000;
+            const H = s => crypto.createHash('sha256').update(String(s)).digest('hex').slice(0, 10);
+
+            const keyB64 = process.env.MODERATION_ENC_KEY;
+            if (!keyB64) { core.setFailed('MODERATION_ENC_KEY missing'); return; }
+            const KEY = Buffer.from(keyB64, 'base64');
+            if (KEY.length !== 32) { core.setFailed('MODERATION_ENC_KEY must decode to 32 bytes'); return; }
+
+            function loadRecord() {
+              if (!fs.existsSync(FILE)) return {};
+              const buf = fs.readFileSync(FILE);
+              if (buf.length < 28) return {};
+              const iv = buf.subarray(0, 12), tag = buf.subarray(12, 28), data = buf.subarray(28);
+              try {
+                const d = crypto.createDecipheriv('aes-256-gcm', KEY, iv);
+                d.setAuthTag(tag);
+                return JSON.parse(Buffer.concat([d.update(data), d.final()]).toString('utf8'));
+              } catch (e) { core.warning(`decrypt failed: ${e.name}`); return {}; }
+            }
+
+            function saveRecord(obj) {
+              const iv = crypto.randomBytes(12);
+              const c = crypto.createCipheriv('aes-256-gcm', KEY, iv);
+              const data = Buffer.concat([c.update(JSON.stringify(obj), 'utf8'), c.final()]);
+              fs.mkdirSync('.moderation', { recursive: true });
+              fs.writeFileSync(FILE, Buffer.concat([iv, c.getAuthTag(), data]));
+            }
+
             const comment = context.payload.comment;
             const body = comment.body || '';
-            const API = 'https://uapis.cn/api/v1';
-            const TIMEOUT = 15000;
+            const username = comment.user.login;
+            core.setSecret(body);
+            core.setSecret(username);
+            const cid = H(comment.node_id);
+            const uid = H(username);
 
-            // ---------- 1. 敏感词分析 ----------
+            // ---------- 文本敏感词 ----------
+            let sensitive = false;
             const keyword = body.slice(0, 1000);
-            let textSensitive = false;
             if (keyword.trim()) {
               try {
                 const resp = await fetch(`${API}/sensitive-word/analyze`, {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({ keyword }),
-                  signal: AbortSignal.timeout(TIMEOUT),
+                  signal: AbortSignal.timeout(15000),
                 });
                 if (resp.ok) {
                   const data = await resp.json();
-                  textSensitive = (data.results || []).some(r => r.label === 'sensitive');
-                  if (textSensitive) core.info('文本判定为敏感');
-                } else if (resp.status === 400) {
-                  core.warning('敏感词接口 400：参数无效');
-                } else if (resp.status === 429) {
-                  core.warning('敏感词接口 429：频率超限，跳过本次');
-                } else {
-                  core.warning(`敏感词接口返回 ${resp.status}`);
-                }
-              } catch (e) {
-                core.warning(`敏感词请求异常（网络/超时）：${e.message}`);
-              }
+                  sensitive = (data.results || []).some(r => r.label === 'sensitive');
+                  core.info(`[${cid}] analyze sensitive=${sensitive}`);
+                } else core.warning(`[${cid}] analyze http ${resp.status}`);
+              } catch (e) { core.warning(`[${cid}] analyze ${e.name}`); }
             }
 
-            // ---------- 2. 提取评论中的图片 URL ----------
+            // ---------- 图片敏感 ----------
             const urls = new Set();
             let m;
-            const mdImg = /!\[[^\]]*\]\(([^)\s]+)\)/g;
-            while ((m = mdImg.exec(body)) !== null) urls.add(m[1]);
+            const md = /!\[[^\]]*\]\(([^)\s]+)\)/g;
+            while ((m = md.exec(body)) !== null) urls.add(m[1]);
             const bare = /https?:\/\/[^\s)]+\.(?:jpg|jpeg|png|gif|webp)(?:\?[^\s)]*)?/gi;
             while ((m = bare.exec(body)) !== null) urls.add(m[0]);
 
-            // ---------- 3. 图片敏感检测 ----------
-            let imageBlock = false;
-            let imageReview = false;
+            let block = false, review = false;
             for (const u of urls) {
               try {
                 const form = new FormData();
                 form.append('url', u);
                 const resp = await fetch(`${API}/image/nsfw`, {
-                  method: 'POST',
-                  body: form,
-                  signal: AbortSignal.timeout(TIMEOUT),
+                  method: 'POST', body: form, signal: AbortSignal.timeout(15000),
                 });
                 if (resp.ok) {
-                  const data = await resp.json();
-                  core.info(`图片 ${u}: suggestion=${data.suggestion}, risk=${data.risk_level}`);
-                  if (data.suggestion === 'block' || data.is_nsfw) imageBlock = true;
-                  else if (data.suggestion === 'review') imageReview = true;
-                } else if (resp.status === 413) {
-                  core.warning(`图片超过 20MB：${u}`);
-                } else if (resp.status === 400) {
-                  core.warning(`图片参数错误（可能格式不支持）：${u}`);
-                } else if (resp.status === 500) {
-                  core.warning(`图片检测服务暂不可用：${u}`);
-                } else {
-                  core.warning(`图片检测返回 ${resp.status}：${u}`);
-                }
-              } catch (e) {
-                core.warning(`图片检测异常 ${u}：${e.message}`);
-              }
+                  const d = await resp.json();
+                  core.info(`[${cid}] image=${d.suggestion}`);
+                  if (d.suggestion === 'block' || d.is_nsfw) block = true;
+                  else if (d.suggestion === 'review') review = true;
+                } else core.warning(`[${cid}] image http ${resp.status}`);
+              } catch (e) { core.warning(`[${cid}] image ${e.name}`); }
             }
 
-            // ---------- 4. 处置 ----------
-            if (textSensitive || imageBlock) {
+            if (!sensitive && !block) {
+              if (review) core.info(`[${cid}] image review, keep`);
+              return;
+            }
+
+            // ---------- 删除违规评论 ----------
+            try {
               await github.graphql(
-                `mutation($id: ID!) {
-                  minimizeComment(input: {subjectId: $id, classifier: OFF_TOPIC}) {
-                    minimizedComment { isMinimized }
-                  }
-                }`,
+                `mutation($id: ID!) { deleteDiscussionComment(input: {id: $id}) { clientMutationId } }`,
                 { id: comment.node_id }
               );
-              core.info('已隐藏评论（文本敏感或图片高风险）');
-            } else if (imageReview) {
-              core.info('图片建议人工复核，评论保留');
+              core.info(`[${cid}] deleted`);
+            } catch (e) { core.warning(`[${cid}] delete ${e.name}`); }
+
+            // ---------- 更新记录与阶梯 ----------
+            const rec = loadRecord();
+            const entry = rec[username] || { count: 0 };
+            entry.count += 1;
+            entry.last_at = new Date().toISOString();
+
+            let banDays = 7, permanent = false, tier = '7d';
+            if (entry.count >= 7) { permanent = true; tier = 'permanent'; }
+            else if (entry.count >= 5) { banDays = 365; tier = '365d'; }
+            else if (entry.count >= 3) { banDays = 30; tier = '30d'; }
+            else { banDays = 7; tier = '7d'; }
+
+            const now = Date.now();
+            if (permanent) {
+              entry.permanent = true;
+              delete entry.ban_until;
+            } else {
+              delete entry.permanent;
+              entry.blocked_at = new Date(now).toISOString();
+              entry.ban_until = new Date(now + banDays * DAY).toISOString();
             }
+            rec[username] = entry;
+            saveRecord(rec);
+
+            // ---------- 阻止用户 ----------
+            try {
+              const r = await fetch(`https://api.github.com/user/blocks/${encodeURIComponent(username)}`, {
+                method: 'PUT',
+                headers: { 'Authorization': `Bearer ${process.env.GH_PAT}`, 'Accept': 'application/vnd.github+json' },
+              });
+              if (!r.ok && r.status !== 204) core.warning(`[${uid}] block ${r.status}`);
+            } catch (e) { core.warning(`[${uid}] block ${e.name}`); }
+            core.info(`[${uid}] count=${entry.count} penalty=${tier}`);
+
+            // ---------- 固定发送通知到 Discussion #13 ----------
+            try {
+              const repoQ = await github.graphql(`
+                query($owner: String!, $name: String!, $num: Int!) {
+                  repository(owner: $owner, name: $name) {
+                    discussion(number: $num) { id }
+                  }
+                }`, {
+                owner: context.repo.owner,
+                name: context.repo.repo,
+                num: NOTICE_DISCUSSION_NUMBER,
+              });
+
+              const noticeDiscussionId = repoQ.repository.discussion.id;
+              let noticeBody;
+              if (permanent) {
+                noticeBody = `@${username} 你的评论因违反社区规范已被移除。这是第 ${entry.count} 次违规，你已被**永久限制**在本仓库的互动权限。`;
+              } else {
+                const until = new Date(now + banDays * DAY).toISOString().slice(0, 10);
+                noticeBody = `@${username} 你的评论因违反社区规范已被移除。这是第 ${entry.count} 次违规，你已被限制在本仓库互动 **${banDays} 天**（至 ${until}）。`;
+              }
+              noticeBody += `\n\n> 本条通知由自动化审核系统发送，请勿回复。`;
+
+              await github.graphql(
+                `mutation($dId: ID!, $body: String!) {
+                  addDiscussionComment(input: {discussionId: $dId, body: $body}) {
+                    comment { id }
+                  }
+                }`,
+                { dId: noticeDiscussionId, body: noticeBody }
+              );
+              core.info(`[${uid}] notice sent to #${NOTICE_DISCUSSION_NUMBER}`);
+            } catch (e) {
+              core.warning(`[${uid}] notice failed ${e.name}`);
+            }
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+          MODERATION_ENC_KEY: ${{ secrets.MODERATION_ENC_KEY }}
+
+      - name: Commit encrypted record
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add .moderation/violations.json.enc
+          git diff --staged --quiet || git commit -m "chore: update moderation record"
+          git push
