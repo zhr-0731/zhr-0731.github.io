@@ -1,0 +1,104 @@
+name: Giscus Content Moderation
+on:
+  discussion_comment:
+    types: [created]
+
+# 顶层声明：约束默认 GITHUB_TOKEN 的权限范围
+permissions:
+  contents: read        # 读取仓库内容（预留，当前步骤未 checkout，但保持最小可读）
+  discussions: write    # 隐藏评论（minimizeComment）所需的写权限
+
+jobs:
+  moderate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Analyze text and images
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_PAT }}
+          script: |
+            const comment = context.payload.comment;
+            const body = comment.body || '';
+            const API = 'https://uapis.cn/api/v1';
+            const TIMEOUT = 15000;
+
+            // ---------- 1. 敏感词分析 ----------
+            const keyword = body.slice(0, 1000);
+            let textSensitive = false;
+            if (keyword.trim()) {
+              try {
+                const resp = await fetch(`${API}/sensitive-word/analyze`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ keyword }),
+                  signal: AbortSignal.timeout(TIMEOUT),
+                });
+                if (resp.ok) {
+                  const data = await resp.json();
+                  textSensitive = (data.results || []).some(r => r.label === 'sensitive');
+                  if (textSensitive) core.info('文本判定为敏感');
+                } else if (resp.status === 400) {
+                  core.warning('敏感词接口 400：参数无效');
+                } else if (resp.status === 429) {
+                  core.warning('敏感词接口 429：频率超限，跳过本次');
+                } else {
+                  core.warning(`敏感词接口返回 ${resp.status}`);
+                }
+              } catch (e) {
+                core.warning(`敏感词请求异常（网络/超时）：${e.message}`);
+              }
+            }
+
+            // ---------- 2. 提取评论中的图片 URL ----------
+            const urls = new Set();
+            let m;
+            const mdImg = /!\[[^\]]*\]\(([^)\s]+)\)/g;
+            while ((m = mdImg.exec(body)) !== null) urls.add(m[1]);
+            const bare = /https?:\/\/[^\s)]+\.(?:jpg|jpeg|png|gif|webp)(?:\?[^\s)]*)?/gi;
+            while ((m = bare.exec(body)) !== null) urls.add(m[0]);
+
+            // ---------- 3. 图片敏感检测 ----------
+            let imageBlock = false;
+            let imageReview = false;
+            for (const u of urls) {
+              try {
+                const form = new FormData();
+                form.append('url', u);
+                const resp = await fetch(`${API}/image/nsfw`, {
+                  method: 'POST',
+                  body: form,
+                  signal: AbortSignal.timeout(TIMEOUT),
+                });
+                if (resp.ok) {
+                  const data = await resp.json();
+                  core.info(`图片 ${u}: suggestion=${data.suggestion}, risk=${data.risk_level}`);
+                  if (data.suggestion === 'block' || data.is_nsfw) imageBlock = true;
+                  else if (data.suggestion === 'review') imageReview = true;
+                } else if (resp.status === 413) {
+                  core.warning(`图片超过 20MB：${u}`);
+                } else if (resp.status === 400) {
+                  core.warning(`图片参数错误（可能格式不支持）：${u}`);
+                } else if (resp.status === 500) {
+                  core.warning(`图片检测服务暂不可用：${u}`);
+                } else {
+                  core.warning(`图片检测返回 ${resp.status}：${u}`);
+                }
+              } catch (e) {
+                core.warning(`图片检测异常 ${u}：${e.message}`);
+              }
+            }
+
+            // ---------- 4. 处置 ----------
+            if (textSensitive || imageBlock) {
+              await github.graphql(
+                `mutation($id: ID!) {
+                  minimizeComment(input: {subjectId: $id, classifier: OFF_TOPIC}) {
+                    minimizedComment { isMinimized }
+                  }
+                }`,
+                { id: comment.node_id }
+              );
+              core.info('已隐藏评论（文本敏感或图片高风险）');
+            } else if (imageReview) {
+              core.info('图片建议人工复核，评论保留');
+            }
