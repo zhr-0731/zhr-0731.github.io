@@ -17,6 +17,7 @@ REPO_NAME = "zhr-0731.github.io"
 POST_FOLDER = "post"
 STATE_FILE = ".github/scripts/last_state.json"
 RSS_FILE = "rss.xml"
+STYLESHEET_URL = "https://zhr-0731.github.io/pretty-feed.xsl"
 GITHUB_TOKEN = os.environ.get("GH_TOKEN")
 # =================================================
 
@@ -114,6 +115,35 @@ def save_state(state):
     with open(STATE_FILE, 'w') as f:
         json.dump(state, f, indent=2)
 
+def ensure_stylesheet_pi(rss_file):
+    """
+    确保 RSS 文件中在 XML 声明之后包含样式表处理指令（PI）。
+    如果已存在则不重复添加。
+    """
+    if not os.path.exists(rss_file):
+        return
+
+    with open(rss_file, 'r', encoding='utf-8') as f:
+        content = f.read()
+
+    # 已经存在就直接返回（lxml 下次解析时会保留它）
+    if 'pretty-feed.xsl' in content:
+        return
+
+    pi = f'<?xml-stylesheet type="text/xsl" href="{STYLESHEET_URL}"?>'
+
+    # 在 XML 声明（第一个 ?>）之后插入
+    idx = content.find('?>')
+    if idx != -1:
+        before = content[:idx + 2]
+        after = content[idx + 2:].lstrip('\n')
+        content = before + '\n' + pi + '\n' + after
+    else:
+        content = pi + '\n' + content
+
+    with open(rss_file, 'w', encoding='utf-8') as f:
+        f.write(content)
+
 def update_rss_feed(new_articles):
     """
     将新文章添加到 RSS 文件中
@@ -196,6 +226,10 @@ def update_rss_feed(new_articles):
 
     # 写入文件
     tree.write(RSS_FILE, encoding='utf-8', xml_declaration=True, pretty_print=True)
+
+    # 确保 RSS 带有样式表 PI
+    ensure_stylesheet_pi(RSS_FILE)
+
     print(f"Updated RSS feed with {len(new_items)} new articles.")
 
 def main():
@@ -230,6 +264,9 @@ def main():
 
     if not new_files:
         print("No new posts found.")
+        # 即使没有新文章，也确保 RSS 带有样式表（例如首次只跑一次的情况）
+        if os.path.exists(RSS_FILE):
+            ensure_stylesheet_pi(RSS_FILE)
         return
 
     print(f"Found {len(new_files)} new posts: {[f['name'] for f in new_files]}")
