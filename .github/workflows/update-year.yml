@@ -1,0 +1,27 @@
+name: Auto Update Copyright Year
+
+on:
+  workflow_dispatch: # 支持手动点击运行测试
+  schedule:
+    - cron: '0 0 1 1 *' # 自动触发：每年 1 月 1 日 00:00 (UTC时间，即北京时间 1月1日 08:00)
+
+jobs:
+  update-year:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # 赋予 Action 提交更改的权限
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run update script
+        run: python .github/scripts/update_year.py
+
+      - name: Commit and Push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: auto update copyright year"
+          file_pattern: |
+            *.html
+            post/*.html
