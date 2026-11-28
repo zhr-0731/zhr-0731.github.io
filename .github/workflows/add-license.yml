@@ -1,12 +1,7 @@
 name: Auto Add License to Post Footers
 
 on:
-  workflow_dispatch: # 允许你手动在 Actions 页面点击运行
-  push:
-    branches:
-      - main
-    paths:
-      - 'post/**.html' # 仅当 post 文件夹下有 html 变动时触发
+  workflow_dispatch: # 仅支持手动在 Actions 页面点击运行
 
 jobs:
   inject-license:
@@ -121,7 +116,6 @@ jobs:
 
               // 2. 注入 HTML（在 </footer> 前面插入）
               if (content.includes('</footer>')) {
-                  // 直接用 replace 插入到 </footer> 标签前
                   content = content.replace(/<\/footer>/, `${licenseHtml}\n    </footer>`);
                   modified = true;
               }
